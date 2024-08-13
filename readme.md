@@ -1,7 +1,7 @@
 # TLD项目后端使用及部署说明
 
 ---
-[toc]
+[TOC]
 
 ## python环境配置
 本算法使用的是python, 因此需要配置对应的python环境
