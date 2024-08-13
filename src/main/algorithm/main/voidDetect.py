@@ -11,8 +11,7 @@ class VoidDefect:
 
     def detect(self):
         # Load the YOLOv10 model
-        model = YOLOv10(
-            'weights/void_best_0.587.pt')
+        model = YOLOv10('src/main/algorithm/main/weights/void_best_0.587.pt')
 
         predictions = model.predict(source=self.image_path, show=False, save=False, save_txt=False, classes=[0],
                                     visualize=False)
@@ -20,6 +19,7 @@ class VoidDefect:
 
         results = []
         for box in predictions[0].boxes.xyxy:
+            # 计算实际的里程
             void_start = self.start_mileage + box[0] / img_width * (self.end_mileage - self.start_mileage)
             void_end = self.start_mileage + box[2] / img_width * (self.end_mileage - self.start_mileage)
             void_depth = box[3] / img_height * self.max_depth
