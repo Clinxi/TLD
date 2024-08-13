@@ -1,0 +1,11 @@
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/controller/DetectionController.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/entity/APhotoWithStandards.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/entity/DetectEventResultWithNewPhoto.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/entity/DetectOriginalPhoto.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/entity/DetectionRequest.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/util/PythonCallerUtil.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/entity/ProjectStandard.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/service/MyService.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/DemoApplication.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/entity/DiseaseInformation.java
+/home/jsa/projects/TLD_backend/src/main/java/org/zjuvipa/util/Client.java

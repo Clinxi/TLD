@@ -1,0 +1,10 @@
+org/zjuvipa/entity/DiseaseInformation.class
+org/zjuvipa/entity/ProjectStandard.class
+org/zjuvipa/DemoApplication.class
+org/zjuvipa/controller/DetectionController.class
+org/zjuvipa/entity/DetectionRequest.class
+org/zjuvipa/client/Client.class
+org/zjuvipa/entity/DetectEventResultWithNewPhoto.class
+org/zjuvipa/util/PythonCallerUtil.class
+org/zjuvipa/entity/APhotoWithStandards.class
+org/zjuvipa/entity/DetectOriginalPhoto.class
