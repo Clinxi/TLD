@@ -108,10 +108,10 @@ class BarInfor():
         self.standardSteelBarSpacing = standardSteelBarSpacing  # 标准钢筋间距
     def detect(self):
         pass
-        model_path_list = ["src/main/algorithm/yolov10/weights/bar_run4_last.pt",
-                           "src/main/algorithm/yolov10/weights/bar_run5_last.pt",
-                           "src/main/algorithm/yolov10/weights/bar_run11_last.pt",
-                           "src/main/algorithm/yolov10/weights/bar_run17_last.pt"]
+        model_path_list = ["src/main/algorithm/main/weights/bar_run4_last.pt",
+                           "src/main/algorithm/main/weights/bar_run5_last.pt",
+                           "src/main/algorithm/main/weights/bar_run11_last.pt",
+                           "src/main/algorithm/main/weights/bar_run17_last.pt"]
         diseaStart = self.startingMileage
         diseaEnd = self.endingMileage
         img = cv2.imread(self.imageAddress)
