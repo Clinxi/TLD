@@ -107,6 +107,7 @@ def perform_detection(photo_with_standards_list):
 def main(photos_with_standards_json):
     photo_with_standards_data = json.loads(photos_with_standards_json)
     photo_with_standards_list = [APhotoWithStandards(**pws) for pws in photo_with_standards_data]
+    
     results = perform_detection(photo_with_standards_list)
     return [result.to_dict() for result in results]
 
