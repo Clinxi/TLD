@@ -12,7 +12,7 @@ class VoidDefect:
     def detect(self):
         # Load the YOLOv10 model
         model = YOLOv10(
-            'src/main/algorithm/yolov10/weights/void_best_0.587.pt')
+            'weights/void_best_0.587.pt')
 
         predictions = model.predict(source=self.image_path, show=False, save=False, save_txt=False, classes=[0],
                                     visualize=False)
