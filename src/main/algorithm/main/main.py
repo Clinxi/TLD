@@ -1,9 +1,11 @@
 import json
 import os
 import sys
+
 import cv2
 
 import img_processing as ip
+import lackingDetect as lD
 import voidDetect as vD
 from barDetect import BarInfor
 
@@ -100,6 +102,7 @@ class ProcessOriginalPhoto:
     """
     读取输入图片，获取图片基本信息
     """
+
     def __init__(self, photo: DetectOriginalPhoto):
         self.originalPhotoAddress = photo.originalPhotoAddress
         self.originalPhotoName = photo.originalPhotoName
@@ -110,47 +113,16 @@ class ProcessOriginalPhoto:
         self.original_line = None
         self.horizontal_resolution = None
         self.vertical_resolution = None
+
     def get_basic_information(self):
         self.get_original_line()
         self.get_originalMileage()
         self.get_finialMileage()
         self.get_horizontal_resolution()
+        self.get_depth()
         self.get_vertical_resolution()
         # self.get_vertical_resolution()
         print("get information success")
-
-    def creat_void_example(self):
-        result = []
-        data = self.image[self.original_line:, 65:-2]
-        directory_path = os.path.dirname(self.originalPhotoAddress)
-        folder_path = os.path.join(directory_path, "voiddetect")
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-        n = 0
-        img_width = ip.find_verticalline(data)
-        if self.original_line < self.finialMileage:
-            for i in range(0, data.shape[1], img_width):
-                image = data[:, i: i + img_width]
-                # filename=f"{self.originalPhotoName+n*5}.png"
-                file_path = os.path.join(folder_path, str(self.startMileage + n * 5), "——",
-                                         str(self.startMileage + n * 5) + 5, ".png")
-                cv2.imwrite(file_path, self.image)
-                example = vD.VoidDefect(file_path, self.startMileage + n * 5, self.startMileage + n * 5 + 5, self.depth,
-                                        self.vertical_resolution)
-                n += 1
-                result.append(example)
-        else:
-            for i in range(0, data.shape[1], img_width):
-                image = data[:, i: i + img_width]
-                # filename=f"{self.originalPhotoName+n*5}.png"
-                file_path = os.path.join(folder_path, str(self.startMileage - n * 5), "——",
-                                         str(self.startMileage - n * 5) - 5, ".png")
-                cv2.imwrite(file_path, self.image)
-                example = vD.VoidDefect(file_path, self.startMileage - n * 5, self.startMileage - n * 5 - 5, self.depth,
-                                        self.vertical_resolution)
-                n += 1
-                result.append(example)
-        return result
 
     def get_original_line(self):
         original_line = ip.horizon_line(self.image[:, 63:64])
@@ -202,7 +174,7 @@ class ProcessOriginalPhoto:
         vertical_resolution = ip.compute_vertical_resolutio(self.depth, black_lines)
         self.vertical_resolution = vertical_resolution
 
-    def create_steelexample(self, projectStandards):
+    def create_steel_example(self, projectStandards):
         steel_example_list = []
         for standard in projectStandards:
             if standard.standardSteelBarSpacing:
@@ -223,15 +195,77 @@ class ProcessOriginalPhoto:
                 steel_example_list.append(barinfor_example)
                 return steel_example_list
 
+    def creat_void_example(self):
+        result = []
+        data = self.image[self.original_line:, 65:-2]
+        directory_path = os.path.dirname(self.originalPhotoAddress)
+        folder_path = os.path.join(directory_path, "voiddetect")
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        n = 0
+        img_width = ip.find_verticalline(data)
+        if self.original_line < self.finialMileage:
+            for i in range(0, data.shape[1], img_width):
+                image = data[:, i: i + img_width]
+                # filename=f"{self.originalPhotoName+n*5}.png"
+                file_path = os.path.join(folder_path, str(self.startMileage + n * 5), "——",
+                                         str(self.startMileage + n * 5) + 5, ".png")
+                cv2.imwrite(file_path, self.image)
+                example = vD.VoidDefect(file_path, self.startMileage + n * 5, self.startMileage + n * 5 + 5, self.depth)
+                n += 1
+                result.append(example)
+        else:
+            for i in range(0, data.shape[1], img_width):
+                image = data[:, i: i + img_width]
+                # filename=f"{self.originalPhotoName+n*5}.png"
+                file_path = os.path.join(folder_path, str(self.startMileage - n * 5), "——",
+                                         str(self.startMileage - n * 5) - 5, ".png")
+                cv2.imwrite(file_path, self.image)
+                example = vD.VoidDefect(file_path, self.startMileage - n * 5, self.startMileage - n * 5 - 5, self.depth)
+                n += 1
+                result.append(example)
+        return result
 
-# this is there the algorithm exists
+    def create_lacking_example(self, projectStandards):
+        lacking_example_list = []
+        for standard in projectStandards:
+            data = self.image[self.original_line:, 65:-2]
+            split_start = int(abs(self.originalMileage - standard.startMileage) / self.horizontal_resolution)
+            split_end = int(abs(self.originalMileage - standard.endingMileage) / self.horizontal_resolution)
+            splitpict = data[:, split_start:split_end]  # 选取所有行，截取列
+            directory_path = os.path.dirname(self.originalPhotoAddress)
+            folder_path = os.path.join(directory_path, "lackingdetect")
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+            file_path = os.path.join(folder_path, str(self.startMileage), "——", str(self.endingMileage), ".png")
+            cv2.imwrite(file_path, splitpict)
+            lining_example = lD.lackingDetectIn(file_path, standard.startMileage, standard.endingMileage,
+                                                standard.standardThinckness, self.vertical_resolution,
+                                                self.horizontal_resolution)
+            lacking_example_list.append(lining_example)
+        return lacking_example_list
+    # this is there the algorithm exists
+
+
 def perform_detection(photo_with_standards_list):
+    # example
     results = []
     disease_info_1 = DiseaseInformation(1.0, 10.5, 2.0, "Leaf Spot")
     disease_info_2 = DiseaseInformation(1.0, 15.0, 3.5, "Powdery Mildew")
     disease_information_list = [disease_info_1, disease_info_2]
+
+    # ----------------------------------------#
+
     for photo_with_standards in photo_with_standards_list:
         photo = photo_with_standards.detectOriginalPhoto
+        projectstandards = photo_with_standards.projectStandards
+        input_original = ProcessOriginalPhoto(photo)
+        # 大图获取信息
+        input_original.get_basic_information()
+        #创建三个缺陷对象列表
+        lack_object_list = input_original.create_lacking_example(projectstandards)
+        steel_object_list = input_original.create_steel_example(projectstandards)
+        void_object_list = input_original.creat_void_example()
         # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
         result = DetectEventResultWithNewPhoto(
             newPhotoAddress=photo.originalPhotoAddress,
