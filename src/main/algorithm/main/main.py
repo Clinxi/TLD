@@ -1,5 +1,6 @@
 import json
 import os
+import io
 import sys
 
 import cv2
@@ -8,7 +9,11 @@ import img_processing as ip
 import lackingDetect as lD
 import voidDetect as vD
 from barDetect import BarInfor
+def disable_print():
+    sys.stdout = io.StringIO()
 
+def enable_print():
+    sys.stdout = sys.__stdout__
 
 class DiseaseInformation:
     def __init__(self, diseaseStart, diseaseEnd, diseaseDepth, diseaseType):
@@ -320,9 +325,11 @@ if __name__ == "__main__":
     # print(json.dumps(output))
     
     # -------------------------below is test code----------------------------- 
+    disable_print()
     json_file_path = r"src/main/algorithm/test/case1/case1.json"
     with open(json_file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     print(type(data))
     output = test(data)
+    enable_print()
     print(output)

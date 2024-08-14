@@ -1,7 +1,7 @@
 [
   {
     "detectOriginalPhoto": {
-      "originalPhotoAddress": "D:\\PycharmProjects\\TLD\\src\\main\\algorithm\\test\\case1\\3-DK324+390-535GD P_1.JPG",
+      "originalPhotoAddress": "/home/disk3/jsa/projects/TLD/src/main/algorithm/test/case1/3-DK324+390-535GD P_1.JPG",
       "originalPhotoName": "3-DK324+390-535GD P_1.JPG"
     },
     "projectStandards": [
