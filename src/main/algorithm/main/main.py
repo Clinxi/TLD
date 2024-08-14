@@ -320,7 +320,7 @@ if __name__ == "__main__":
     # print(json.dumps(output))
     
     # -------------------------below is test code----------------------------- 
-    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\case1.json"
+    json_file_path = r"src/main/algorithm/test/case1/case1.json"
     with open(json_file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     print(type(data))
