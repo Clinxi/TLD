@@ -282,6 +282,10 @@ def perform_detection(photo_with_standards_list):
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
         void_object_list = input_original.creat_void_example()
+        #创建三种缺陷结果列表
+        lack_result_list=[lack_object.detect() for lack_object in lack_object_list]
+        steel_result_list=[steel_object.detect() for steel_object in steel_object_list]
+        void_result_list=[void_object.detect() for void_object in void_object_list]
         # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
         result = DetectEventResultWithNewPhoto(
             newPhotoAddress=photo.originalPhotoAddress,
@@ -312,6 +316,7 @@ def test(photos_with_standards_json):
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
         void_object_list = input_original.creat_void_example()
+        print("void length:",len(void_object_list))
         print("lack length :",len(lack_object_list))
         print("steel length :",len(steel_object_list))
     return "ok"
