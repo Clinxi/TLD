@@ -283,12 +283,33 @@ def main(photos_with_standards_json):
     results = perform_detection(photo_with_standards_list)
     return [result.to_dict() for result in results]
 
+def test(photos_with_standards_json):
+    # photo_with_standards_data = json.loads(photos_with_standards_json)
+    photo_with_standards_list = [APhotoWithStandards(**pws) for pws in photos_with_standards_json]
+    for photo_with_standards in photo_with_standards_list:
+        photo = photo_with_standards.detectOriginalPhoto
+        projectstandards = photo_with_standards.projectStandards
+        input_original = ProcessOriginalPhoto(photo)
+        # 大图获取信息
+        input_original.get_basic_information()
+        #创建三个缺陷对象列表
+        lack_object_list = input_original.create_lacking_example(projectstandards)
+        steel_object_list = input_original.create_steel_example(projectstandards)
+        void_object_list = input_original.creat_void_example()
+    return "ok"
+if __name__ == "__main__": 
+    # # 从标准输入读取 JSON 字符串
 
-if __name__ == "__main__":
-    # 从标准输入读取 JSON 字符串
+    # input_json = sys.stdin.read()
 
-    input_json = sys.stdin.read()
-
-    # # 调用 main 函数处理输入数据并输出结果
-    output = main(input_json)
-    print(json.dumps(output))
+    # # # 调用 main 函数处理输入数据并输出结果
+    # output = main(input_json)
+    # print(json.dumps(output))
+    
+    # -------------------------below is test code----------------------------- 
+    json_file_path = "/home/disk3/jsa/projects/TLD/src/main/algorithm/test/case1/case1.json"
+    with open(json_file_path, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    print(type(data))
+    output = test(data)
+    print(output)
