@@ -8,12 +8,17 @@ import cv2
 import img_processing as ip
 import lackingDetect as lD
 import voidDetect as vD
-from barDetect import BarInfor
+import barDetect as bD
+from ResultDisplaySave import get_new_photo_address
+
+
 def disable_print():
     sys.stdout = io.StringIO()
 
+
 def enable_print():
     sys.stdout = sys.__stdout__
+
 
 class DiseaseInformation:
     def __init__(self, diseaseStart, diseaseEnd, diseaseDepth, diseaseType):
@@ -181,7 +186,7 @@ class ProcessOriginalPhoto:
     def create_steel_example(self, projectStandards):
         steel_example_list = []
         for standard in projectStandards:
-            if standard.standardSteelBarSpacing!=0:
+            if standard.standardSteelBarSpacing != 0:
                 data = self.image[self.original_line:, 65:-2]
                 split_start = int(abs(self.originalMileage - standard.startingMileage) / self.horizontal_resolution)
                 split_end = int(abs(self.originalMileage - standard.endingMileage) / self.horizontal_resolution)
@@ -197,10 +202,10 @@ class ProcessOriginalPhoto:
                 file_path = os.path.join(folder_path, file_name)
                 # file_path = os.path.join(folder_path, str(standard.startingMileage), "——", str(standard.endingMileage), ".png")
                 if not cv2.imwrite(file_path, splitpict):
-                    print("fail save ",file_path)
+                    print("fail save ", file_path)
                 # self.address = file_path
-                barinfor_example = BarInfor(file_path, standard.startingMileage, standard.endingMileage,
-                                            standard.standardSteelBarSpacing)
+                barinfor_example = bD.BarInfor(file_path, standard.startingMileage, standard.endingMileage,
+                                               standard.standardSteelBarSpacing)
                 steel_example_list.append(barinfor_example)
         return steel_example_list
 
@@ -215,26 +220,28 @@ class ProcessOriginalPhoto:
         img_width = ip.find_verticalline(data)
         if self.originalMileage < self.finialMileage:
             for i in range(0, data.shape[1], img_width):
-                image = data[:, i: i + img_width-1]
+                image = data[:, i: i + img_width - 1]
                 # filename=f"{self.originalPhotoName+n*5}.png"
                 file_name = f"{self.originalMileage + n * 5}——{self.originalMileage + n * 5 + 5}.png"
                 file_path = os.path.join(folder_path, file_name)
                 if not cv2.imwrite(file_path, image):
-                    print("fail save:",file_path)
-                example = vD.VoidDefect(file_path, self.originalMileage + n * 5, self.originalMileage + n * 5 + 5, self.depth)
+                    print("fail save:", file_path)
+                example = vD.VoidDefect(file_path, self.originalMileage + n * 5, self.originalMileage + n * 5 + 5,
+                                        self.depth)
                 n += 1
                 result.append(example)
         else:
             for i in range(0, data.shape[1], img_width):
-                image = data[:, i: i + img_width-1]
+                image = data[:, i: i + img_width - 1]
 
                 file_name = f"{self.originalMileage - n * 5}—{self.originalMileage - n * 5 - 5}.png"
                 file_path = os.path.join(folder_path, file_name)
                 # file_path = os.path.join(folder_path, str(self.originalMileage - n * 5), "__",
                 #                          str(self.originalMileage - n * 5-5), ".png")
                 if not cv2.imwrite(file_path, image):
-                    print("fail save:",file_path)
-                example = vD.VoidDefect(file_path, self.originalMileage - n * 5, self.originalMileage - n * 5 - 5, self.depth)
+                    print("fail save:", file_path)
+                example = vD.VoidDefect(file_path, self.originalMileage - n * 5, self.originalMileage - n * 5 - 5,
+                                        self.depth)
                 n += 1
                 result.append(example)
         return result
@@ -254,16 +261,15 @@ class ProcessOriginalPhoto:
             file_path = os.path.join(folder_path, file_name)
             # file_path = os.path.join(folder_path, str(standard.startingMileage), "——", str(standard.endingMileage), ".png")
             if not cv2.imwrite(file_path, splitpict):
-                print("fail save",file_path)
+                print("fail save", file_path)
             lining_example = lD.lackingDetectIn(file_path, standard.startingMileage, standard.endingMileage,
                                                 standard.standardThickness, self.vertical_resolution,
                                                 self.horizontal_resolution)
             lacking_example_list.append(lining_example)
         return lacking_example_list
-    # this is there the algorithm exists
 
 
-def perform_detection(photo_with_standards_list):
+def perform_detection(photo_with_standards_list) -> list[DetectEventResultWithNewPhoto]:
     # example
     results = []
     disease_info_1 = DiseaseInformation(1.0, 10.5, 2.0, "Leaf Spot")
@@ -278,14 +284,20 @@ def perform_detection(photo_with_standards_list):
         input_original = ProcessOriginalPhoto(photo)
         # 大图获取信息
         input_original.get_basic_information()
-        #创建三个缺陷对象列表
+        # 创建三个缺陷对象列表
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
         void_object_list = input_original.creat_void_example()
-        #创建三种缺陷结果列表
-        lack_result_list=[lack_object.detect() for lack_object in lack_object_list]
-        steel_result_list=[steel_object.detect() for steel_object in steel_object_list]
-        void_result_list=[void_object.detect() for void_object in void_object_list]
+        # 创建三种缺陷结果列表
+        lack_result_list = [result for lack_object in lack_object_list for result in
+                            lack_object.detect()]  # list[lackingDetectOut]
+        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # list[BarDetectResult]
+        void_result_list = [result for void_object in void_object_list for result in
+                            void_object.detect()]  # list[VoidDefectResult]
+
+        new_photo_address = get_new_photo_address(input_original.image, lack_result_list, steel_result_list,
+                                                  void_result_list)
+
         # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
         result = DetectEventResultWithNewPhoto(
             newPhotoAddress=photo.originalPhotoAddress,
@@ -303,6 +315,7 @@ def main(photos_with_standards_json):
     results = perform_detection(photo_with_standards_list)
     return [result.to_dict() for result in results]
 
+
 def test(photos_with_standards_json):
     # photo_with_standards_data = json.loads(photos_with_standards_json)
     photo_with_standards_list = [APhotoWithStandards(**pws) for pws in photos_with_standards_json]
@@ -312,15 +325,17 @@ def test(photos_with_standards_json):
         input_original = ProcessOriginalPhoto(photo)
         # 大图获取信息
         input_original.get_basic_information()
-        #创建三个缺陷对象列表
+        # 创建三个缺陷对象列表
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
         void_object_list = input_original.creat_void_example()
-        print("void length:",len(void_object_list))
-        print("lack length :",len(lack_object_list))
-        print("steel length :",len(steel_object_list))
+        print("void length:", len(void_object_list))
+        print("lack length :", len(lack_object_list))
+        print("steel length :", len(steel_object_list))
     return "ok"
-if __name__ == "__main__": 
+
+
+if __name__ == "__main__":
     # # 从标准输入读取 JSON 字符串
 
     # input_json = sys.stdin.read()
@@ -328,7 +343,7 @@ if __name__ == "__main__":
     # # # 调用 main 函数处理输入数据并输出结果
     # output = main(input_json)
     # print(json.dumps(output))
-    
+
     # -------------------------below is test code----------------------------- 
     disable_print()
     json_file_path = r"src/main/algorithm/test/case1/case1.json"
