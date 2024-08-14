@@ -121,7 +121,6 @@ class ProcessOriginalPhoto:
         self.get_horizontal_resolution()
         self.get_depth()
         self.get_vertical_resolution()
-        # self.get_vertical_resolution()
         print("get information success")
 
     def get_original_line(self):
@@ -170,58 +169,67 @@ class ProcessOriginalPhoto:
 
     def get_vertical_resolution(self):
         vertical_position = self.image[self.original_line:, 48:54]  # (水平，垂直)
-        black_lines = ip.split_num(vertical_position)
-        vertical_resolution = ip.compute_vertical_resolutio(self.depth, black_lines)
+        black_lines = ip.find_black_horizontal_lines(vertical_position)
+        vertical_resolution = ip.compute_vertical_resolution(self.depth, black_lines)
         self.vertical_resolution = vertical_resolution
 
     def create_steel_example(self, projectStandards):
         steel_example_list = []
         for standard in projectStandards:
-            if standard.standardSteelBarSpacing:
+            if standard.standardSteelBarSpacing!=0:
                 data = self.image[self.original_line:, 65:-2]
-                split_start = int(abs(self.originalMileage - standard.startMileage) / self.horizontal_resolution)
+                split_start = int(abs(self.originalMileage - standard.startingMileage) / self.horizontal_resolution)
                 split_end = int(abs(self.originalMileage - standard.endingMileage) / self.horizontal_resolution)
+                # print(split_start, split_end)
                 splitpict = data[:, split_start:split_end]  # 选取所有行，截取列
                 # self.image = splitpict
                 directory_path = os.path.dirname(self.originalPhotoAddress)
                 folder_path = os.path.join(directory_path, "steelbardetect")
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
-                file_path = os.path.join(folder_path, str(self.startMileage), "——", str(self.endingMileage), ".png")
-                cv2.imwrite(file_path, splitpict)
+                file_name = f"{standard.startingMileage}——{standard.endingMileage}.png"
+                # file_name = f"{self.originalMileage + n * 5}——{self.originalMileage + n * 5 + 5}.png"
+                file_path = os.path.join(folder_path, file_name)
+                # file_path = os.path.join(folder_path, str(standard.startingMileage), "——", str(standard.endingMileage), ".png")
+                if not cv2.imwrite(file_path, splitpict):
+                    print("fail save ",file_path)
                 # self.address = file_path
-                barinfor_example = BarInfor(file_path, standard.startMileage, standard.endingMileage,
+                barinfor_example = BarInfor(file_path, standard.startingMileage, standard.endingMileage,
                                             standard.standardSteelBarSpacing)
                 steel_example_list.append(barinfor_example)
-                return steel_example_list
+        return steel_example_list
 
     def creat_void_example(self):
         result = []
-        data = self.image[self.original_line:, 65:-2]
+        data = self.image[self.original_line:, 65:-1]
         directory_path = os.path.dirname(self.originalPhotoAddress)
         folder_path = os.path.join(directory_path, "voiddetect")
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
         n = 0
         img_width = ip.find_verticalline(data)
-        if self.original_line < self.finialMileage:
+        if self.originalMileage < self.finialMileage:
             for i in range(0, data.shape[1], img_width):
-                image = data[:, i: i + img_width]
+                image = data[:, i: i + img_width-1]
                 # filename=f"{self.originalPhotoName+n*5}.png"
-                file_path = os.path.join(folder_path, str(self.startMileage + n * 5), "——",
-                                         str(self.startMileage + n * 5) + 5, ".png")
-                cv2.imwrite(file_path, self.image)
-                example = vD.VoidDefect(file_path, self.startMileage + n * 5, self.startMileage + n * 5 + 5, self.depth)
+                file_name = f"{self.originalMileage + n * 5}——{self.originalMileage + n * 5 + 5}.png"
+                file_path = os.path.join(folder_path, file_name)
+                if not cv2.imwrite(file_path, image):
+                    print("fail save:",file_path)
+                example = vD.VoidDefect(file_path, self.originalMileage + n * 5, self.originalMileage + n * 5 + 5, self.depth)
                 n += 1
                 result.append(example)
         else:
             for i in range(0, data.shape[1], img_width):
-                image = data[:, i: i + img_width]
-                # filename=f"{self.originalPhotoName+n*5}.png"
-                file_path = os.path.join(folder_path, str(self.startMileage - n * 5), "——",
-                                         str(self.startMileage - n * 5) - 5, ".png")
-                cv2.imwrite(file_path, self.image)
-                example = vD.VoidDefect(file_path, self.startMileage - n * 5, self.startMileage - n * 5 - 5, self.depth)
+                image = data[:, i: i + img_width-1]
+
+                file_name = f"{self.originalMileage - n * 5}—{self.originalMileage - n * 5 - 5}.png"
+                file_path = os.path.join(folder_path, file_name)
+                # file_path = os.path.join(folder_path, str(self.originalMileage - n * 5), "__",
+                #                          str(self.originalMileage - n * 5-5), ".png")
+                if not cv2.imwrite(file_path, image):
+                    print("fail save:",file_path)
+                example = vD.VoidDefect(file_path, self.originalMileage - n * 5, self.originalMileage - n * 5 - 5, self.depth)
                 n += 1
                 result.append(example)
         return result
@@ -230,17 +238,20 @@ class ProcessOriginalPhoto:
         lacking_example_list = []
         for standard in projectStandards:
             data = self.image[self.original_line:, 65:-2]
-            split_start = int(abs(self.originalMileage - standard.startMileage) / self.horizontal_resolution)
+            split_start = int(abs(self.originalMileage - standard.startingMileage) / self.horizontal_resolution)
             split_end = int(abs(self.originalMileage - standard.endingMileage) / self.horizontal_resolution)
             splitpict = data[:, split_start:split_end]  # 选取所有行，截取列
             directory_path = os.path.dirname(self.originalPhotoAddress)
             folder_path = os.path.join(directory_path, "lackingdetect")
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
-            file_path = os.path.join(folder_path, str(self.startMileage), "——", str(self.endingMileage), ".png")
-            cv2.imwrite(file_path, splitpict)
-            lining_example = lD.lackingDetectIn(file_path, standard.startMileage, standard.endingMileage,
-                                                standard.standardThinckness, self.vertical_resolution,
+            file_name = f"{standard.startingMileage}——{standard.endingMileage}.png"
+            file_path = os.path.join(folder_path, file_name)
+            # file_path = os.path.join(folder_path, str(standard.startingMileage), "——", str(standard.endingMileage), ".png")
+            if not cv2.imwrite(file_path, splitpict):
+                print("fail save",file_path)
+            lining_example = lD.lackingDetectIn(file_path, standard.startingMileage, standard.endingMileage,
+                                                standard.standardThickness, self.vertical_resolution,
                                                 self.horizontal_resolution)
             lacking_example_list.append(lining_example)
         return lacking_example_list
@@ -296,6 +307,8 @@ def test(photos_with_standards_json):
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
         void_object_list = input_original.creat_void_example()
+        print("lack length :",len(lack_object_list))
+        print("steel length :",len(steel_object_list))
     return "ok"
 if __name__ == "__main__": 
     # # 从标准输入读取 JSON 字符串
@@ -307,7 +320,7 @@ if __name__ == "__main__":
     # print(json.dumps(output))
     
     # -------------------------below is test code----------------------------- 
-    json_file_path = "/home/disk3/jsa/projects/TLD/src/main/algorithm/test/case1/case1.json"
+    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\case1.json"
     with open(json_file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     print(type(data))

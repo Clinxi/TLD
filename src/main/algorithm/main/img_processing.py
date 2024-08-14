@@ -42,7 +42,7 @@ def find_verticalline(img):
             mean = np.mean(img[:, i])
             if mean >= 240:  # 像素均值大于 230 判断为白色
                 print(f"分界线位置：{i}, 像素均值：{mean}", end="\n\n")
-                return i
+                return i+1
     return -1  # 如果没有找到符合条件的分界线，则返回图像的宽度
 
 
