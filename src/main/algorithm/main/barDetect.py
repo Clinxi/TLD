@@ -1,37 +1,10 @@
 import cv2
 import torch
 import numpy as np
-from ultralytics.data.augment import LetterBox
 from ultralytics.nn.autobackend import AutoBackend
 import matplotlib.pyplot as plt
 
-def preprocess_letterbox(image):
-    letterbox = LetterBox(new_shape=640, stride=32, auto=True)
-    image = letterbox(image=image)
-    image = (image[..., ::-1] / 255.0).astype(np.float32) # BGR to RGB, 0 - 255 to 0.0 - 1.0
-    image = image.transpose(2, 0, 1)[None]  # BHWC to BCHW (n, 3, h, w)
-    image = torch.from_numpy(image)
-    return image
-
-def preprocess_warpAffine(image, dst_width=640, dst_height=640):
-    scale = min((dst_width / image.shape[1], dst_height / image.shape[0]))
-    ox = (dst_width  - scale * image.shape[1]) / 2
-    oy = (dst_height - scale * image.shape[0]) / 2
-    M = np.array([
-        [scale, 0, ox],
-        [0, scale, oy]
-    ], dtype=np.float32)
-    
-    img_pre = cv2.warpAffine(image, M, (dst_width, dst_height), flags=cv2.INTER_LINEAR,
-                             borderMode=cv2.BORDER_CONSTANT, borderValue=(114, 114, 114))
-    IM = cv2.invertAffineTransform(M)
-
-    img_pre = (img_pre[...,::-1] / 255.0).astype(np.float32)
-    img_pre = img_pre.transpose(2, 0, 1)[None]
-    img_pre = torch.from_numpy(img_pre)
-    return img_pre, IM
-
-def postprocess(pred, IM=[], conf_thres=0.25):
+def postprocess(pred, conf_thres=0.25):
 
     # 输入是模型推理的结果，即8400个预测框
     # 1,8400,84 [cx,cy,w,h,class*80]
@@ -49,55 +22,38 @@ def postprocess(pred, IM=[], conf_thres=0.25):
         boxes.append([left, top, right, bottom, confidence, label])
 
     boxes = np.array(boxes)
-    lr = boxes[:,[0, 2]]
-    tb = boxes[:,[1, 3]]
-    boxes[:,[0,2]] = IM[0][0] * lr + IM[0][2]
-    boxes[:,[1,3]] = IM[1][1] * tb + IM[1][2]
-    
     return boxes
 
-def hsv2bgr(h, s, v):
-    h_i = int(h * 6)
-    f = h * 6 - h_i
-    p = v * (1 - s)
-    q = v * (1 - f * s)
-    t = v * (1 - (1 - f) * s)
-    
-    r, g, b = 0, 0, 0
-
-    if h_i == 0:
-        r, g, b = v, t, p
-    elif h_i == 1:
-        r, g, b = q, v, p
-    elif h_i == 2:
-        r, g, b = p, v, t
-    elif h_i == 3:
-        r, g, b = p, q, v
-    elif h_i == 4:
-        r, g, b = t, p, v
-    elif h_i == 5:
-        r, g, b = v, p, q
-
-    return int(b * 255), int(g * 255), int(r * 255)
-
-def random_color(id):
-    h_plane = (((id << 2) ^ 0x937151) % 100) / 100.0
-    s_plane = (((id << 3) ^ 0x315793) % 100) / 100.0
-    return hsv2bgr(h_plane, s_plane, 1)
-
-
-def cal_bar(model_path_list, img_pre, IM):
+def cal_bar(model_path_list, img_pre):
     max_count=0
     for model_path in model_path_list:
         model  = AutoBackend(weights=model_path)
         result = model(img_pre)['one2one'][0].transpose(-1, -2) # 1,8400,84
-        boxes  = postprocess(result, IM)
+        # print(result.shape)
+        boxes  = postprocess(result)
         count = 0
         for obj in boxes:
             count += 1
         max_count = max(max_count, count)
     return max_count
-    
+   
+def image_to_tensor_cv(image_path, target_size=(224, 224)):
+    # 1. 读取图像
+    image = cv2.imread(image_path)  # OpenCV 默认以 BGR 读取图像
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # 转换为 RGB
+    # 3. 归一化像素值
+    image = image / 255.0
+
+    # 4. 转换颜色通道顺序
+    image = image.transpose(2, 0, 1)  # 从 (高, 宽, 通道) 转换为 (通道, 高, 宽)
+
+    # 5. 添加批次维度
+    image = image[None, :]  # 从 (通道, 高, 宽) 转换为 (批次, 通道, 高, 宽)
+
+    # 6. 转换为 PyTorch 张量
+    image_tensor = torch.from_numpy(image).float()
+
+    return image_tensor    
 
 # 缺筋检测算法输入
 class BarInfor():
@@ -108,16 +64,21 @@ class BarInfor():
         self.standardSteelBarSpacing = standardSteelBarSpacing  # 标准钢筋间距
     def detect(self):
         pass
-        model_path_list = [r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run4_last.pt",
-                           r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run5_last.pt",
-                           r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run11_last.pt",
-                           r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run17_last.pt"]
+        # model_path_list = [r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run4_last.pt",
+        #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run5_last.pt",
+        #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run11_last.pt",
+        #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run17_last.pt"]
+        model_path_list = [ "src/main/algorithm/main/weights/bar_run4_last.pt",
+                            "src/main/algorithm/main/weights/bar_run5_last.pt",
+                            "src/main/algorithm/main/weights/bar_run11_last.pt",
+                            "src/main/algorithm/main/weights/bar_run17_last.pt"
+        ]
+
         diseaStart = self.startingMileage
         diseaEnd = self.endingMileage
         img = cv2.imread(self.imageAddress)
-        img_pre, IM = preprocess_warpAffine(img)
-        
-        count = cal_bar(model_path_list=model_path_list, img_pre=img_pre, IM=IM)
+        img_pre = image_to_tensor_cv(self.imageAddress)
+        count = cal_bar(model_path_list=model_path_list, img_pre=img_pre)
         
         actualSpace = count / (self.endingMileage - self.startingMileage)
         isDisease = False
@@ -140,12 +101,10 @@ class BarDetectResult:
                 f"Disease End: {self.diseaseEnd}, "
                 f"Actual Space: {self.actualSpace}, "
                 f"Is Disease: {isDiease_str})")
-    
-    
-       
 
 if __name__ == "__main__": 
-    img_address = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\steelbardetect\324450——324504.png"
+    # img_address = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\steelbardetect\324450——324504.png"
+    img_address = "/home/disk3/jsa/projects/TLD/src/main/algorithm/test/case1/steelbardetect/324450——324504.png"
     test = BarInfor(img_address, 1, 2, 8)
     result = test.detect()
     print(result)
