@@ -32,6 +32,11 @@ conda env create -f environment.yml
 ```shell
 conda activate defect_detect
 ```
+3. 添加yolo环境包
+```shell
+cd path/to/TLD/src/main/algorithm/yolov10
+pip install -e .
+```
 ## 后端
 
 ### Jave+Maven
