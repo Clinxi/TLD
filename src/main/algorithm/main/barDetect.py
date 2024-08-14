@@ -108,10 +108,10 @@ class BarInfor():
         self.standardSteelBarSpacing = standardSteelBarSpacing  # 标准钢筋间距
     def detect(self):
         pass
-        model_path_list = ["src/main/algorithm/main/weights/bar_run4_last.pt",
-                           "src/main/algorithm/main/weights/bar_run5_last.pt",
-                           "src/main/algorithm/main/weights/bar_run11_last.pt",
-                           "src/main/algorithm/main/weights/bar_run17_last.pt"]
+        model_path_list = [r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run4_last.pt",
+                           r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run5_last.pt",
+                           r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run11_last.pt",
+                           r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run17_last.pt"]
         diseaStart = self.startingMileage
         diseaEnd = self.endingMileage
         img = cv2.imread(self.imageAddress)
@@ -145,7 +145,7 @@ class BarDetectResult:
        
 
 if __name__ == "__main__": 
-    img_address = "/home/disk3/jsa/projects/yolov10/data_build/data/all_rebar/1_2.PNG"
+    img_address = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\steelbardetect\324450——324504.png"
     test = BarInfor(img_address, 1, 2, 8)
     result = test.detect()
     print(result)
