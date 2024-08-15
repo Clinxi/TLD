@@ -3,7 +3,7 @@ package org.zjuvipa.entity;
 public class ProjectStandard {
     private float startingMileage;
     private float endingMileage;
-    private float standardSteelBarSpacing; // 0 表示素混凝土
+    private float standardSteelBarSpacing;
     private float standardThickness;
 
     // 构造函数
@@ -52,7 +52,7 @@ public class ProjectStandard {
         return "ProjectStandard{" +
                 "startingMileage=" + startingMileage +
                 ", endingMileage=" + endingMileage +
-                ", standardSteelBarSpacing=" + (standardSteelBarSpacing == 0 ? "素混凝土" : standardSteelBarSpacing) +
+                ", standardSteelBarSpacing=" + standardSteelBarSpacing +
                 ", standardThickness=" + standardThickness +
                 '}';
     }

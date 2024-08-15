@@ -1,4 +1,4 @@
-package org.zjuvipa.client;
+package org.zjuvipa.util;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,33 +17,21 @@ public class Client {
         RestTemplate restTemplate = new RestTemplate();
 
         // 创建多个 DetectOriginalPhoto 对象
-        DetectOriginalPhoto photo1 = new DetectOriginalPhoto("path/to/photo1.jpg", "photo1.jpg");
-        DetectOriginalPhoto photo2 = new DetectOriginalPhoto("path/to/photo2.jpg", "photo2.jpg");
-        DetectOriginalPhoto photo3 = new DetectOriginalPhoto("path/to/photo3.jpg", "photo3.jpg");
+        DetectOriginalPhoto photo1 = new DetectOriginalPhoto("/home/disk3/jsa/projects/TLD/src/main/algorithm/test/case1/3-DK324+390-535GD P_1.JPG", "3-DK324+390-535GD P_1.JPG");
 
         // 创建多个 ProjectStandard 对象并添加到列表中
         List<ProjectStandard> standards1 = new ArrayList<>();
-        standards1.add(new ProjectStandard(0.0f, 1.0f, 0.2f, 2.5f));
-        standards1.add(new ProjectStandard(1.0f, 2.0f, 0.15f, 2.8f));
-
-        List<ProjectStandard> standards2 = new ArrayList<>();
-        standards2.add(new ProjectStandard(2.0f, 3.0f, 0.1f, 3.0f));
-        standards2.add(new ProjectStandard(3.0f, 4.0f, 0.25f, 3.2f));
-
-        List<ProjectStandard> standards3 = new ArrayList<>();
-        standards3.add(new ProjectStandard(4.0f, 5.0f, 0.18f, 2.9f));
-        standards3.add(new ProjectStandard(5.0f, 6.0f, 0.22f, 3.1f));
+        standards1.add(new ProjectStandard(324390f, 324450f, 0f, 0.3f));
+        standards1.add(new ProjectStandard(324450f, 324504f, 0.333f, 0.4f));
+        standards1.add(new ProjectStandard(324504f, 324535f, 0.25f, 0.5f));
+        
 
         // 创建多个 APhotoWithStandards 对象
         APhotoWithStandards aPhotoWithStandards1 = new APhotoWithStandards(photo1, standards1);
-        APhotoWithStandards aPhotoWithStandards2 = new APhotoWithStandards(photo2, standards2);
-        APhotoWithStandards aPhotoWithStandards3 = new APhotoWithStandards(photo3, standards3);
 
         // 创建一个包含多个 APhotoWithStandards 对象的列表
         List<APhotoWithStandards> photoWithStandardsList = new ArrayList<>();
         photoWithStandardsList.add(aPhotoWithStandards1);
-        photoWithStandardsList.add(aPhotoWithStandards2);
-        photoWithStandardsList.add(aPhotoWithStandards3);
 
         // 设置请求头
         HttpHeaders headers = new HttpHeaders();

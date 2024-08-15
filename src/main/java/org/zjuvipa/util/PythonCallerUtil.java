@@ -28,8 +28,15 @@ public class PythonCallerUtil {
         StringBuilder output = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
-            output.append(line);
+            if (line.trim().startsWith("[{") ){
+                output.append(line);
+            }   
         }
+        // while ((line = reader.readLine()) != null) {
+        //     if (line.trim().startsWith("{") && line.trim().endsWith("}")) { // 过滤有效的 JSON 输出
+        //         output.append(line);
+        //     }
+        // }
         
         int exitCode = process.waitFor();
         if (exitCode != 0) {
