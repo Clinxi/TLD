@@ -3,7 +3,7 @@ import os
 import lackingDetect as lD
 import voidDetect as vD
 import barDetect as bD
-from main import ProcessOriginalPhoto
+from OriginalPhotoInfor import ProcessOriginalPhoto
 
 
 class DefectResultDisplay:
