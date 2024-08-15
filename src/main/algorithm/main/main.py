@@ -2,6 +2,7 @@ import json
 import io
 import sys
 from ResultDisplaySave import get_and_save_new_photo
+from typing import List  
 from OriginalPhotoInfor import DiseaseInformation, DetectEventResultWithNewPhoto, ProcessOriginalPhoto, \
     APhotoWithStandards
 
@@ -14,7 +15,7 @@ def enable_print():
     sys.stdout = sys.__stdout__
 
 
-def perform_detection(photo_with_standards_list) -> list[DetectEventResultWithNewPhoto]:
+def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNewPhoto]:
     # example
     results = []
     disease_info_1 = DiseaseInformation(1.0, 10.5, 2.0, "Leaf Spot")

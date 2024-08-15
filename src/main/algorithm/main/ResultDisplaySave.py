@@ -3,7 +3,7 @@ import os
 import lackingDetect as lD
 import voidDetect as vD
 import barDetect as bD
-from OriginalPhotoInfor import ProcessOriginalPhoto, DetectEventResultWithNewPhoto
+from OriginalPhotoInfor import ProcessOriginalPhoto, DetectEventResultWithNewPhoto, DiseaseInformation
 from typing import List
 
 
@@ -105,6 +105,10 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     example.draw_lack_defects(lack_result_list)
     example.draw_steel_defects(steel_result_list)
     new_photo_address = example.display_and_save_result()
+
+    disease_information_list = []
+    for void_result in void_result_list:
+        pass    
 
     return DetectEventResultWithNewPhoto(new_photo_address, example.original_photo_name,
                                          void_result_list + steel_result_list + lack_result_list)
