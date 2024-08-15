@@ -108,4 +108,4 @@ if __name__ == "__main__":
     # print(type(data))
     output = test(data)
     # enable_print()
-    # print(output)
+    print(output)

@@ -74,8 +74,8 @@ class DefectResultDisplay:
         steel_pixel_coordinates = self.get_pixel_coordinates(steel_result_list,
                                                              lambda x: [x.diseaseStart, x.diseaseEnd, 0, 0])
         for coord in steel_pixel_coordinates:
-            draw_zigzag_line(self.img, (coord[0], coord[2]), (coord[1], coord[2]), 20,
-                             10, (255, 0, 0), 2)
+            cv2.line(self.img, (coord[0], self.img_pixel_shape[1] // 2), (coord[1], self.img_pixel_shape[1] // 2),
+                     (255, 0, 0), 2)
 
     def display_and_save_result(self):
         """
@@ -99,31 +99,31 @@ class DefectResultDisplay:
         return save_path, new_photo_name
 
 
-def draw_zigzag_line(self, start_point, end_point, segment_length=20, amplitude=10, color=(255, 0, 0), thickness=2):
-    """
-    绘制折线
-    :param start_point: 起点 (x, y)
-    :param end_point: 终点 (x, y)
-    :param segment_length: 每段折线的长度
-    :param amplitude: 折线的高度差
-    :param color: 线的颜色
-    :param thickness: 线的粗细
-    """
-    points = []
-    x_direction = 1 if end_point[0] > start_point[0] else -1
-    y_direction = 1 if end_point[1] > start_point[1] else -1
-    x, y = start_point
-
-    while (x < end_point[0] and x_direction == 1) or (x > end_point[0] and x_direction == -1):
-        points.append((x, y))
-        x += segment_length * x_direction
-        y += amplitude * y_direction
-        y_direction *= -1
-
-    points.append(end_point)
-
-    for i in range(len(points) - 1):
-        cv2.line(self.img, points[i], points[i + 1], color, thickness)
+# def draw_zigzag_line(self, start_point, end_point, segment_length=20, amplitude=10, color=(255, 0, 0), thickness=2):
+#     """
+#     绘制折线
+#     :param start_point: 起点 (x, y)
+#     :param end_point: 终点 (x, y)
+#     :param segment_length: 每段折线的长度
+#     :param amplitude: 折线的高度差
+#     :param color: 线的颜色
+#     :param thickness: 线的粗细
+#     """
+#     points = []
+#     x_direction = 1 if end_point[0] > start_point[0] else -1
+#     y_direction = 1 if end_point[1] > start_point[1] else -1
+#     x, y = start_point
+#
+#     while (x < end_point[0] and x_direction == 1) or (x > end_point[0] and x_direction == -1):
+#         points.append((x, y))
+#         x += segment_length * x_direction
+#         y += amplitude * y_direction
+#         y_direction *= -1
+#
+#     points.append(end_point)
+#
+#     for i in range(len(points) - 1):
+#         cv2.line(self.img, points[i], points[i + 1], color, thickness)
 
 
 def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
