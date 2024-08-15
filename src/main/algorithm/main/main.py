@@ -35,9 +35,14 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         steel_object_list = input_original.create_steel_example(projectstandards)
         void_object_list = input_original.creat_void_example()
 
+        window_width = 5
+        window_height = 5
+        step_size = 3
+        thresh = 55  # 35
+
         # 创建三种缺陷结果列表
         lack_result_list = [result for lack_object in lack_object_list for result in
-                            lack_object.detect()]  # list[lackingDetectOut]
+                            lack_object.detect(window_width,window_height, step_size, thresh)]  # list[lackingDetectOut]
         steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # list[BarDetectResult]
         void_result_list = [result for void_object in void_object_list for result in
                             void_object.detect()]  # list[VoidDefectResult]

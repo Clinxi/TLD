@@ -191,7 +191,6 @@ class ProcessOriginalPhoto:
                     if i + window_pixel > splitpict.shape[1]:
                         # 如果剩余部分不足，则从右向左切取最后的window_pixel宽度
                         i = splitpict.shape[1] - window_pixel
-                    sample = splitpict[:, i:i + window_pixel]
                     sample=splitpict[:,i:i+window_pixel]
                     file_name = f"{standard.startingMileage+n*5}——{standard.startingMileage+n*5+7}.png"
                     file_path = os.path.join(folder_path, file_name)
