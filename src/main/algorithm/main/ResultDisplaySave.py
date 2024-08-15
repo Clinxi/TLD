@@ -36,14 +36,15 @@ class DefectResultDisplay:
         :param coordinate_func: 获取坐标的函数
         :return: 像素坐标列表
         """
-        return [self.convert_coordinate(coordinate_func(result)) for result in result_list]
+        return [self.convert_coordinate(coordinate_func(result)) for result in result_list if result is not None]
 
     def draw_void_defects(self, void_result_list: List[vD.VoidDefectResult]):
         """
         绘制空洞检测结果
         :param void_result_list: 空洞检测结果列表
         """
-        void_pixel_coordinates = self.get_pixel_coordinates(void_result_list, lambda x: x.get_coordinates_list())
+        void_pixel_coordinates = self.get_pixel_coordinates(void_result_list,
+                                                            lambda x: x.get_coordinates_list())
         for coord in void_pixel_coordinates:
             cv2.rectangle(self.img, (coord[0], coord[2]), (coord[1], coord[3]), (0, 255, 0), 2)
 
@@ -71,9 +72,10 @@ class DefectResultDisplay:
     def display_and_save_result(self):
         """
         展示检测结果并保存结果图片
+        :return: 保存的图片路径
         """
-        cv2.imshow("result", self.img)
-        cv2.waitKey(0)
+        # cv2.imshow("result", self.img)
+        # cv2.waitKey(0)
 
         # 获取项目根目录的绝对路径
         project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
@@ -101,25 +103,29 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     :return:
     """
     example = DefectResultDisplay(input_original)
-    example.draw_void_defects(void_result_list)
     example.draw_lack_defects(lack_result_list)
     example.draw_steel_defects(steel_result_list)
+    example.draw_void_defects(void_result_list)
+
     new_photo_address = example.display_and_save_result()
 
     disease_information_list = []
     for void_result in void_result_list:
         if void_result is not None:
-            result = DiseaseInformation(void_result.start_mileage, void_result.end_mileage, void_result.depth_min, void_result.defect_type)
+            result = DiseaseInformation(void_result.start_mileage, void_result.end_mileage, void_result.depth_min,
+                                        void_result.defect_type)
             disease_information_list.append(result)
-        
+
     for steel_result in steel_result_list:
-        if steel_result is not None: 
-            result = DiseaseInformation(steel_result.diseaseStart, steel_result.diseaseEnd, steel_result.actualSpace, "lack steel")
+        if steel_result is not None:
+            result = DiseaseInformation(steel_result.diseaseStart, steel_result.diseaseEnd, steel_result.actualSpace,
+                                        "lack steel")
             disease_information_list.append(result)
-        
+
     for lack_result in lack_result_list:
-        if lack_result is not None: 
-            result = DiseaseInformation(lack_result.diseaseStart, lack_result.diseaseStart, lack_result.actualdepth, "lack depth")
+        if lack_result is not None:
+            result = DiseaseInformation(lack_result.diseaseStart, lack_result.diseaseStart, lack_result.actualdepth,
+                                        "lack depth")
             disease_information_list.append(result)
 
     return DetectEventResultWithNewPhoto(new_photo_address, example.original_photo_name,
