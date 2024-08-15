@@ -2,7 +2,7 @@ import json
 import io
 import sys
 from ResultDisplaySave import get_and_save_new_photo
-from typing import List  
+from typing import List
 from OriginalPhotoInfor import DiseaseInformation, DetectEventResultWithNewPhoto, ProcessOriginalPhoto, \
     APhotoWithStandards
 
@@ -42,13 +42,14 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
 
         # 创建三种缺陷结果列表
         lack_result_list = [result for lack_object in lack_object_list for result in
-                            lack_object.detect(window_width,window_height, step_size, thresh)]  # list[lackingDetectOut]
-        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # list[BarDetectResult]
+                            lack_object.detect(window_width, window_height, step_size,
+                                               thresh)]  # list[lackingDetectOut]
         void_result_list = [result for void_object in void_object_list for result in
-                            void_object.detect()]  # list[VoidDefectResult]
+                            void_object.detect()]  # List[VoidDefectResult]
 
-        result = get_and_save_new_photo(input_original, lack_result_list, steel_result_list,
-                                        void_result_list)
+        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
+
+        result = get_and_save_new_photo(input_original, void_result_list, lack_result_list, steel_result_list)
 
         # # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
         # result = DetectEventResultWithNewPhoto(
