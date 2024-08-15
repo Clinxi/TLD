@@ -92,18 +92,18 @@ def test(photos_with_standards_json):
 if __name__ == "__main__":
     # # 从标准输入读取 JSON 字符串
 
-    # input_json = sys.stdin.read()
+    input_json = sys.stdin.read()
 
     # # # 调用 main 函数处理输入数据并输出结果
-    # output = main(input_json)
-    # print(json.dumps(output))
+    output = main(input_json)
+    print(json.dumps(output))
 
     # -------------------------below is test code----------------------------- 
-    disable_print()
-    json_file_path = r"src/main/algorithm/test/case1/case1.json"
-    with open(json_file_path, 'r', encoding='utf-8') as file:
-        data = json.load(file)
+    # disable_print()
+    # json_file_path = r"src/main/algorithm/test/case1/case1.json"
+    # with open(json_file_path, 'r', encoding='utf-8') as file:
+    #     data = json.load(file)
     # print(type(data))
-    output = test(data)
-    enable_print()
-    print(output)
+    # output = test(data)
+    # enable_print()
+    # print(json.dumps(output))
