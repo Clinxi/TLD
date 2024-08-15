@@ -298,6 +298,16 @@ def perform_detection(photo_with_standards_list) -> list[DetectEventResultWithNe
         new_photo_address = get_new_photo_address(input_original, lack_result_list, steel_result_list,
                                                   void_result_list)
 
+        # 创建三种缺陷结果列表
+        lack_result_list = [result for lack_object in lack_object_list for result in
+                            lack_object.detect()]  # list[lackingDetectOut]
+        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # list[BarDetectResult]
+        void_result_list = [result for void_object in void_object_list for result in
+                            void_object.detect()]  # list[VoidDefectResult]
+
+        new_photo_address = get_new_photo_address(input_original.image, lack_result_list, steel_result_list,
+                                                  void_result_list)
+
         # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
         result = DetectEventResultWithNewPhoto(
             newPhotoAddress=photo.originalPhotoAddress,
