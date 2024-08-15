@@ -3,8 +3,9 @@ import os
 import lackingDetect as lD
 import voidDetect as vD
 import barDetect as bD
-from OriginalPhotoInfor import ProcessOriginalPhoto
-from OriginalPhotoInfor import DetectEventResultWithNewPhoto
+from OriginalPhotoInfor import ProcessOriginalPhoto, DetectEventResultWithNewPhoto
+from typing import List
+
 
 class DefectResultDisplay:
     def __init__(self, input_original: ProcessOriginalPhoto):
@@ -37,7 +38,7 @@ class DefectResultDisplay:
         """
         return [self.convert_coordinate(coordinate_func(result)) for result in result_list]
 
-    def draw_void_defects(self, void_result_list: list[vD.VoidDefectResult]):
+    def draw_void_defects(self, void_result_list: List[vD.VoidDefectResult]):
         """
         绘制空洞检测结果
         :param void_result_list: 空洞检测结果列表
@@ -46,7 +47,7 @@ class DefectResultDisplay:
         for coord in void_pixel_coordinates:
             cv2.rectangle(self.img, (coord[0], coord[2]), (coord[1], coord[3]), (0, 255, 0), 2)
 
-    def draw_lack_defects(self, lack_result_list: list[lD.lackingDetectOut]):
+    def draw_lack_defects(self, lack_result_list: List[lD.lackingDetectOut]):
         """
         绘制欠厚检测结果
         :param lack_result_list: 欠厚检测结果列表
@@ -56,7 +57,7 @@ class DefectResultDisplay:
         for coord in lack_pixel_coordinates:
             cv2.arrowedLine(self.img, (coord[0], 5), (coord[0], coord[2]), (0, 0, 255), 2)
 
-    def draw_steel_defects(self, steel_result_list: list[bD.BarDetectResult]):
+    def draw_steel_defects(self, steel_result_list: List[bD.BarDetectResult]):
         """
         绘制钢筋检测结果
         :param steel_result_list: 钢筋检测结果列表
@@ -87,10 +88,10 @@ class DefectResultDisplay:
         return save_path
 
 
-def get_new_photo_address(input_original: ProcessOriginalPhoto,
-                          void_result_list: list[vD.VoidDefectResult],
-                          lack_result_list: list[lD.lackingDetectOut],
-                          steel_result_list: list[bD.BarDetectResult]):
+def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
+                           void_result_list: List[vD.VoidDefectResult],
+                           lack_result_list: List[lD.lackingDetectOut],
+                           steel_result_list: List[bD.BarDetectResult]):
     """
     返回 DetectEventResultWithNewPhoto 类型
     :param input_original: 输入的原始图片为 ProcessOriginalPhoto 类型

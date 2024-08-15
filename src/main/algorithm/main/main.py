@@ -1,8 +1,10 @@
 import json
 import io
 import sys
-from ResultDisplaySave import get_new_photo_address
-from OriginalPhotoInfor import DiseaseInformation, DetectEventResultWithNewPhoto, ProcessOriginalPhoto, APhotoWithStandards
+from ResultDisplaySave import get_and_save_new_photo
+from OriginalPhotoInfor import DiseaseInformation, DetectEventResultWithNewPhoto, ProcessOriginalPhoto, \
+    APhotoWithStandards
+
 
 def disable_print():
     sys.stdout = io.StringIO()
@@ -10,8 +12,6 @@ def disable_print():
 
 def enable_print():
     sys.stdout = sys.__stdout__
-
-
 
 
 def perform_detection(photo_with_standards_list) -> list[DetectEventResultWithNewPhoto]:
@@ -41,7 +41,7 @@ def perform_detection(photo_with_standards_list) -> list[DetectEventResultWithNe
         void_result_list = [result for void_object in void_object_list for result in
                             void_object.detect()]  # list[VoidDefectResult]
 
-        result = get_new_photo_address(input_original, lack_result_list, steel_result_list,
+        result = get_and_save_new_photo(input_original, lack_result_list, steel_result_list,
                                        void_result_list)
 
         # # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
