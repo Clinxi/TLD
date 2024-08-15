@@ -17,7 +17,7 @@ public class Client {
         RestTemplate restTemplate = new RestTemplate();
 
         // 创建多个 DetectOriginalPhoto 对象
-        DetectOriginalPhoto photo1 = new DetectOriginalPhoto("/home/disk3/jsa/projects/TLD/src/main/algorithm/test/case1/3-DK324+390-535GD P_1.JPG", "3-DK324+390-535GD P_1.JPG");
+        DetectOriginalPhoto photo1 = new DetectOriginalPhoto("/home/jsa/projects/TLD/src/main/algorithm/test/case1/3-DK324+390-535GD P_1.JPG", "3-DK324+390-535GD P_1.JPG");
 
         // 创建多个 ProjectStandard 对象并添加到列表中
         List<ProjectStandard> standards1 = new ArrayList<>();
@@ -41,7 +41,7 @@ public class Client {
         HttpEntity<List<APhotoWithStandards>> requestEntity = new HttpEntity<>(photoWithStandardsList, headers);
 
         // 发送 POST 请求到指定的 URL，并接收响应
-        String url = "http://localhost:8080/api/detect";
+        String url = "http://10.214.211.209:8080/api/detect";
         try {
             String response = restTemplate.postForObject(url, requestEntity, String.class);
             System.out.println("Response: " + response);
