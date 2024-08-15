@@ -158,11 +158,11 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
                                         "lack steel")
             disease_information_list.append(result)
 
-    # for lack_result in lack_result_list:
-    #     if lack_result is not None:
-    #         result = DiseaseInformation(lack_result.diseaseStart, lack_result.diseaseStart, lack_result.actualdepth,
-    #                                     "lack depth")
-    #         disease_information_list.append(result)
+    for lack_result in lack_result_list:
+        if lack_result is not None:
+            result = DiseaseInformation(lack_result.diseaseStart, lack_result.diseaseStart, lack_result.actualdepth,
+                                        "lack depth")
+            disease_information_list.append(result)
 
     return DetectEventResultWithNewPhoto(new_photo_address, example.original_photo_name,
                                          disease_information_list)
