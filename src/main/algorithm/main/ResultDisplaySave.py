@@ -53,7 +53,7 @@ class DefectResultDisplay:
                                                             lambda x: x.get_coordinates_list())
         for coord in void_pixel_coordinates:
             # print(f"Drawing rectangle at: {coord}")
-            cv2.rectangle(self.img, (coord[0], coord[2]), (coord[1], coord[3]), (0, 255, 0), 2)
+            cv2.rectangle(self.img, (coord[0], coord[2]), (coord[1], coord[3]), (0, 255, 0), 4)
 
     def draw_lack_defects(self, lack_result_list: List[lD.lackingDetectOut]):
         """
@@ -63,7 +63,7 @@ class DefectResultDisplay:
         lack_pixel_coordinates = self.get_pixel_coordinates(lack_result_list,
                                                             lambda x: [x.diseaseStart, 0, x.actualdepth, 0])
         for coord in lack_pixel_coordinates:
-            cv2.arrowedLine(self.img, (coord[0], 5), (coord[0], coord[2]), (0, 0, 255), 2)
+            cv2.arrowedLine(self.img, (coord[0], 5), (coord[0], coord[2]), (0, 0, 255), 4)
 
     def draw_steel_defects(self, steel_result_list: List[bD.BarDetectResult]):
         """
@@ -75,7 +75,7 @@ class DefectResultDisplay:
                                                              lambda x: [x.diseaseStart, x.diseaseEnd, 0, 0])
         for coord in steel_pixel_coordinates:
             cv2.line(self.img, (coord[0], self.img_pixel_shape[0] // 2), (coord[1], self.img_pixel_shape[0] // 2),
-                     (255, 0, 0), 2)
+                     (255, 0, 0), 4)
 
     def display_and_save_result(self):
         """
