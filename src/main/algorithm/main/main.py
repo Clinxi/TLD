@@ -296,15 +296,15 @@ def perform_detection(photo_with_standards_list) -> list[DetectEventResultWithNe
         void_result_list = [result for void_object in void_object_list for result in
                             void_object.detect()]  # list[VoidDefectResult]
 
-        new_photo_address = get_new_photo_address(input_original, lack_result_list, steel_result_list,
-                                                  void_result_list)
+        result = get_new_photo_address(input_original, lack_result_list, steel_result_list,
+                                       void_result_list)
 
-        # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
-        result = DetectEventResultWithNewPhoto(
-            newPhotoAddress=photo.originalPhotoAddress,
-            newPhotoName=photo.originalPhotoName,
-            diseaseInformationList=disease_information_list
-        )
+        # # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
+        # result = DetectEventResultWithNewPhoto(
+        #     newPhotoAddress=photo.originalPhotoAddress,
+        #     newPhotoName=photo.originalPhotoName,
+        #     diseaseInformationList=disease_information_list
+        # )
         results.append(result)
     return results
 

@@ -4,6 +4,7 @@ import lackingDetect as lD
 import voidDetect as vD
 import barDetect as bD
 from main import ProcessOriginalPhoto
+from main import DetectEventResultWithNewPhoto
 
 
 class DefectResultDisplay:
@@ -92,12 +93,12 @@ def get_new_photo_address(input_original: ProcessOriginalPhoto,
                           lack_result_list: list[lD.lackingDetectOut],
                           steel_result_list: list[bD.BarDetectResult]):
     """
-    获取处理后的图片地址
+    返回 DetectEventResultWithNewPhoto 类型
     :param input_original: 输入的原始图片为 ProcessOriginalPhoto 类型
     :param void_result_list: 空洞检测结果列表
     :param lack_result_list: 欠厚检测结果列表
     :param steel_result_list: 钢筋检测结果列表
-    :return: 处理后的图片地址
+    :return:
     """
     example = DefectResultDisplay(input_original)
     example.draw_void_defects(void_result_list)
@@ -105,7 +106,8 @@ def get_new_photo_address(input_original: ProcessOriginalPhoto,
     example.draw_steel_defects(steel_result_list)
     new_photo_address = example.display_and_save_result()
 
-    return new_photo_address
+    return DetectEventResultWithNewPhoto(new_photo_address, example.original_photo_name,
+                                         void_result_list + steel_result_list + lack_result_list)
 
 
 if __name__ == '__main__':
