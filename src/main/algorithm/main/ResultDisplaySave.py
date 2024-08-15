@@ -3,8 +3,8 @@ import os
 import lackingDetect as lD
 import voidDetect as vD
 import barDetect as bD
-from OriginalPhotoInfor import ProcessOriginalPhoto
-from OriginalPhotoInfor import DetectEventResultWithNewPhoto
+from OriginalPhotoInfor import ProcessOriginalPhoto, DetectEventResultWithNewPhoto
+
 
 class DefectResultDisplay:
     def __init__(self, input_original: ProcessOriginalPhoto):
