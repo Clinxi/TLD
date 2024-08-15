@@ -11,7 +11,7 @@ class DefectResultDisplay:
     def __init__(self, input_original: ProcessOriginalPhoto):
         self.img = input_original.image
         self.img_real_shape = [input_original.originalMileage, input_original.finialMileage, input_original.depth]
-        self.img_pixel_shape = self.img.shape[:2]
+        self.img_pixel_shape = self.img.shape[:2]  # (height, width)
         self.original_photo_name = input_original.originalPhotoName
 
     def convert_coordinate(self, real_coordinate):
@@ -20,12 +20,16 @@ class DefectResultDisplay:
         :param real_coordinate: 实际坐标 (x_min, x_max, y_min, y_max)
         :return: 像素坐标 (x_min, x_max, y_min, y_max)
         """
-        pixel_x_min = int(self.img_pixel_shape[0] * (real_coordinate[0] - self.img_real_shape[0]) / (
+        # print(self.img_real_shape, self.img_pixel_shape)
+        pixel_x_min = int(self.img_pixel_shape[1] * (real_coordinate[0] - self.img_real_shape[0]) / (
                 self.img_real_shape[1] - self.img_real_shape[0]))
-        pixel_x_max = int(self.img_pixel_shape[0] * (real_coordinate[1] - self.img_real_shape[0]) / (
+        pixel_x_max = int(self.img_pixel_shape[1] * (real_coordinate[1] - self.img_real_shape[0]) / (
                 self.img_real_shape[1] - self.img_real_shape[0]))
-        pixel_y_min = int(self.img_pixel_shape[1] * real_coordinate[2] / self.img_real_shape[2])
-        pixel_y_max = int(self.img_pixel_shape[1] * real_coordinate[3] / self.img_real_shape[2])
+        pixel_y_min = int(self.img_pixel_shape[0] * real_coordinate[2] / self.img_real_shape[2])
+        pixel_y_max = int(self.img_pixel_shape[0] * real_coordinate[3] / self.img_real_shape[2])
+
+        # print(
+        #     f"Real Coordinate: {real_coordinate} -> Pixel Coordinate: {(pixel_x_min, pixel_x_max, pixel_y_min, pixel_y_max)}")
 
         return pixel_x_min, pixel_x_max, pixel_y_min, pixel_y_max
 
@@ -43,9 +47,11 @@ class DefectResultDisplay:
         绘制空洞检测结果
         :param void_result_list: 空洞检测结果列表
         """
+        # print(f"Void Result List: {void_result_list}")
         void_pixel_coordinates = self.get_pixel_coordinates(void_result_list,
                                                             lambda x: x.get_coordinates_list())
         for coord in void_pixel_coordinates:
+            # print(f"Drawing rectangle at: {coord}")
             cv2.rectangle(self.img, (coord[0], coord[2]), (coord[1], coord[3]), (0, 255, 0), 2)
 
     def draw_lack_defects(self, lack_result_list: List[lD.lackingDetectOut]):
@@ -78,7 +84,7 @@ class DefectResultDisplay:
         # cv2.waitKey(0)
 
         # 获取项目根目录的绝对路径
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
         result_dir = os.path.join(project_root, 'result')
         # 如果 result 目录不存在，创建该目录
         os.makedirs(result_dir, exist_ok=True)
@@ -103,7 +109,7 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     :return:
     """
     example = DefectResultDisplay(input_original)
-    example.draw_lack_defects(lack_result_list)
+    # example.draw_lack_defects(lack_result_list)
     example.draw_steel_defects(steel_result_list)
     example.draw_void_defects(void_result_list)
 

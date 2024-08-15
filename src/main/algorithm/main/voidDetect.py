@@ -32,11 +32,11 @@ class VoidDefect:
             # 计算实际的里程
             void_start = self.start_mileage + box[0] / img_width * (self.end_mileage - self.start_mileage)
             void_end = self.start_mileage + box[2] / img_width * (self.end_mileage - self.start_mileage)
-            void_depth_min = box[3] / img_height * self.max_depth
-            void_depth_max = box[1] / img_height * self.max_depth
+            void_depth_min = box[1] / img_height * self.max_depth
+            void_depth_max = box[3] / img_height * self.max_depth
 
             results.append(
-                VoidDefectResult(int(void_start), int(void_end), int(void_depth_min), int(void_depth_max), 'void'))
+                VoidDefectResult(void_start, void_end, void_depth_min, void_depth_max, 'void'))
 
         return results
 
@@ -56,6 +56,10 @@ class VoidDefectResult:
         self.depth_min = depth_min
         self.depth_max = depth_max
         self.defect_type = defect_type
+
+    def __repr__(self):
+        return (f"start_mileage: {self.start_mileage}, end_mileage: {self.end_mileage},depth_min: {self.depth_min}, "
+                f"depth_max: {self.depth_max}, defect_type: {self.defect_type}")
 
     def get_coordinates_list(self):
         """

@@ -31,7 +31,7 @@ class lackingDetectIn:
                             black_regions.append((x, y))
                             break
         design_hight = self.startingMileage / self.vertical_resolution
-        result = [lackingDetectOut(self.transxposition(x), y) for (x, y) in black_regions if y < design_hight]
+        result = [lackingDetectOut(self.transxposition(x), y/100) for (x, y) in black_regions if y < design_hight]
         return result
 
     def transxposition(self, x):
