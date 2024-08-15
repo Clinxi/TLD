@@ -86,7 +86,7 @@ class BarInfor():
 
         actualSpace = count / (self.endingMileage - self.startingMileage)
         isDisease = False
-        if actualSpace / self.standardSteelBarSpacing < 0.95:
+        if actualSpace / self.standardSteelBarSpacing > 0.95:
             isDisease = True
         result = BarDetectResult(diseaseStart=diseaStart, diseaseEnd=diseaEnd, actualSpace=actualSpace,
                                  isDiease=isDisease)

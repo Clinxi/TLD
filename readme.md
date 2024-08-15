@@ -78,5 +78,18 @@ mvn spring-boot:run
 ```
 
 ## 输入端要求
+可以根据以下目录下的具体例子来明确要求:
+```sh
+TLD/src/main/java/org/zjuvipa/util/Client.java
+```
 
+根据要求, 传给后端的应该是一个APhotoWithStandards对象的list, APhotoWithStandards代码在
+```sh
+TLD/src/main/java/org/zjuvipa/entity/APhotoWithStandards.java
+```
+与其相关的成员变量的类分别有DetectOriginalPhoto和ProjectStandard, 分别如下所示
+```sh
+TLD/src/main/java/org/zjuvipa/entity/DetectOriginalPhoto.java
+TLD/src/main/java/org/zjuvipa/entity/ProjectStandard.java
+```
 

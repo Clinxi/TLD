@@ -17,7 +17,7 @@ public class Client {
         RestTemplate restTemplate = new RestTemplate();
 
         // 创建多个 DetectOriginalPhoto 对象
-        DetectOriginalPhoto photo1 = new DetectOriginalPhoto("/home/jsa/projects/TLD/src/main/algorithm/test/case1/3-DK324+390-535GD P_1.JPG", "3-DK324+390-535GD P_1.JPG");
+        DetectOriginalPhoto photo1 = new DetectOriginalPhoto("src/main/algorithm/test/case1/3-DK324+390-535GD P_1.JPG", "3-DK324+390-535GD P_1.JPG");
 
         // 创建多个 ProjectStandard 对象并添加到列表中
         List<ProjectStandard> standards1 = new ArrayList<>();
