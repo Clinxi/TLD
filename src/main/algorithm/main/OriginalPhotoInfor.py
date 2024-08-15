@@ -1,3 +1,10 @@
+import os
+import cv2
+
+import img_processing as ip
+import lackingDetect as lD
+import voidDetect as vD
+import barDetect as bD
 class DiseaseInformation:
     def __init__(self, diseaseStart, diseaseEnd, diseaseDepth, diseaseType):
         self.diseaseStart = diseaseStart

@@ -1,14 +1,6 @@
 import json
-import os
 import io
 import sys
-
-import cv2
-
-import img_processing as ip
-import lackingDetect as lD
-import voidDetect as vD
-import barDetect as bD
 from ResultDisplaySave import get_new_photo_address
 from OriginalPhotoInfor import DiseaseInformation, DetectEventResultWithNewPhoto, ProcessOriginalPhoto, APhotoWithStandards
 
