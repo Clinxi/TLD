@@ -20,7 +20,7 @@ class DefectResultDisplay:
         :param real_coordinate: 实际坐标 (x_min, x_max, y_min, y_max)
         :return: 像素坐标 (x_min, x_max, y_min, y_max)
         """
-        # print(self.img_real_shape, self.img_pixel_shape)
+        print(self.img_real_shape, self.img_pixel_shape)
         pixel_x_min = int(self.img_pixel_shape[1] * (real_coordinate[0] - self.img_real_shape[0]) / (
                 self.img_real_shape[1] - self.img_real_shape[0]))
         pixel_x_max = int(self.img_pixel_shape[1] * (real_coordinate[1] - self.img_real_shape[0]) / (
@@ -28,8 +28,8 @@ class DefectResultDisplay:
         pixel_y_min = int(self.img_pixel_shape[0] * real_coordinate[2] / self.img_real_shape[2])
         pixel_y_max = int(self.img_pixel_shape[0] * real_coordinate[3] / self.img_real_shape[2])
 
-        # print(
-        #     f"Real Coordinate: {real_coordinate} -> Pixel Coordinate: {(pixel_x_min, pixel_x_max, pixel_y_min, pixel_y_max)}")
+        print(
+            f"Real Coordinate: {real_coordinate} -> Pixel Coordinate: {(pixel_x_min, pixel_x_max, pixel_y_min, pixel_y_max)}")
 
         return pixel_x_min, pixel_x_max, pixel_y_min, pixel_y_max
 
@@ -69,11 +69,12 @@ class DefectResultDisplay:
         绘制钢筋检测结果
         :param steel_result_list: 钢筋检测结果列表
         """
+        print(f"Steel Result List: {steel_result_list}")
         steel_pixel_coordinates = self.get_pixel_coordinates(steel_result_list,
                                                              lambda x: [x.diseaseStart, x.diseaseEnd, 0, 0])
         for coord in steel_pixel_coordinates:
-            cv2.line(self.img, (coord[0], self.img_pixel_shape[1] // 2), (coord[1], self.img_pixel_shape[1] // 2),
-                     (255, 0, 0), 2)
+            draw_zigzag_line(self.img, (coord[0], coord[2]), (coord[1], coord[2]), 20,
+                             10, (255, 0, 0), 2)
 
     def display_and_save_result(self):
         """
@@ -96,6 +97,33 @@ class DefectResultDisplay:
         return save_path
 
 
+def draw_zigzag_line(self, start_point, end_point, segment_length=20, amplitude=10, color=(255, 0, 0), thickness=2):
+    """
+    绘制折线
+    :param start_point: 起点 (x, y)
+    :param end_point: 终点 (x, y)
+    :param segment_length: 每段折线的长度
+    :param amplitude: 折线的高度差
+    :param color: 线的颜色
+    :param thickness: 线的粗细
+    """
+    points = []
+    x_direction = 1 if end_point[0] > start_point[0] else -1
+    y_direction = 1 if end_point[1] > start_point[1] else -1
+    x, y = start_point
+
+    while (x < end_point[0] and x_direction == 1) or (x > end_point[0] and x_direction == -1):
+        points.append((x, y))
+        x += segment_length * x_direction
+        y += amplitude * y_direction
+        y_direction *= -1
+
+    points.append(end_point)
+
+    for i in range(len(points) - 1):
+        cv2.line(self.img, points[i], points[i + 1], color, thickness)
+
+
 def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
                            void_result_list: List[vD.VoidDefectResult],
                            lack_result_list: List[lD.lackingDetectOut],
@@ -111,7 +139,7 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     example = DefectResultDisplay(input_original)
     # example.draw_lack_defects(lack_result_list)
     example.draw_steel_defects(steel_result_list)
-    example.draw_void_defects(void_result_list)
+    # example.draw_void_defects(void_result_list)
 
     new_photo_address = example.display_and_save_result()
 
