@@ -5,6 +5,7 @@ import voidDetect as vD
 import barDetect as bD
 from OriginalPhotoInfor import ProcessOriginalPhoto, DetectEventResultWithNewPhoto, DiseaseInformation
 from typing import List
+import uuid
 
 
 class DefectResultDisplay:
@@ -79,7 +80,7 @@ class DefectResultDisplay:
     def display_and_save_result(self):
         """
         展示检测结果并保存结果图片
-        :return: 保存的图片路径
+        :return: 保存的图片路径, 新图片名称
         """
         # cv2.imshow("result", self.img)
         # cv2.waitKey(0)
@@ -90,11 +91,12 @@ class DefectResultDisplay:
         # 如果 result 目录不存在，创建该目录
         os.makedirs(result_dir, exist_ok=True)
         # 保存文件
-        save_path = os.path.join(result_dir, self.original_photo_name)
+        new_photo_name = str(uuid.uuid4()) + '.png'
+        save_path = os.path.join(result_dir, new_photo_name)
         cv2.imwrite(save_path, self.img)
         print(f"Result saved to {save_path}")
 
-        return save_path
+        return save_path, new_photo_name
 
 
 def draw_zigzag_line(self, start_point, end_point, segment_length=20, amplitude=10, color=(255, 0, 0), thickness=2):
@@ -139,9 +141,9 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     example = DefectResultDisplay(input_original)
     # example.draw_lack_defects(lack_result_list)
     example.draw_steel_defects(steel_result_list)
-    # example.draw_void_defects(void_result_list)
+    example.draw_void_defects(void_result_list)
 
-    new_photo_address = example.display_and_save_result()
+    new_photo_address, new_photo_name = example.display_and_save_result()
 
     disease_information_list = []
     for void_result in void_result_list:
@@ -162,7 +164,7 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     #                                     "lack depth")
     #         disease_information_list.append(result)
 
-    return DetectEventResultWithNewPhoto(new_photo_address, example.original_photo_name,
+    return DetectEventResultWithNewPhoto(new_photo_address, new_photo_name,
                                          disease_information_list)
 
 
