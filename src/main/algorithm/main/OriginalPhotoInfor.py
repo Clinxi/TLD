@@ -10,6 +10,7 @@ class DiseaseInformation:
         self.diseaseStart = diseaseStart
         self.diseaseEnd = diseaseEnd
         self.diseaseDepth = diseaseDepth
+        # void, lackDepth, lackBar 
         self.diseaseType = diseaseType
 
     def __str__(self):
