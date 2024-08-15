@@ -84,10 +84,12 @@ class BarInfor():
         img_pre = image_to_tensor_cv(self.imageAddress)
         count = cal_bar(model_path_list=model_path_list, img_pre=img_pre)
 
-        actualSpace = count / (self.endingMileage - self.startingMileage)
+        actualSpace = (self.endingMileage - self.startingMileage) / count
+        
         isDisease = False
+        print(f"count: {count}")
         print(f"actualSpace: {actualSpace}")
-        if actualSpace / self.standardSteelBarSpacing > 0.95:
+        if actualSpace / self.standardSteelBarSpacing > 1.05:
             isDisease = True
         result = BarDetectResult(diseaseStart=diseaStart, diseaseEnd=diseaEnd, actualSpace=actualSpace,
                                  isDiease=isDisease)
