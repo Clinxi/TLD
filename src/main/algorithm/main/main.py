@@ -288,6 +288,7 @@ def perform_detection(photo_with_standards_list) -> list[DetectEventResultWithNe
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
         void_object_list = input_original.creat_void_example()
+
         # 创建三种缺陷结果列表
         lack_result_list = [result for lack_object in lack_object_list for result in
                             lack_object.detect()]  # list[lackingDetectOut]
