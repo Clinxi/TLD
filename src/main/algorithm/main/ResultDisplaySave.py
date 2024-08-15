@@ -108,10 +108,22 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
 
     disease_information_list = []
     for void_result in void_result_list:
-        pass    
+        if void_result is not None:
+            result = DiseaseInformation(void_result.start_mileage, void_result.end_mileage, void_result.depth_min, void_result.defect_type)
+            disease_information_list.append(result)
+        
+    for steel_result in steel_result_list:
+        if steel_result is not None: 
+            result = DiseaseInformation(steel_result.diseaseStart, steel_result.diseaseEnd, steel_result.actualSpace, "lack steel")
+            disease_information_list.append(result)
+        
+    for lack_result in lack_result_list:
+        if lack_result is not None: 
+            result = DiseaseInformation(lack_result.diseaseStart, lack_result.diseaseStart, lack_result.actualdepth, "lack depth")
+            disease_information_list.append(result)
 
     return DetectEventResultWithNewPhoto(new_photo_address, example.original_photo_name,
-                                         void_result_list + steel_result_list + lack_result_list)
+                                         disease_information_list)
 
 
 if __name__ == '__main__':
