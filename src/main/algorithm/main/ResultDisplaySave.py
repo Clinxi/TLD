@@ -74,7 +74,7 @@ class DefectResultDisplay:
         steel_pixel_coordinates = self.get_pixel_coordinates(steel_result_list,
                                                              lambda x: [x.diseaseStart, x.diseaseEnd, 0, 0])
         for coord in steel_pixel_coordinates:
-            cv2.line(self.img, (coord[0], self.img_pixel_shape[1] // 2), (coord[1], self.img_pixel_shape[1] // 2),
+            cv2.line(self.img, (coord[0], self.img_pixel_shape[0] // 2), (coord[1], self.img_pixel_shape[0] // 2),
                      (255, 0, 0), 2)
 
     def display_and_save_result(self):
@@ -164,7 +164,7 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     #                                     "lack depth")
     #         disease_information_list.append(result)
 
-    return DetectEventResultWithNewPhoto(new_photo_address, new_photo_name,
+    return DetectEventResultWithNewPhoto(new_photo_address, example.original_photo_name,
                                          disease_information_list)
 
 
