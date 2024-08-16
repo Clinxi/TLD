@@ -245,21 +245,22 @@ class ProcessOriginalPhoto:
     def create_lacking_example(self, projectStandards):
         lacking_example_list = []
         for standard in projectStandards:
-            data = self.image[self.original_line:, 65:-2]
-            split_start = int(abs(self.originalMileage - standard.startingMileage) / self.horizontal_resolution)
-            split_end = int(abs(self.originalMileage - standard.endingMileage) / self.horizontal_resolution)
-            splitpict = data[:, split_start:split_end]  # 选取所有行，截取列
-            directory_path = os.path.dirname(self.originalPhotoAddress)
-            folder_path = os.path.join(directory_path, "lackingdetect")
-            if not os.path.exists(folder_path):
-                os.makedirs(folder_path)
-            file_name = f"{standard.startingMileage}——{standard.endingMileage}.png"
-            file_path = os.path.join(folder_path, file_name)
-            # file_path = os.path.join(folder_path, str(standard.startingMileage), "——", str(standard.endingMileage), ".png")
-            if not cv2.imwrite(file_path, splitpict):
-                print("fail save", file_path)
-            lining_example = lD.lackingDetectIn(file_path, standard.startingMileage, standard.endingMileage,
-                                                standard.standardThickness, self.vertical_resolution,
-                                                self.horizontal_resolution)
-            lacking_example_list.append(lining_example)
+            if standard.standardLackingBarSpacing == 0:
+                data = self.image[self.original_line:, 65:-2]
+                split_start = int(abs(self.originalMileage - standard.startingMileage) / self.horizontal_resolution)
+                split_end = int(abs(self.originalMileage - standard.endingMileage) / self.horizontal_resolution)
+                splitpict = data[:, split_start:split_end]  # 选取所有行，截取列
+                directory_path = os.path.dirname(self.originalPhotoAddress)
+                folder_path = os.path.join(directory_path, "lackingdetect")
+                if not os.path.exists(folder_path):
+                    os.makedirs(folder_path)
+                file_name = f"{standard.startingMileage}——{standard.endingMileage}.png"
+                file_path = os.path.join(folder_path, file_name)
+                # file_path = os.path.join(folder_path, str(standard.startingMileage), "——", str(standard.endingMileage), ".png")
+                if not cv2.imwrite(file_path, splitpict):
+                    print("fail save", file_path)
+                lining_example = lD.lackingDetectIn(file_path, standard.startingMileage, standard.endingMileage,
+                                                    standard.standardThickness, self.vertical_resolution,
+                                                    self.horizontal_resolution)
+                lacking_example_list.append(lining_example)
         return lacking_example_list
