@@ -30,7 +30,7 @@ class lackingDetectIn:
                         if y > 280:
                             black_regions.append((x, y))
                             break
-        design_hight = self.startingMileage / self.vertical_resolution
+        design_hight = self.standardThickness / self.vertical_resolution
         result = [lackingDetectOut(self.transxposition(x), y/100) for (x, y) in black_regions if y < design_hight]
         return result
 
