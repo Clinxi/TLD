@@ -245,7 +245,7 @@ class ProcessOriginalPhoto:
     def create_lacking_example(self, projectStandards):
         lacking_example_list = []
         for standard in projectStandards:
-            if standard.standardLackingBarSpacing == 0:
+            if standard.standardSteelBarSpacing == 0:
                 data = self.image[self.original_line:, 65:-2]
                 split_start = int(abs(self.originalMileage - standard.startingMileage) / self.horizontal_resolution)
                 split_end = int(abs(self.originalMileage - standard.endingMileage) / self.horizontal_resolution)
