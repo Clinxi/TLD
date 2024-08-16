@@ -21,7 +21,7 @@ class lackingDetectIn:
             for y in range(0, h - window_height + 1, step_size):
                 window = image[y:y + window_height, x:x + window_width]
 
-                if np.mean(window) > thresh:
+                if np.mean(window) < thresh:
                     if not black_regions:
                         if y > 280:
                             black_regions.append((x, y))
@@ -31,7 +31,7 @@ class lackingDetectIn:
                             black_regions.append((x, y))
                             break
         design_hight = self.standardThickness / self.vertical_resolution
-        result = [lackingDetectOut(self.transxposition(x), y/100) for (x, y) in black_regions if y < design_hight]
+        result = [lackingDetectOut(self.transxposition(x), y/1000) for (x, y) in black_regions if y < design_hight]
         return result
 
     def transxposition(self, x):

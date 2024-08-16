@@ -44,20 +44,19 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         lack_result_list = [result for lack_object in lack_object_list for result in
                             lack_object.detect(window_width, window_height, step_size,
                                                thresh)]  # list[lackingDetectOut]
-        # void_result_list = [result for void_object in void_object_list for result in
-        #                     void_object.detect()]  # List[VoidDefectResult]
-        # steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
+        void_result_list = [result for void_object in void_object_list for result in
+                            void_object.detect()]  # List[VoidDefectResult]
+        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
         # steel_result_list = []
 
-        # result = get_and_save_new_photo(input_original, void_result_list, lack_result_list, steel_result_list)
-        result =get_and_save_new_photo(input_original,lack_result_list)
+        result = get_and_save_new_photo(input_original, void_result_list, lack_result_list, steel_result_list)
         # # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
         # result = DetectEventResultWithNewPhoto(
         #     newPhotoAddress=photo.originalPhotoAddress,
         #     newPhotoName=photo.originalPhotoName,
         #     diseaseInformationList=disease_information_list
         # )
-        # results.append(result)
+        results.append(result)
     return results
 
 
@@ -102,8 +101,7 @@ if __name__ == "__main__":
     # disable_print()
     enable_print()
 
-    # json_file_path = r"src/main/algorithm/test/case1/case1.json"
-    json_file_path=r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\case1.json"
+    json_file_path = r"src/main/algorithm/test/case1/case1.json"
     with open(json_file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     # print(type(data))
