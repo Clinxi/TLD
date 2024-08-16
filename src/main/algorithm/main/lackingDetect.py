@@ -23,11 +23,11 @@ class lackingDetectIn:
 
                 if np.mean(window) > thresh:
                     if not black_regions:
-                        if y > 20:
+                        if y > 280:
                             black_regions.append((x, y))
                             break
                     else:
-                        if y > 20:
+                        if y > 280:
                             black_regions.append((x, y))
                             break
         design_hight = self.startingMileage / self.vertical_resolution
