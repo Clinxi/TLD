@@ -21,7 +21,7 @@ class DefectResultDisplay:
         :param real_coordinate: 实际坐标 (x_min, x_max, y_min, y_max)
         :return: 像素坐标 (x_min, x_max, y_min, y_max)
         """
-        print(self.img_real_shape, self.img_pixel_shape)
+        # print(self.img_real_shape, self.img_pixel_shape)
         pixel_x_min = int(self.img_pixel_shape[1] * (real_coordinate[0] - self.img_real_shape[0]) / (
                 self.img_real_shape[1] - self.img_real_shape[0]))
         pixel_x_max = int(self.img_pixel_shape[1] * (real_coordinate[1] - self.img_real_shape[0]) / (
@@ -139,7 +139,8 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     :return:
     """
     example = DefectResultDisplay(input_original)
-    # example.draw_lack_defects(lack_result_list)
+
+    example.draw_lack_defects(lack_result_list)
     example.draw_steel_defects(steel_result_list)
     example.draw_void_defects(void_result_list)
 

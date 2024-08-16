@@ -21,7 +21,7 @@ class lackingDetectIn:
             for y in range(0, h - window_height + 1, step_size):
                 window = image[y:y + window_height, x:x + window_width]
 
-                if np.mean(window) > thresh:
+                if np.mean(window) < thresh:
                     if not black_regions:
                         if y > 280:
                             black_regions.append((x, y))
