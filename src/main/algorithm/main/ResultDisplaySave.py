@@ -149,8 +149,8 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     disease_information_list = []
     for void_result in void_result_list:
         if void_result is not None:
-            result = DiseaseInformation(void_result.start_mileage, void_result.end_mileage, void_result.depth_min,
-                                        void_result.defect_type)
+            result = DiseaseInformation(void_result.start_mileage.item(), void_result.end_mileage.item(),
+                                        void_result.depth_min.item(), void_result.defect_type)
             disease_information_list.append(result)
 
     for steel_result in steel_result_list:
