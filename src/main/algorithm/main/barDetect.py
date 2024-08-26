@@ -68,15 +68,15 @@ class BarInfor():
 
     def detect(self):
         pass
-        # model_path_list = [r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run4_last.pt",
-        #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run5_last.pt",
-        #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run11_last.pt",
-        #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run17_last.pt"]
-        model_path_list = ["src/main/algorithm/main/weights/bar_run4_last.pt",
-                           "src/main/algorithm/main/weights/bar_run5_last.pt",
-                           "src/main/algorithm/main/weights/bar_run11_last.pt",
-                           "src/main/algorithm/main/weights/bar_run17_last.pt"
-                           ]
+        model_path_list = [r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run4_last.pt",
+                           r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run5_last.pt",
+                           r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run11_last.pt",
+                           r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run17_last.pt"]
+        # model_path_list = ["src/main/algorithm/main/weights/bar_run4_last.pt",
+        #                    "src/main/algorithm/main/weights/bar_run5_last.pt",
+        #                    "src/main/algorithm/main/weights/bar_run11_last.pt",
+        #                    "src/main/algorithm/main/weights/bar_run17_last.pt"
+        #                    ]
 
         diseaStart = self.startingMileage
         diseaEnd = self.endingMileage
