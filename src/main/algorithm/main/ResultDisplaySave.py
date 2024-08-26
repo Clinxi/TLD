@@ -63,7 +63,9 @@ class DefectResultDisplay:
         lack_pixel_coordinates = self.get_pixel_coordinates(lack_result_list,
                                                             lambda x: [x.diseaseStart, 0, x.actualdepth, 0])
         for coord in lack_pixel_coordinates:
-            cv2.arrowedLine(self.img, (coord[0], 40), (coord[0], coord[2]), (0, 0, 255), 4)
+            # cv2.arrowedLine(self.img, (coord[0], 40), (coord[0], coord[2]), (0, 0, 255), 4)
+            # 画点
+            cv2.circle(self.img, (coord[0], coord[2]), 5, (0, 0, 255), -1)
 
     def draw_steel_defects(self, steel_result_list: List[bD.BarDetectResult]):
         """
