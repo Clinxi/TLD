@@ -24,7 +24,7 @@ class VoidDefect:
         # model = YOLOv10('src/main/algorithm/main/weights/void_best_0.587.pt')
         model=YOLOv10(r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\void_best_0.587.pt")
         predictions = model.predict(source=self.image_path, show=False, save=False, save_txt=False, classes=[0],
-                                    visualize=False)
+                                    visualize=False,device=["cpu"])
         img_height, img_width = predictions[0].orig_shape
 
         results = []
