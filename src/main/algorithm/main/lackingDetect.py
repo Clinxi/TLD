@@ -13,25 +13,25 @@ class lackingDetectIn:
         self.horizontal_resolution = horizontal_resolution
 
     def detect(self, window_width, window_height, step_size, thresh):
+        # y_min=280
+        y_min=(self.standardThickness-0.15)/self.vertical_resolution
         image = cv2.imread(self.imageAdress)
         h, w = image.shape[0], image.shape[1]
         black_regions = []
-        # print("h,w",h,w)
         for x in range(0, w - window_width + 1, step_size):
             for y in range(0, h - window_height + 1, step_size):
                 window = image[y:y + window_height, x:x + window_width]
-
                 if np.mean(window) < thresh:
                     if not black_regions:
-                        if y > 280:
+                        if y > y_min:
                             black_regions.append((x, y))
                             break
                     else:
-                        if y > 280:
+                        if y > y_min:
                             black_regions.append((x, y))
                             break
         design_hight = self.standardThickness / self.vertical_resolution
-        # print("vertical is ",self.vertical_resolution)
+        print("vertical is ",self.vertical_resolution)
         # print("lackDetet height is ",design_hight)
         result = [lackingDetectOut(self.transxposition(x), y*self.vertical_resolution) for (x, y) in black_regions if y < design_hight]
         finial_result=self.optimize_result_list(result)
@@ -42,6 +42,10 @@ class lackingDetectIn:
         revise_x = round(real_x, 3)
         return revise_x
     def optimize_result_list(self,result):
+        """
+        :param result:原始数据对象列表
+        :return min_values: 邻近区域中深度最小对象列表
+        """
         threshold = 0.2  # 定义一个阈值来识别相近区段
         min_values = []
 

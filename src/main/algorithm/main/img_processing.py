@@ -41,7 +41,7 @@ def find_verticalline(img):
             # 求该列像素均值，判断是否为白色
             mean = np.mean(img[:, i])
             if mean >= 240:  # 像素均值大于 230 判断为白色
-                print(f"分界线位置：{i}, 像素均值：{mean}", end="\n\n")
+                # print(f"分界线位置：{i}, 像素均值：{mean}", end="\n\n")
                 return i+1
     return -1  # 如果没有找到符合条件的分界线，则返回图像的宽度
 
@@ -58,7 +58,7 @@ def horizon_line(img):
             mean = np.mean(img[i, :])
             if mean <= 120:  # 如果像素均值小于等于 120，则认为该行是黑色的
                 lines_list.append(i)
-                print(f"分界线位置：{i}, 像素均值：{mean}", end="\n\n")
+                # print(f"分界线位置：{i}, 像素均值：{mean}", end="\n\n")
     return lines_list
 
 

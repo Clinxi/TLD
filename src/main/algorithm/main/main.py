@@ -46,11 +46,9 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
                                                thresh)]  # list[lackingDetectOut]
         void_result_list = [result for void_object in void_object_list for result in
                             void_object.detect()]  # List[VoidDefectResult]
-        # void_result_list=[]
+        void_result_list=[]
         steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
         # steel_result_list = []
-        # print("length lack list",len(lack_result_list))
-        # result=get_and_save_new_photo(input_original,lack_result_list)
         result = get_and_save_new_photo(input_original, void_result_list, lack_result_list, steel_result_list)
         # # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
         # result = DetectEventResultWithNewPhoto(
