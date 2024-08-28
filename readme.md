@@ -32,7 +32,7 @@ https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
 ![image](https://github.com/user-attachments/assets/886582ae-69ff-41c3-93fb-3a01cc15846e)
 ![image](https://github.com/user-attachments/assets/d693bbf8-427b-4abc-bbcf-467a463c66a7)
 4. 添加环境变量(可在安装时配置，勾选框中图片即可).
-![image](https://github.com/user-attachments/assets/551f2e1b-dacc-46d6-a118-c358371fd237)
+![image](https://github.com/user-attachments/assets/2b746b42-40d6-45aa-a7f4-27aca25be0a7)
 ### 根据系统环境选择项目主目录下的 .yml 文件
 #### linux环境——配置
 1. 进入项目目录后创建需要的python环境
