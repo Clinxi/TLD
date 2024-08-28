@@ -26,11 +26,11 @@ source ~/.bashrc
 1. 进入项目目录后创建需要的python环境
 ```shell
 cd path/to/TLD
-conda env create -f environment.yml
+conda env create -f linux_environment.yml
 ```
 2. 启动python环境
 ```shell
-conda activate defect_detect
+conda activate **defect_detect**(这里是自己定义环境名称-以defect_detect为例)
 ```
 3. 添加yolo环境包
 ```shell
