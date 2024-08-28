@@ -1,8 +1,7 @@
 # TLD项目后端使用及部署说明
 
 ---
-```toc
-```
+[TOC]
 
 ## Python环境配置
 本算法使用的是python, 因此需要配置对应的python环境
@@ -23,6 +22,13 @@ echo 'export PATH="path/to/anaconda3/bin:$PATH"'>>~/.bashrc
 source ~/.bashrc
 ```
 #### Window环境 下载安装
+
+- windows conda 安装参考链接 ![Miniconda 安装及使用for windows](https://blog.csdn.net/ming12131342/article/details/140233867)
+分以下步骤：
+1. 下载 conda 安装包并进行安装
+2. 添加环境变量（可在安装时配置，勾选框中图片即可）![image](https://github.com/user-attachments/assets/6ce25ad6-286d-4105-8cd0-de804fbd15ba)
+
+
 ### 根据系统环境选择项目主目录下的 .yml 文件
 #### linux环境——配置
 1. 进入项目目录后创建需要的python环境
