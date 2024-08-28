@@ -1,7 +1,8 @@
 # TLD项目后端使用及部署说明
 
 ---
-[TOC]
+```toc
+```
 
 ## python环境配置
 本算法使用的是python, 因此需要配置对应的python环境
@@ -38,6 +39,20 @@ cd path/to/TLD/src/main/algorithm/yolov10
 pip install -e .
 ```
 #### windows环境——配置
+1. 进入项目目录后创建需要的 python 环境
+```shell
+cd path/to/TLD
+conda create -n 环境名 python=3.9 -f windows_environment.yml
+```
+2. 启动python环境
+```shell
+conda activate 环境名
+```
+3. 添加yolo环境包
+```shell
+cd path/to/TLD/src/main/algorithm/yolov10
+pip install -e .
+```
 
 ## 后端
 
