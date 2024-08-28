@@ -23,7 +23,7 @@ source ~/.bashrc
 ```
 #### Window环境 下载安装
 
-- windows conda 安装参考链接 ![Miniconda 安装及使用for windows](https://blog.csdn.net/ming12131342/article/details/140233867)
+- windows conda 安装参考链接：[Miniconda 安装及使用for windows](https://blog.csdn.net/ming12131342/article/details/140233867)
 分以下步骤：
 1. 下载 conda 安装包并进行安装
 2. 添加环境变量（可在安装时配置，勾选框中图片即可）![image](https://github.com/user-attachments/assets/6ce25ad6-286d-4105-8cd0-de804fbd15ba)
