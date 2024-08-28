@@ -31,7 +31,7 @@ https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
 ![image](https://github.com/user-attachments/assets/8c25095b-153a-4c58-a6f5-fca6b1dcaf34)
 ![image](https://github.com/user-attachments/assets/886582ae-69ff-41c3-93fb-3a01cc15846e)
 ![image](https://github.com/user-attachments/assets/d693bbf8-427b-4abc-bbcf-467a463c66a7)
-4. 添加环境变量（可在安装时配置，勾选框中图片即可）
+4. 添加环境变量(可在安装时配置，勾选框中图片即可).
 ![image](https://github.com/user-attachments/assets/551f2e1b-dacc-46d6-a118-c358371fd237)
 ### 根据系统环境选择项目主目录下的 .yml 文件
 #### linux环境——配置
