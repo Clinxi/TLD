@@ -22,7 +22,7 @@ bash Anaconda3-5.0.1-Linux-x86_64.sh
 echo 'export PATH="path/to/anaconda3/bin:$PATH"'>>~/.bashrc
 source ~/.bashrc
 ```
-#### 配置环境
+#### linux环境——配置
 1. 进入项目目录后创建需要的python环境
 ```shell
 cd path/to/TLD
@@ -37,6 +37,8 @@ conda activate defect_detect
 cd path/to/TLD/src/main/algorithm/yolov10
 pip install -e .
 ```
+#### windows环境——配置
+
 ## 后端
 
 ### Jave+Maven
