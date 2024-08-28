@@ -4,11 +4,10 @@
 ```toc
 ```
 
-## python环境配置
+## Python环境配置
 本算法使用的是python, 因此需要配置对应的python环境
-### anaconda
-
-#### 非root用户安装
+### Anaconda下载安装
+#### Linux环境 非root用户安装
 1. 在以下地址进行下载:
 ```
 https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
@@ -23,6 +22,7 @@ bash Anaconda3-5.0.1-Linux-x86_64.sh
 echo 'export PATH="path/to/anaconda3/bin:$PATH"'>>~/.bashrc
 source ~/.bashrc
 ```
+### Window环境 下载安装
 ### 根据系统环境选择项目主目录下的 .yml 文件
 #### linux环境——配置
 1. 进入项目目录后创建需要的python环境
