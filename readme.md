@@ -23,11 +23,12 @@ source ~/.bashrc
 ```
 #### Window环境 下载安装
 
-- windows conda 安装参考链接：[Miniconda 安装及使用for windows](https://blog.csdn.net/ming12131342/article/details/140233867)
-分以下步骤：
-1. 下载 conda 安装包并进行安装
-2. 添加环境变量（可在安装时配置，勾选框中图片即可）![image](https://github.com/user-attachments/assets/6ce25ad6-286d-4105-8cd0-de804fbd15ba)
-
+1. 在以下地址进行下载:
+```
+https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
+```
+2. 根据所运行的windows架构对应下载 conda 安装包并进行安装，安装路径采用默认路径。
+3. 添加环境变量（可在安装时配置，勾选框中图片即可）![image](https://github.com/user-attachments/assets/6ce25ad6-286d-4105-8cd0-de804fbd15ba)
 
 ### 根据系统环境选择项目主目录下的 .yml 文件
 #### linux环境——配置
