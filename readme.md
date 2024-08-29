@@ -56,7 +56,7 @@ pip install -e .
 1. 进入项目目录后创建需要的 python 环境
 ```shell
 cd path/to/TLD
-conda create -n 环境名 python=3.9 -f windows_environment.yml
+conda env create -n 环境名 python=3.9 -f windows_environment.yml
 ```
 2. 启动python环境
 ```shell
