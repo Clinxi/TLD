@@ -103,7 +103,7 @@ export PATH=${MAVEN_HOME}/bin:$PATH
 #### Window环境 下载安装
 **java:**
 1. 去oracle官网下载jdk文件
- [jdk1.8下载地址](https://www.oracle.com/java/technologies/downloads/?er=221886#jdk22-windows)  
+ [jdk1.8下载地址](https://www.oracle.com/java/technologies/downloads/?er=221886#java8-windows)  
 2. 下载安装完毕后设置环境变量
 
  ![image](https://github.com/user-attachments/assets/f5b3fbb8-4463-4384-b6c3-7e1f7588af1f)
