@@ -72,7 +72,7 @@ pip install -e .
 
 ### Jave+Maven
 
-#### 非root用户安装
+#### Linux环境 非root用户安装
 **java:**
 1. 去oracle官网下载jdk文件
 2. 上传服务器然后解压
@@ -100,6 +100,64 @@ wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/3.9.5/binarie
 export MAVEN_HOME=path/to/apache-maven-3.9.5
 export PATH=${MAVEN_HOME}/bin:$PATH
 ```
+#### Window环境 下载安装
+**java:**
+1. 去oracle官网下载jdk文件
+ [jdk1.8下载地址](https://www.oracle.com/java/technologies/downloads/?er=221886#jdk22-windows)  
+2. 下载安装完毕后设置环境变量
+
+ ![image](https://github.com/user-attachments/assets/f5b3fbb8-4463-4384-b6c3-7e1f7588af1f)
+
+ 添加JAVA_HOME系统变量 ：变量值即是jdk的安装路径，本文安装在D:\Java\jdk-1.8，根据自己的安装路径修改即可.
+
+ ![image](https://github.com/user-attachments/assets/e7721cef-b7ad-4d22-9d15-3c539f9ffb57)
+
+ ![image](https://github.com/user-attachments/assets/90457ad0-90d6-470a-921d-69ec5f9ec776)
+
+ ![image](https://github.com/user-attachments/assets/573eeeff-7a0d-4ea3-a3a6-961b4bc0c6eb)
+ 
+ 在系统变量Path中新建增加下述两个变量
+ ```
+ %JAVA_HOME%\bin 
+ %JAVA_HOME%\jre\bin
+ ```
+ 设置完成后打开cmd检查是否成功
+
+![image](https://github.com/user-attachments/assets/b344f4a6-44f9-4202-928e-1784727eef91)
+
+**maven:**
+
+1.下载软件包
+
+ [maven3.9.5下载地址](https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/) 
+ 
+2.解压安装包，修改setting文件
+ ![image](https://github.com/user-attachments/assets/be789ab2-4c56-455d-881c-0b413e40dca8)
+ 
+ 搜索localRepository，添加maven仓库的位置。本文是在D盘下的.m文件夹下，创建的repository文件夹充当maven仓库。读者可以在非驱动盘外的任意位置创建maven仓库，将仓库路径按图示添入settings配置文件即可。
+ 
+ ![image](https://github.com/user-attachments/assets/699532d5-fe68-409d-810b-9f97f2e0b4ab)
+
+ 保存即可
+ 
+3.编辑环境变量
+ 
+ ![image](https://github.com/user-attachments/assets/49d8bf94-6393-4ff2-8980-74b1b6f67961)
+
+ ![image](https://github.com/user-attachments/assets/7c9d33d2-44a8-485e-be4f-928ec3345837)
+
+ 新建增加下述变量
+ ```
+ %MAVEN_HOME%\bin
+ ```
+
+ ![image](https://github.com/user-attachments/assets/ec3e6549-68c4-42f9-895b-185fee01468c)
+
+ 最后打开cmd输入mvn -version检查
+
+ ![image](https://github.com/user-attachments/assets/bb6e7584-b01d-4abe-aad7-e5c154ff4db5)
+
+ 
 
 ### 运行后端
 进入项目目录并运行后端
