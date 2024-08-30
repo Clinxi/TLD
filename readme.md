@@ -111,7 +111,12 @@ export PATH=${MAVEN_HOME}/bin:$PATH
  添加JAVA_HOME系统变量 ：变量值即是jdk的安装路径，本文安装在D:\Java\jdk-1.8，根据自己的安装路径修改即可.
 
  ![image](https://github.com/user-attachments/assets/e7721cef-b7ad-4d22-9d15-3c539f9ffb57)
-
+ 
+ 添加CLASSPATH系统变量，变量值为：
+ ```
+ .;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar
+ ```
+ 
  ![image](https://github.com/user-attachments/assets/90457ad0-90d6-470a-921d-69ec5f9ec776)
 
  ![image](https://github.com/user-attachments/assets/573eeeff-7a0d-4ea3-a3a6-961b4bc0c6eb)
