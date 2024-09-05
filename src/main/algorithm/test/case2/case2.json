@@ -6,26 +6,26 @@
     },
     "projectStandards": [
       {
-        "startingMileage": 282680,
-        "endingMileage": 282583,
+        "startingMileage": 286680,
+        "endingMileage": 286583,
         "standardSteelBarSpacing": 0,
         "standardThickness": 0.40
       },
       {
-        "startingMileage": 282583,
-        "endingMileage": 282562,
+        "startingMileage": 286583,
+        "endingMileage": 286562,
         "standardSteelBarSpacing": 0.333,
         "standardThickness": 0.40
       },
       {
-        "startingMileage": 282562,
-        "endingMileage": 282548,
+        "startingMileage": 286562,
+        "endingMileage": 286548,
         "standardSteelBarSpacing": 0,
         "standardThickness": 0.40
       },
       {
-        "startingMileage": 282548,
-        "endingMileage": 282520,
+        "startingMileage": 286548,
+        "endingMileage": 286520,
         "standardSteelBarSpacing": 0.333,
         "standardThickness": 0.40
       }

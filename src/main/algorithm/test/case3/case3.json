@@ -14,7 +14,7 @@
       {
         "startingMileage": 999254,
         "endingMileage": 999350,
-        "standardSteelBarSpacing": 0.20,
+        "standardSteelBarSpacing": 0,
         "standardThickness": 0.40
       }
     ]

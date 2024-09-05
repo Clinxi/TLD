@@ -99,8 +99,7 @@ if __name__ == "__main__":
     # -------------------------below is test code----------------------------- 
     # disable_print()
     enable_print()
-
-    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json"
+    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\case1.json"
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json
