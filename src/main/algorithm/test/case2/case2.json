@@ -1,15 +1,33 @@
 [
   {
     "detectOriginalPhoto": {
-      "originalPhotoAddress": "/home/zhangwh/PycharmProject/jsa_xhy_zwh/src/main/algorithm/test/case1/1-D2K282+890-700GD P_1.JPG",
-      "originalPhotoName": "1-D2K282+890-700GD P_1.JPG"
+      "originalPhotoAddress": "D:\\PycharmProjects\\TLD\\src\\main\\algorithm\\test\\case2\\2-D2K286+680-520GD P_1.JPG",
+      "originalPhotoName": "2-D2K286+680-520GD P_1.JPG"
     },
     "projectStandards": [
       {
-        "startingMileage": 282890,
-        "endingMileage": 282700,
+        "startingMileage": 282680,
+        "endingMileage": 282583,
         "standardSteelBarSpacing": 0,
-        "standardThickness": 0.60
+        "standardThickness": 0.40
+      },
+      {
+        "startingMileage": 282583,
+        "endingMileage": 282562,
+        "standardSteelBarSpacing": 0.333,
+        "standardThickness": 0.40
+      },
+      {
+        "startingMileage": 282562,
+        "endingMileage": 282548,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.40
+      },
+      {
+        "startingMileage": 282548,
+        "endingMileage": 282520,
+        "standardSteelBarSpacing": 0.333,
+        "standardThickness": 0.40
       }
     ]
   }

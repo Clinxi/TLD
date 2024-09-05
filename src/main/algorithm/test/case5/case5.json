@@ -1,0 +1,22 @@
+[
+  {
+    "detectOriginalPhoto": {
+      "originalPhotoAddress": "D:\\PycharmProjects\\TLD\\src\\main\\algorithm\\test\\case5\\005-DK27+725-DK27+325ZQ P_111.JPG",
+      "originalPhotoName": "005-DK27+725-DK27+325ZQ P_111.JPG"
+    },
+    "projectStandards": [
+      {
+        "startingMileage": 27725,
+        "endingMileage": 27700,
+        "standardSteelBarSpacing": 0.2,
+        "standardThickness": 0.45
+      },
+      {
+        "startingMileage": 27700,
+        "endingMileage": 27325,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.35
+      }
+    ]
+  }
+]

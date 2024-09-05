@@ -100,7 +100,12 @@ if __name__ == "__main__":
     # disable_print()
     enable_print()
 
-    json_file_path = r"/home/zhangwh/PycharmProject/jsa_xhy_zwh/src/main/algorithm/test/case2/case2.json"
+    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json"
+#D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
+#D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
+#D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json
+#D:\PycharmProjects\TLD\src\main\algorithm\test\case5\case5.json
+#D:\PycharmProjects\TLD\src\main\algorithm\test\case6\case6.json
     with open(json_file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     # print(type(data))

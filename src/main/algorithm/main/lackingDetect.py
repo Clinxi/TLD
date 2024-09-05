@@ -14,7 +14,7 @@ class lackingDetectIn:
 
     def detect(self, window_width, window_height, step_size, thresh):
         # y_min=280
-        y_min=(self.standardThickness-0.15)/self.vertical_resolution
+        y_min=(self.standardThickness-0.05)/self.vertical_resolution
         image = cv2.imread(self.imageAdress)
         h, w = image.shape[0], image.shape[1]
         black_regions = []

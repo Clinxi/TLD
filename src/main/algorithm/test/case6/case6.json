@@ -1,0 +1,34 @@
+[
+  {
+    "detectOriginalPhoto": {
+      "originalPhotoAddress": "D:\\PycharmProjects\\TLD\\src\\main\\algorithm\\test\\case6\\36-DK73+430-330GD P_1.JPG",
+      "originalPhotoName": "36-DK73+430-330GD P_1.JPG"
+    },
+    "projectStandards": [
+      {
+        "startingMileage": 73430,
+        "endingMileage": 73420,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.40
+      },
+      {
+        "startingMileage": 73420,
+        "endingMileage": 7390,
+        "standardSteelBarSpacing": 0.25,
+        "standardThickness": 0.45
+      },
+      {
+        "startingMileage": 73390,
+        "endingMileage": 73365,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.40
+      },
+      {
+        "startingMileage": 73365,
+        "endingMileage": 73330,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.40
+      }
+    ]
+  }
+]

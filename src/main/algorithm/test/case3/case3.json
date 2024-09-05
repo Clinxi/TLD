@@ -1,0 +1,22 @@
+[
+  {
+    "detectOriginalPhoto": {
+      "originalPhotoAddress": "D:\\PycharmProjects\\TLD\\src\\main\\algorithm\\test\\case3\\1-D2K999+150-D2K999+350-ZQ-12 P_1.JPG",
+      "originalPhotoName": "1-D2K999+150-D2K999+350-ZQ-12 P_1.JPG"
+    },
+    "projectStandards": [
+      {
+        "startingMileage": 999150,
+        "endingMileage": 999254,
+        "standardSteelBarSpacing": 0.20,
+        "standardThickness": 0.50
+      },
+      {
+        "startingMileage": 999254,
+        "endingMileage": 999350,
+        "standardSteelBarSpacing": 0.20,
+        "standardThickness": 0.40
+      }
+    ]
+  }
+]

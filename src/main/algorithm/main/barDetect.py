@@ -42,6 +42,9 @@ def cal_bar(model_path_list, img_pre):
 def image_to_tensor_cv(image_path, target_size=(224, 224)):
     # 1. 读取图像
     image = cv2.imread(image_path)  # OpenCV 默认以 BGR 读取图像
+    h = (image.shape[0] // 32) * 32 + 32
+    w = (image.shape[1] // 32) * 32 + 32
+    image = cv2.resize(image, (w, h), interpolation=cv2.INTER_LINEAR)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # 转换为 RGB
     # 3. 归一化像素值
     image = image / 255.0
@@ -83,9 +86,10 @@ class BarInfor():
         img = cv2.imread(self.imageAddress)
         img_pre = image_to_tensor_cv(self.imageAddress)
         count = cal_bar(model_path_list=model_path_list, img_pre=img_pre)
-
-        actualSpace = (self.endingMileage - self.startingMileage) / count
-        
+        if count!=0:
+            actualSpace = (self.endingMileage - self.startingMileage) / count
+        else:
+            actualSpace=0
         isDisease = False
         # print(f"count: {count}")
         # print(f"actualSpace: {actualSpace}")
