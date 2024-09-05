@@ -34,7 +34,7 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
         void_object_list = input_original.creat_void_example()
-
+        #lackDetect 函数参数
         window_width = 5
         window_height = 5
         step_size = 3
@@ -100,12 +100,14 @@ if __name__ == "__main__":
     # disable_print()
     enable_print()
 
-    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json"
+    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json"
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case5\case5.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case6\case6.json
+#D:\PycharmProjects\TLD\src\main\algorithm\test\case7\case7.json
+#D:\PycharmProjects\TLD\src\main\algorithm\test\case8\case8.json
     with open(json_file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     # print(type(data))

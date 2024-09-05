@@ -249,6 +249,7 @@ class ProcessOriginalPhoto:
                 data = self.image[self.original_line:, 65:-2]
                 split_start = int(abs(self.originalMileage - standard.startingMileage) / self.horizontal_resolution)
                 split_end = int(abs(self.originalMileage - standard.endingMileage) / self.horizontal_resolution)
+                # print("split_start,split_end",split_start,split_end)
                 splitpict = data[:, split_start:split_end]  # 选取所有行，截取列
                 directory_path = os.path.dirname(self.originalPhotoAddress)
                 folder_path = os.path.join(directory_path, "lackingdetect")
@@ -256,9 +257,14 @@ class ProcessOriginalPhoto:
                     os.makedirs(folder_path)
                 file_name = f"{standard.startingMileage}——{standard.endingMileage}.png"
                 file_path = os.path.join(folder_path, file_name)
-                # file_path = os.path.join(folder_path, str(standard.startingMileage), "——", str(standard.endingMileage), ".png")
-                if not cv2.imwrite(file_path, splitpict):
-                    print("fail save", file_path)
+                try:
+                    print(f"Saving image to: {file_path}, with shape: {splitpict.shape}")
+                    if not cv2.imwrite(file_path, splitpict):
+                        print(f"fail save {file_path}")
+                except Exception as e:
+                    print(f"Error saving image: {e}")
+                # if not cv2.imwrite(file_path, splitpict):
+                #     print("fail save", file_path)
                 lining_example = lD.lackingDetectIn(file_path, standard.startingMileage, standard.endingMileage,
                                                     standard.standardThickness, self.vertical_resolution,
                                                     self.horizontal_resolution)
