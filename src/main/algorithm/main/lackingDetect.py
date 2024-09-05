@@ -38,7 +38,10 @@ class lackingDetectIn:
         return finial_result
 
     def transxposition(self, x):
-        real_x = self.startingMileage + x * self.horizontal_resolution
+        if self.startingMileage<self.endingMileage:
+            real_x = self.startingMileage + x * self.horizontal_resolution
+        else:
+            real_x = self.startingMileage - x * self.horizontal_resolution
         revise_x = round(real_x, 3)
         return revise_x
     def optimize_result_list(self,result):

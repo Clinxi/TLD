@@ -38,7 +38,7 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         window_width = 5
         window_height = 5
         step_size = 3
-        thresh = 55  # 35
+        thresh = 40  # 35
 
         # 创建三种缺陷结果列表
         lack_result_list = [result for lack_object in lack_object_list for result in
@@ -46,8 +46,11 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
                                                thresh)]  # list[lackingDetectOut]
         void_result_list = [result for void_object in void_object_list for result in
                             void_object.detect()]  # List[VoidDefectResult]
+        # void_result_list=[]
         steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
         # steel_result_list = []
+        for lack_result in lack_result_list:
+            print("position",lack_result.diseaseStart )
         result = get_and_save_new_photo(input_original, void_result_list, lack_result_list, steel_result_list)
         # # 这里可以根据需要使用 projectStandards 列表进行额外的计算或检测
         # result = DetectEventResultWithNewPhoto(
@@ -99,7 +102,7 @@ if __name__ == "__main__":
     # -------------------------below is test code----------------------------- 
     # disable_print()
     enable_print()
-    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\case1.json"
+    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case5\case5.json"
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json
