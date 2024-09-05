@@ -1,0 +1,16 @@
+[
+  {
+    "detectOriginalPhoto": {
+      "originalPhotoAddress": "/home/zhangwh/PycharmProject/jsa_xhy_zwh/src/main/algorithm/test/case1/1-D2K282+890-700GD P_1.JPG",
+      "originalPhotoName": "1-D2K282+890-700GD P_1.JPG"
+    },
+    "projectStandards": [
+      {
+        "startingMileage": 282890,
+        "endingMileage": 282700,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.60
+      }
+    ]
+  }
+]

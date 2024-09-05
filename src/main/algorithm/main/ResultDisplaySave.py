@@ -14,6 +14,7 @@ class DefectResultDisplay:
         self.img_real_shape = [input_original.originalMileage, input_original.finialMileage, input_original.depth]
         self.img_pixel_shape = self.img.shape[:2]  # (height, width)
         self.original_photo_name = input_original.originalPhotoName
+        self.original_line = input_original.original_line
 
     def convert_coordinate(self, real_coordinate):
         """
@@ -23,11 +24,11 @@ class DefectResultDisplay:
         """
         # print(self.img_real_shape, self.img_pixel_shape)
         pixel_x_min = int(self.img_pixel_shape[1] * (real_coordinate[0] - self.img_real_shape[0]) / (
-                self.img_real_shape[1] - self.img_real_shape[0]))
+                self.img_real_shape[1] - self.img_real_shape[0])) + 64
         pixel_x_max = int(self.img_pixel_shape[1] * (real_coordinate[1] - self.img_real_shape[0]) / (
-                self.img_real_shape[1] - self.img_real_shape[0]))
-        pixel_y_min = int(self.img_pixel_shape[0] * real_coordinate[2] / self.img_real_shape[2])
-        pixel_y_max = int(self.img_pixel_shape[0] * real_coordinate[3] / self.img_real_shape[2])
+                self.img_real_shape[1] - self.img_real_shape[0])) + 64
+        pixel_y_min = int(self.img_pixel_shape[0] * real_coordinate[2] / self.img_real_shape[2]) + self.original_line
+        pixel_y_max = int(self.img_pixel_shape[0] * real_coordinate[3] / self.img_real_shape[2]) + self.original_line
 
         print(
             f"Real Coordinate: {real_coordinate} -> Pixel Coordinate: {(pixel_x_min, pixel_x_max, pixel_y_min, pixel_y_max)}")
