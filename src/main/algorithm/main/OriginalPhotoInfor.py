@@ -194,13 +194,29 @@ class ProcessOriginalPhoto:
                         # 如果剩余部分不足，则从右向左切取最后的window_pixel宽度
                         i = splitpict.shape[1] - window_pixel
                     sample = splitpict[:, i:i + window_pixel]
-                    file_name = f"{standard.startingMileage + n * 5}——{standard.startingMileage + n * 5 + 7}.png"
-                    file_path = os.path.join(folder_path, file_name)
-                    if not cv2.imwrite(file_path, sample):
-                        print("fail save ", file_path)
-                    barinfor_example = BarInfor(file_path, standard.startingMileage + n * 5,
-                                                standard.startingMileage + n * 5 + 7,
-                                                standard.standardSteelBarSpacing)
+                    if standard.startingMileage<standard.endingMileage:
+                        file_name = f"{standard.startingMileage + n * 5}——{standard.startingMileage + n * 5 + 7}.png"
+                        file_path = os.path.join(folder_path, file_name)
+                        if not cv2.imwrite(file_path, sample):
+                            print("fail save ", file_path)
+                        barinfor_example = BarInfor(file_path, standard.startingMileage + n * 5,
+                                                    standard.startingMileage + n * 5 + 7,
+                                                    standard.standardSteelBarSpacing)
+                    else:
+                        file_name = f"{standard.startingMileage - n * 5}——{standard.startingMileage - n * 5 - 7}.png"
+                        file_path = os.path.join(folder_path, file_name)
+                        if not cv2.imwrite(file_path, sample):
+                            print("fail save ", file_path)
+                        barinfor_example = BarInfor(file_path, standard.startingMileage - n * 5,
+                                                    standard.startingMileage - n * 5- 7,
+                                                    standard.standardSteelBarSpacing)
+
+
+                    # if not cv2.imwrite(file_path, sample):
+                    #     print("fail save ", file_path)
+                    # barinfor_example = BarInfor(file_path, standard.startingMileage + n * 5,
+                    #                             standard.startingMileage + n * 5 + 7,
+                    #                             standard.standardSteelBarSpacing)
                     steel_example_list.append(barinfor_example)
                     n += 1
         return steel_example_list
