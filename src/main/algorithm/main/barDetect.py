@@ -25,10 +25,9 @@ def postprocess(pred, conf_thres=0.25):
     return boxes
 
 
-def cal_bar(model_path_list, img_pre):
+def cal_bar(model_list, img_pre):
     max_count = 0
-    for model_path in model_path_list:
-        model = AutoBackend(weights=model_path)
+    for model in model_list:
         result = model(img_pre)['one2one'][0].transpose(-1, -2)  # 1,8400,84
         # print(result.shape)
         boxes = postprocess(result)
@@ -63,11 +62,19 @@ def image_to_tensor_cv(image_path, target_size=(224, 224)):
 
 # 缺筋检测算法输入
 class BarInfor():
-    def __init__(self, address, startingMileage, endingMileage, standardSteelBarSpacing):
+    def __init__(self, address, startingMileage, endingMileage, standardSteelBarSpacing,
+                 model_path_list=None):
+        if model_path_list is None:
+            model_path_list = ["src/main/algorithm/main/weights/bar_run4_last.pt",
+                               "src/main/algorithm/main/weights/bar_run5_last.pt",
+                               "src/main/algorithm/main/weights/bar_run11_last.pt",
+                               "src/main/algorithm/main/weights/bar_run17_last.pt"
+                               ]
         self.imageAddress = address  # 传给缺筋检测算法的图片位置
         self.startingMileage = startingMileage  # 检测图片的开始位置  
         self.endingMileage = endingMileage  # 检测图片的结束位置
         self.standardSteelBarSpacing = standardSteelBarSpacing  # 标准钢筋间距
+        self.model = [AutoBackend(weights=model_path) for model_path in model_path_list]
 
     def detect(self):
         pass
@@ -75,21 +82,21 @@ class BarInfor():
         #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run5_last.pt",
         #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run11_last.pt",
         #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run17_last.pt"]
-        model_path_list = ["src/main/algorithm/main/weights/bar_run4_last.pt",
-                           "src/main/algorithm/main/weights/bar_run5_last.pt",
-                           "src/main/algorithm/main/weights/bar_run11_last.pt",
-                           "src/main/algorithm/main/weights/bar_run17_last.pt"
-                           ]
+        # model_path_list = ["src/main/algorithm/main/weights/bar_run4_last.pt",
+        #                    "src/main/algorithm/main/weights/bar_run5_last.pt",
+        #                    "src/main/algorithm/main/weights/bar_run11_last.pt",
+        #                    "src/main/algorithm/main/weights/bar_run17_last.pt"
+        #                    ]
 
         diseaStart = self.startingMileage
         diseaEnd = self.endingMileage
         img = cv2.imread(self.imageAddress)
         img_pre = image_to_tensor_cv(self.imageAddress)
-        count = cal_bar(model_path_list=model_path_list, img_pre=img_pre)
-        if count!=0:
+        count = cal_bar(model_list=self.model, img_pre=img_pre)
+        if count != 0:
             actualSpace = (self.endingMileage - self.startingMileage) / count
         else:
-            actualSpace=0
+            actualSpace = 0
         isDisease = False
         # print(f"count: {count}")
         # print(f"actualSpace: {actualSpace}")
