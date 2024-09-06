@@ -8,6 +8,37 @@ from typing import List
 import uuid
 
 
+def merge_near_defect(results, mileage_threshold=0.5):
+    """
+    合并相近的缺陷
+    :param results: 空隙缺陷检测结果列表 list[VoidDefectResult]
+    :param mileage_threshold: 判定缺陷是否相近的里程阈值（默认0.5米）
+    :return: 合并后的空隙缺陷检测结果列表 list[VoidDefectResult]
+    """
+    if not results:
+        return results
+    # 按起始里程排序
+    results = sorted(results, key=lambda x: x.start_mileage)
+    merged_results = []
+    current_result = results[0]
+    for i in range(1, len(results)):
+        next_result = results[i]
+        # 如果下一个缺陷的起始里程与当前缺陷的终止里程很近，则将其合并
+        print(i, next_result.start_mileage - current_result.end_mileage)
+        if next_result.start_mileage - current_result.end_mileage <= mileage_threshold:
+            # 合并缺陷：取起始最小值，终止最大值，深度范围更新
+            current_result.end_mileage = max(current_result.end_mileage, next_result.end_mileage)
+            current_result.depth_min = min(current_result.depth_min, next_result.depth_min)
+            current_result.depth_max = max(current_result.depth_max, next_result.depth_max)
+        else:
+            # 当前缺陷已不能合并，保存当前结果并开始新的合并
+            merged_results.append(current_result)
+            current_result = next_result
+    # 保存最后一个合并后的结果
+    merged_results.append(current_result)
+    return merged_results
+
+
 class DefectResultDisplay:
     def __init__(self, input_original: ProcessOriginalPhoto):
         self.img = input_original.image
@@ -24,9 +55,9 @@ class DefectResultDisplay:
         """
         # print(self.img_real_shape, self.img_pixel_shape)
         pixel_x_min = int(self.img_pixel_shape[1] * (real_coordinate[0] - self.img_real_shape[0]) / (
-                self.img_real_shape[1] - self.img_real_shape[0])) + 64
+                self.img_real_shape[1] - self.img_real_shape[0])) + 32
         pixel_x_max = int(self.img_pixel_shape[1] * (real_coordinate[1] - self.img_real_shape[0]) / (
-                self.img_real_shape[1] - self.img_real_shape[0])) + 64
+                self.img_real_shape[1] - self.img_real_shape[0])) + 32
         pixel_y_min = int(self.img_pixel_shape[0] * real_coordinate[2] / self.img_real_shape[2]) + self.original_line
         pixel_y_max = int(self.img_pixel_shape[0] * real_coordinate[3] / self.img_real_shape[2]) + self.original_line
 
@@ -143,15 +174,18 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
 
     example.draw_lack_defects(lack_result_list)
     example.draw_steel_defects(steel_result_list)
+    # 合并相近的缺陷
+    void_result_list = merge_near_defect(void_result_list)
     example.draw_void_defects(void_result_list)
+    # print(void_result_list)
 
     new_photo_address, new_photo_name = example.display_and_save_result()
 
     disease_information_list = []
     for void_result in void_result_list:
         if void_result is not None:
-            result = DiseaseInformation(void_result.start_mileage.item(), void_result.end_mileage.item(),
-                                        void_result.depth_min.item(), void_result.defect_type)
+            result = DiseaseInformation(void_result.start_mileage, void_result.end_mileage,
+                                        void_result.depth_min, void_result.defect_type)
             disease_information_list.append(result)
 
     for steel_result in steel_result_list:

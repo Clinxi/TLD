@@ -47,8 +47,8 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         void_result_list = [result for void_object in void_object_list for result in
                             void_object.detect()]  # List[VoidDefectResult]
         # void_result_list=[]
-        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
-        # steel_result_list = []
+        # steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
+        steel_result_list = []
         for lack_result in lack_result_list:
             print("position",lack_result.diseaseStart )
         result = get_and_save_new_photo(input_original, void_result_list, lack_result_list, steel_result_list)
@@ -102,7 +102,8 @@ if __name__ == "__main__":
     # -------------------------below is test code----------------------------- 
     # disable_print()
     enable_print()
-    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case10\case10.json"
+
+    json_file_path = r"/home/zhangwh/PycharmProject/jsa_xhy_zwh/src/main/algorithm/test/case1/case1.json"
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json

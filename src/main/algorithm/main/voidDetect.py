@@ -3,28 +3,30 @@ from ultralytics import YOLOv10
 
 
 class VoidDefect:
-    def __init__(self, image_path, start_mileage, end_mileage, max_depth):
+    def __init__(self, image_path, start_mileage, end_mileage, max_depth,
+                 net=YOLOv10('src/main/algorithm/main/weights/void_best_0.587.pt')):
         """
         初始化空隙缺陷检测类
         :param image_path: 图片路径
         :param start_mileage: 起始里程
         :param end_mileage: 终止里程
         :param max_depth: 最大深度
+        :param net: 网络模型
         """
         self.image_path = image_path
         self.start_mileage = start_mileage
         self.end_mileage = end_mileage
         self.max_depth = max_depth
+        self.model = net
 
     def detect(self):
         """
         空隙缺陷检测
         :return: 空隙缺陷检测结果列表 list[VoidDefectResult]
         """
-        model = YOLOv10('src/main/algorithm/main/weights/void_best_0.587.pt')
         # model=YOLOv10(r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\void_best_0.587.pt")
-        predictions = model.predict(source=self.image_path, show=False, save=False, save_txt=False, classes=[0],
-                                    visualize=False,device=["cpu"])
+        predictions = self.model.predict(source=self.image_path, show=False, save=False, save_txt=False, classes=[0],
+                                         visualize=False, device=["cpu"])
         img_height, img_width = predictions[0].orig_shape
 
         results = []
@@ -35,8 +37,10 @@ class VoidDefect:
             void_depth_min = box[1] / img_height * self.max_depth
             void_depth_max = box[3] / img_height * self.max_depth
 
-            results.append(
-                VoidDefectResult(void_start, void_end, void_depth_min, void_depth_max, 'void'))
+            # 出去深度不符合要求的
+            if void_depth_min > 0.2 and void_depth_max - void_depth_min > 0.1:
+                results.append(
+                    VoidDefectResult(void_start, void_end, void_depth_min, void_depth_max, 'void'))
 
         return results
 
@@ -51,10 +55,10 @@ class VoidDefectResult:
         :param depth_max: 最大深度
         :param defect_type: 缺陷类型
         """
-        self.start_mileage = start_mileage
-        self.end_mileage = end_mileage
-        self.depth_min = depth_min
-        self.depth_max = depth_max
+        self.start_mileage = start_mileage.item()
+        self.end_mileage = end_mileage.item()
+        self.depth_min = depth_min.item()
+        self.depth_max = depth_max.item()
         self.defect_type = defect_type
 
     def __repr__(self):
@@ -79,7 +83,7 @@ if __name__ == '__main__':
 
     print(len(results))
     for result in results:
-        print(result.start_mileage, result.end_mileage, result.depth_min, result.depth_max, result.defect_type)
+        print(result.get_coordinates_list())
 
 # import cv2
 # import torch
