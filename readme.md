@@ -196,9 +196,10 @@ Json文件下配置
 You can view the test case file [here](./src/main/algorithm/test/case4/test.json).
 
 class DetectOriginalPhoto类设置
-![img_1.png](img_1.png)
+![img_1](https://github.com/user-attachments/assets/b8f56ec0-8278-408b-8985-f53e48b76a61)
 
 class ProjectStandard类设置
-![img_2.png](img_2.png)
+![img_2](https://github.com/user-attachments/assets/296f704b-58b3-4413-85c5-7f18272c016c)
+
 ## 测试案例
 
