@@ -26,10 +26,12 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
 
     for photo_with_standards in photo_with_standards_list:
         photo = photo_with_standards.detectOriginalPhoto
-        projectstandards = photo_with_standards.projectStandards
         input_original = ProcessOriginalPhoto(photo)
         # 大图获取信息
         input_original.get_basic_information()
+        projectstandards =input_original.filter_project_standards(photo_with_standards.projectStandards)
+        # for standards in projectstandards:
+        #     print("start end:",standards.startingMileage,standards.endingMileage)
         # 创建三个缺陷对象列表
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
@@ -102,7 +104,7 @@ if __name__ == "__main__":
     # -------------------------below is test code----------------------------- 
     # disable_print()
     enable_print()
-    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case10\case10.json"
+    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case4\test.json"
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json

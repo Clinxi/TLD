@@ -28,20 +28,25 @@ class DiseaseInformation:
 
 
 class DetectOriginalPhoto:
-    def __init__(self, originalPhotoAddress, originalPhotoName):
+    def __init__(self,detectOriginalPhotoId,originalPhotoAddress, originalPhotoName,detectEventId,remark):
+        self.detectOriginalPhotoId = detectOriginalPhotoId
         self.originalPhotoAddress = originalPhotoAddress
         self.originalPhotoName = originalPhotoName
+        self.detectEventId = detectEventId
+        self.remark = remark
 
     def __repr__(self):
         return f"DetectOriginalPhoto(originalPhotoAddress='{self.originalPhotoAddress}', originalPhotoName='{self.originalPhotoName}')"
 
 
 class ProjectStandard:
-    def __init__(self, startingMileage, endingMileage, standardSteelBarSpacing, standardThickness):
+    def __init__(self,projectStandardId,startingMileage, endingMileage, standardSteelBarSpacing, standardThickness,projectId):
+        self.projectStandardId=projectStandardId
         self.startingMileage = startingMileage
         self.endingMileage = endingMileage
         self.standardSteelBarSpacing = standardSteelBarSpacing
         self.standardThickness = standardThickness
+        self.projectId = projectId
 
     def __repr__(self):
         return (f"ProjectStandard(startingMileage={self.startingMileage}, "
@@ -170,9 +175,31 @@ class ProcessOriginalPhoto:
         black_lines = ip.find_black_horizontal_lines(vertical_position)
         vertical_resolution = ip.compute_vertical_resolution(self.depth, black_lines)
         self.vertical_resolution = vertical_resolution
+    def swap_mileage(self,projectStandars):
+        if self.originalMileage>self.finialMileage:
+            for standard in projectStandars:
+                if standard.startingMileage<standard.endingMileage:
+                    standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
+        elif self.originalMileage<self.finialMileage:
+            for standard in projectStandars:
+                if standard.startingMileage>standard.endingMileage:
+                    standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
+
+    def filter_project_standards(self, projectStandards):
+        self.swap_mileage(projectStandards)
+        if self.originalMileage > self.finialMileage:
+            projectStandards[:] = [standard for standard in projectStandards
+                                   if not (standard.endingMileage > self.originalMileage or
+                                           standard.startingMileage < self.finialMileage)]
+        elif self.originalMileage < self.finialMileage:
+            projectStandards[:] = [standard for standard in projectStandards
+                                   if not (standard.endingMileage < self.originalMileage or
+                                           standard.startingMileage > self.finialMileage)]
+        return projectStandards
 
     def create_steel_example(self, projectStandards):
         steel_example_list = []
+        # self.filter_project_standards(projectStandards)
         for standard in projectStandards:
             if standard.standardSteelBarSpacing != 0:
                 data = self.image[self.original_line:, 65:-2]
@@ -259,6 +286,7 @@ class ProcessOriginalPhoto:
         return result
 
     def create_lacking_example(self, projectStandards):
+        # self.filter_project_standards(projectStandards)
         lacking_example_list = []
         for standard in projectStandards:
             if standard.standardSteelBarSpacing == 0:
