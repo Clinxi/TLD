@@ -186,11 +186,11 @@ TLD/src/main/java/org/zjuvipa/entity/APhotoWithStandards.java
 TLD/src/main/java/org/zjuvipa/entity/DetectOriginalPhoto.java
 TLD/src/main/java/org/zjuvipa/entity/ProjectStandard.java
 ```
-##后端添加字段处理方式
+## 后端添加字段处理方式
 配置java后需要更改OrignalPhotoInfor.py下的class DetectOriginalPhoto和class ProjectStandard这两个类__init__函数
 注意定义顺序和变量名称需要跟接受到的JSON内的字段顺序和名称相一致。
 
-###示例图如下
+### 示例图如下
 
 Json文件下配置
 ![img.png](img.png)
