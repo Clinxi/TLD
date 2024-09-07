@@ -193,8 +193,7 @@ TLD/src/main/java/org/zjuvipa/entity/ProjectStandard.java
 ### 示例图如下
 
 Json文件下配置
-
-![img.png](img.png)
+You can view the test case file [here](./src/main/algorithm/test/case4/test.json).
 
 class DetectOriginalPhoto类设置
 ![img_1.png](img_1.png)
