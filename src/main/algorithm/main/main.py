@@ -93,29 +93,37 @@ def test(photos_with_standards_json):
 
 
 if __name__ == "__main__":
-    # # 从标准输入读取 JSON 字符串
+    # 从标准输入读取 JSON 字符串
 
     # input_json = sys.stdin.read()
-
+    #
     # # # 调用 main 函数处理输入数据并输出结果
     # output = main(input_json)
     # print(json.dumps(output))
-
-    # -------------------------below is test code----------------------------- 
+    input_data = sys.stdin.read()
+    if input_data:
+        try:
+            photos_with_standards = json.loads(input_data)
+            # 处理数据逻辑
+            print(json.dumps([{"result": "success"}]))  # 返回结果
+        except Exception as e:
+            print(f"Error processing input: {str(e)}", file=sys.stderr)
+            sys.exit(1)
+    # -------------------------below is test code-----------------------------
     # disable_print()
-    enable_print()
-    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case4\test.json"
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case5\case5.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case6\case6.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case7\case7.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case8\case8.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case9\case9.json
-    with open(json_file_path, 'r', encoding='utf-8') as file:
-        data = json.load(file)
-    # print(type(data))
-    output = test(data)
-    # enable_print()
-    print(output)
+#     enable_print()
+#     json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case4\test.json"
+# #D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
+# #D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
+# #D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json
+# #D:\PycharmProjects\TLD\src\main\algorithm\test\case5\case5.json
+# #D:\PycharmProjects\TLD\src\main\algorithm\test\case6\case6.json
+# #D:\PycharmProjects\TLD\src\main\algorithm\test\case7\case7.json
+# #D:\PycharmProjects\TLD\src\main\algorithm\test\case8\case8.json
+# #D:\PycharmProjects\TLD\src\main\algorithm\test\case9\case9.json
+#     with open(json_file_path, 'r', encoding='utf-8') as file:
+#         data = json.load(file)
+#     # print(type(data))
+#     output = test(data)
+#     # enable_print()
+#     print(output)

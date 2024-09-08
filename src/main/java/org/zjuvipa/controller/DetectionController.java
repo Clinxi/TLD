@@ -16,26 +16,51 @@ import org.zjuvipa.util.PythonCallerUtil;
 
 import java.util.List;
 
+// @RestController
+// // @RequestMapping("/api")
+// public class DetectionController {
+//
+// //     @PostMapping("/detect")
+//     public ResponseEntity<?> detectImages(@RequestBody List<APhotoWithStandards> photoWithStandardsList) {
+//         try {
+//             // 解析请求数据
+//
+//             // 转换数据为 JSON 字符串
+//             String photosWithStandardsJson = new ObjectMapper().writeValueAsString(photoWithStandardsList);
+//
+//             // 调用 Python 检测脚本
+//             List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
+//
+//             // 返回检测结果
+//             return ResponseEntity.ok(results);
+//         } catch (Exception e) {
+//             // 处理异常情况
+//             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
+//         }
+//     }
+// }
 @RestController
-@RequestMapping("/api")
-public class DetectionController {
+public class DetectController {
 
-    @PostMapping("/detect")
-    public ResponseEntity<?> detectImages(@RequestBody List<APhotoWithStandards> photoWithStandardsList) {
-        try {
-            // 解析请求数据
+    @PostMapping("/api/detect")
+    public ResponseEntity<String> detect(@RequestBody List<APhotoWithStandards> data) {
+        System.out.println("Received data: " + data);
+        // 处理逻辑
+         try {
+                    // 解析请求数据
 
-            // 转换数据为 JSON 字符串
-            String photosWithStandardsJson = new ObjectMapper().writeValueAsString(photoWithStandardsList);
+                    // 转换数据为 JSON 字符串
+                    String photosWithStandardsJson = new ObjectMapper().writeValueAsString(photoWithStandardsList);
 
-            // 调用 Python 检测脚本
-            List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
+                    // 调用 Python 检测脚本
+                    List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
 
-            // 返回检测结果
-            return ResponseEntity.ok(results);
-        } catch (Exception e) {
-            // 处理异常情况
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-        }
+                    // 返回检测结果
+                    return ResponseEntity.ok(results);
+                } catch (Exception e) {
+                    // 处理异常情况
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
+                }
+        return ResponseEntity.ok("Detection successful");
     }
 }
