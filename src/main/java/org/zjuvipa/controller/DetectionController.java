@@ -40,27 +40,34 @@ import java.util.List;
 //     }
 // }
 @RestController
-public class DetectController {
+public class DetectionController {
 
     @PostMapping("/api/detect")
-    public ResponseEntity<String> detect(@RequestBody List<APhotoWithStandards> data) {
+    public ResponseEntity<List<DetectEventResultWithNewPhoto>> detect(@RequestBody List<APhotoWithStandards> data) {
         System.out.println("Received data: " + data);
-        // 处理逻辑
-         try {
-                    // 解析请求数据
+        try {
+            // 将接收到的数据转换为 JSON 字符串
+            ObjectMapper objectMapper = new ObjectMapper();
+            String photosWithStandardsJson = objectMapper.writeValueAsString(data);
+            System.out.println("Converted JSON: " + photosWithStandardsJson);
 
-                    // 转换数据为 JSON 字符串
-                    String photosWithStandardsJson = new ObjectMapper().writeValueAsString(photoWithStandardsList);
+            // 调用 Python 检测脚本
+            List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
+            System.out.println("Detection results: " + results);
 
-                    // 调用 Python 检测脚本
-                    List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
+            // 检查结果是否为空
+            if (results == null || results.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(results);
+            }
 
-                    // 返回检测结果
-                    return ResponseEntity.ok(results);
-                } catch (Exception e) {
-                    // 处理异常情况
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-                }
-        return ResponseEntity.ok("Detection successful");
+            // 返回检测结果
+            return ResponseEntity.ok(results);
+        } catch (Exception e) {
+            // 打印异常堆栈
+            e.printStackTrace();
+            // 处理异常情况
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(null);
+        }
     }
 }
