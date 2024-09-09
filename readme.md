@@ -170,6 +170,11 @@ export PATH=${MAVEN_HOME}/bin:$PATH
 cd path/to/TLD
 mvn spring-boot:run
 ```
+在项目目录下再新建一个终端
+```
+cd path/to/TLD
+mvn exec:java  
+```
 
 ## 输入端要求
 可以根据以下目录下的具体例子来明确要求:
