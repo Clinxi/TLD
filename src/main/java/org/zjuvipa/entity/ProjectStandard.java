@@ -56,6 +56,12 @@ public class ProjectStandard {
     public void setStandardThickness(float standardThickness) {
         this.standardThickness = standardThickness;
     }
+    public Integer getProjectId() {
+        return projectId;
+    }
+    public void setProjectId(Integer projectId) {
+            this.projectId = projectId;
+        }
 
     @Override
     public String toString() {
