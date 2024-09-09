@@ -17,12 +17,12 @@ public class Client {
     public static void main(String[] args) {
         RestTemplate restTemplate = new RestTemplate();
 
-        DetectOriginalPhoto photo1 = new DetectOriginalPhoto("src/main/algorithm/test/case1/3-DK324+390-535GD P_1.JPG", "3-DK324+390-535GD P_1.JPG");
+        DetectOriginalPhoto photo1 = new DetectOriginalPhoto(123,"src/main/algorithm/test/case1/3-DK324+390-535GD P_1.JPG", "3-DK324+390-535GD P_1.JPG",123,"abdc");
 
         List<ProjectStandard> standards1 = new ArrayList<>();
-        standards1.add(new ProjectStandard(324390f, 324450f, 0f, 0.3f));
-        standards1.add(new ProjectStandard(324450f, 324504f, 0.333f, 0.4f));
-        standards1.add(new ProjectStandard(324504f, 324535f, 0.25f, 0.5f));
+        standards1.add(new ProjectStandard(123213,324390f, 324450f, 0f, 0.3f,123213));
+        standards1.add(new ProjectStandard(123213,324450f, 324504f, 0.333f, 0.4f,123213));
+        standards1.add(new ProjectStandard(123213,324504f, 324535f, 0.25f, 0.5f,123213));
 
         APhotoWithStandards aPhotoWithStandards1 = new APhotoWithStandards(photo1, standards1);
 

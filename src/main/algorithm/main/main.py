@@ -95,20 +95,12 @@ def test(photos_with_standards_json):
 if __name__ == "__main__":
     # 从标准输入读取 JSON 字符串
 
-    # input_json = sys.stdin.read()
-    #
-    # # # 调用 main 函数处理输入数据并输出结果
-    # output = main(input_json)
-    # print(json.dumps(output))
-    input_data = sys.stdin.read()
-    if input_data:
-        try:
-            photos_with_standards = json.loads(input_data)
-            # 处理数据逻辑
-            print(json.dumps([{"result": "success"}]))  # 返回结果
-        except Exception as e:
-            print(f"Error processing input: {str(e)}", file=sys.stderr)
-            sys.exit(1)
+    input_json = sys.stdin.read()
+
+    # # 调用 main 函数处理输入数据并输出结果
+    output = main(input_json)
+    print(json.dumps(output))
+
     # -------------------------below is test code-----------------------------
     # disable_print()
 #     enable_print()

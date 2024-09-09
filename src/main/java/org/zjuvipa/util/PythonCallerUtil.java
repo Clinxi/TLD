@@ -13,7 +13,7 @@ public class PythonCallerUtil {
     public static List<DetectEventResultWithNewPhoto> callPythonDetection(String photosWithStandardsJson) throws IOException, InterruptedException {
         // 构建命令
         String scriptPath = "src/main/algorithm/main/main.py";
-        
+
         ProcessBuilder processBuilder = new ProcessBuilder("python", scriptPath);
 
         // 启动进程
@@ -30,14 +30,14 @@ public class PythonCallerUtil {
         while ((line = reader.readLine()) != null) {
             if (line.trim().startsWith("[{") ){
                 output.append(line);
-            }   
+            }
         }
         // while ((line = reader.readLine()) != null) {
         //     if (line.trim().startsWith("{") && line.trim().endsWith("}")) { // 过滤有效的 JSON 输出
         //         output.append(line);
         //     }
         // }
-        
+
         int exitCode = process.waitFor();
         if (exitCode != 0) {
             throw new RuntimeException("Python script exited with error code: " + exitCode);
@@ -47,6 +47,39 @@ public class PythonCallerUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(output.toString(), objectMapper.getTypeFactory().constructCollectionType(List.class, DetectEventResultWithNewPhoto.class));
     }
+//         public static List<DetectEventResultWithNewPhoto> callPythonDetection(String photosWithStandardsJson) throws IOException, InterruptedException {
+//             String scriptPath = "src/main/algorithm/main/main.py";
+//
+//             ProcessBuilder processBuilder = new ProcessBuilder("python", scriptPath);
+//
+//             // 启动进程
+//             Process process = processBuilder.start();
+//
+//             // 向Python脚本传递输入
+//             process.getOutputStream().write(photosWithStandardsJson.getBytes());
+//             process.getOutputStream().flush();
+//             process.getOutputStream().close();
+//
+//             // 捕获并打印 Python 脚本输出
+//             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//             StringBuilder output = new StringBuilder();
+//             String line;
+//             while ((line = reader.readLine()) != null) {
+//                 System.out.println("Python output: " + line);  // 添加日志，打印每一行输出
+//                 output.append(line);
+//             }
+//
+//             // 检查是否有错误输出
+//             int exitCode = process.waitFor();
+//             if (exitCode != 0) {
+//                 throw new RuntimeException("Python script exited with error code: " + exitCode);
+//             }
+//
+//             // 将 Python 输出的 JSON 字符串转换为 Java 对象
+//             ObjectMapper objectMapper = new ObjectMapper();
+//             return objectMapper.readValue(output.toString(), objectMapper.getTypeFactory().constructCollectionType(List.class, DetectEventResultWithNewPhoto.class));
+//         }
+
 
     public static void main(String[] args) {
         // 假设有JSON数据传递给Python脚本

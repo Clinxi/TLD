@@ -44,30 +44,25 @@ public class DetectionController {
 
     @PostMapping("/api/detect")
     public ResponseEntity<List<DetectEventResultWithNewPhoto>> detect(@RequestBody List<APhotoWithStandards> data) {
-        System.out.println("Received data: " + data);
         try {
             // 将接收到的数据转换为 JSON 字符串
             ObjectMapper objectMapper = new ObjectMapper();
             String photosWithStandardsJson = objectMapper.writeValueAsString(data);
             System.out.println("Converted JSON: " + photosWithStandardsJson);
 
-            // 调用 Python 检测脚本
+            // 调用 Python 脚本
             List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
             System.out.println("Detection results: " + results);
 
-            // 检查结果是否为空
-            if (results == null || results.isEmpty()) {
+            // 返回结果，确保结果非空
+            if (results != null && !results.isEmpty()) {
+                return ResponseEntity.ok(results);
+            } else {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(results);
             }
-
-            // 返回检测结果
-            return ResponseEntity.ok(results);
         } catch (Exception e) {
-            // 打印异常堆栈
             e.printStackTrace();
-            // 处理异常情况
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }
