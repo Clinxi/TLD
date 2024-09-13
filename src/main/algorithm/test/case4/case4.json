@@ -2,7 +2,7 @@
   {
     "detectOriginalPhoto": {
       "detectOriginalPhotoId": 123,
-      "originalPhotoAddress": "D:\\PycharmProjects\\TLD\\src\\main\\algorithm\\test\\case4\\16-D3K320+320-530GD P_1.JPG",
+      "originalPhotoAddress": "src\\main\\algorithm\\test\\case4\\16-D3K320+320-530GD P_1.JPG",
       "originalPhotoName": "16-D3K320+320-530GD P_1.JPG",
       "detectEventId": 123,
       "remark": "12312"

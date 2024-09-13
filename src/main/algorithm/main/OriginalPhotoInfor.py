@@ -28,7 +28,7 @@ class DiseaseInformation:
 
 
 class DetectOriginalPhoto:
-    def __init__(self,detectOriginalPhotoId,originalPhotoAddress, originalPhotoName,detectEventId,remark):
+    def __init__(self, detectOriginalPhotoId, originalPhotoAddress, originalPhotoName, detectEventId, remark):
         self.detectOriginalPhotoId = detectOriginalPhotoId
         self.originalPhotoAddress = originalPhotoAddress
         self.originalPhotoName = originalPhotoName
@@ -40,8 +40,9 @@ class DetectOriginalPhoto:
 
 
 class ProjectStandard:
-    def __init__(self,projectStandardId,startingMileage, endingMileage, standardSteelBarSpacing, standardThickness,projectId):
-        self.projectStandardId=projectStandardId
+    def __init__(self, projectStandardId, startingMileage, endingMileage, standardSteelBarSpacing, standardThickness,
+                 projectId):
+        self.projectStandardId = projectStandardId
         self.startingMileage = startingMileage
         self.endingMileage = endingMileage
         self.standardSteelBarSpacing = standardSteelBarSpacing
@@ -175,14 +176,15 @@ class ProcessOriginalPhoto:
         black_lines = ip.find_black_horizontal_lines(vertical_position)
         vertical_resolution = ip.compute_vertical_resolution(self.depth, black_lines)
         self.vertical_resolution = vertical_resolution
-    def swap_mileage(self,projectStandars):
-        if self.originalMileage>self.finialMileage:
+
+    def swap_mileage(self, projectStandars):
+        if self.originalMileage > self.finialMileage:
             for standard in projectStandars:
-                if standard.startingMileage<standard.endingMileage:
+                if standard.startingMileage < standard.endingMileage:
                     standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
-        elif self.originalMileage<self.finialMileage:
+        elif self.originalMileage < self.finialMileage:
             for standard in projectStandars:
-                if standard.startingMileage>standard.endingMileage:
+                if standard.startingMileage > standard.endingMileage:
                     standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
 
     def filter_project_standards(self, projectStandards):
@@ -221,7 +223,7 @@ class ProcessOriginalPhoto:
                         # 如果剩余部分不足，则从右向左切取最后的window_pixel宽度
                         i = splitpict.shape[1] - window_pixel
                     sample = splitpict[:, i:i + window_pixel]
-                    if standard.startingMileage<standard.endingMileage:
+                    if standard.startingMileage < standard.endingMileage:
                         file_name = f"{standard.startingMileage + n * 5}——{standard.startingMileage + n * 5 + 7}.png"
                         file_path = os.path.join(folder_path, file_name)
                         if not cv2.imwrite(file_path, sample):
@@ -235,9 +237,8 @@ class ProcessOriginalPhoto:
                         if not cv2.imwrite(file_path, sample):
                             print("fail save ", file_path)
                         barinfor_example = BarInfor(file_path, standard.startingMileage - n * 5,
-                                                    standard.startingMileage - n * 5- 7,
+                                                    standard.startingMileage - n * 5 - 7,
                                                     standard.standardSteelBarSpacing)
-
 
                     # if not cv2.imwrite(file_path, sample):
                     #     print("fail save ", file_path)
