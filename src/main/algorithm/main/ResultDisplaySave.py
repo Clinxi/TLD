@@ -54,9 +54,9 @@ class DefectResultDisplay:
         """
         # print(self.img_real_shape, self.img_pixel_shape)
         pixel_x_min = int(self.img_pixel_shape[1] * (real_coordinate[0] - self.img_real_shape[0]) / (
-                self.img_real_shape[1] - self.img_real_shape[0])) + 32
+                self.img_real_shape[1] - self.img_real_shape[0])) + 64
         pixel_x_max = int(self.img_pixel_shape[1] * (real_coordinate[1] - self.img_real_shape[0]) / (
-                self.img_real_shape[1] - self.img_real_shape[0])) + 32
+                self.img_real_shape[1] - self.img_real_shape[0])) + 64
         pixel_y_min = int(self.img_pixel_shape[0] * real_coordinate[2] / self.img_real_shape[2]) + self.original_line
         pixel_y_max = int(self.img_pixel_shape[0] * real_coordinate[3] / self.img_real_shape[2]) + self.original_line
 
@@ -128,6 +128,41 @@ class DefectResultDisplay:
 
         return save_path, new_photo_name
 
+    def filter_void_defect(self, void_result_list, threshold=100):
+        """
+        对脱空缺陷进行大津法筛选
+        :param void_result_list: 空洞检测结果列表
+        :param threshold: 大津法阈值
+        :return: 筛选后的空洞检测结果列表
+        """
+        result_list = []
+        void_pixel_coordinates = self.get_pixel_coordinates(void_result_list,
+                                                            lambda x: x.get_coordinates_list())
+        # 计算全局阈值
+        gray_img = cv2.cvtColor(self.img[self.original_line:, 64:], cv2.COLOR_BGR2GRAY)
+        gray_img = cv2.blur(gray_img, (25, 25))  # 低通滤波
+        global_threshold = cv2.threshold(gray_img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[0]
+        print(f"Global Threshold: {global_threshold}")
+        # 计算全局方差
+        global_variance = cv2.Laplacian(gray_img, cv2.CV_64F).var()
+        print(f"Global Variance: {global_variance}")
+        # 进行大津法筛选
+        for i in range(len(void_pixel_coordinates)):
+            # 灰度化
+            gray_img = cv2.cvtColor(self.img[void_pixel_coordinates[i][2]:void_pixel_coordinates[i][3],
+                                    void_pixel_coordinates[i][0]:void_pixel_coordinates[i][1]], cv2.COLOR_BGR2GRAY)
+            gray_roi = cv2.blur(gray_img, (25, 25))  # 低通滤波
+            # 计算局部阈值
+            local_threshold = cv2.threshold(gray_roi, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[0]
+            print(f"Local Threshold: {local_threshold}")
+            # 计算局部方差
+            local_variance = cv2.Laplacian(gray_roi, cv2.CV_64F).var()
+            print(f"Local Variance: {local_variance}")
+            if local_variance > global_variance:
+                result_list.append(void_result_list[i])
+
+        return result_list
+
 
 # def draw_zigzag_line(self, start_point, end_point, segment_length=20, amplitude=10, color=(255, 0, 0), thickness=2):
 #     """
@@ -173,6 +208,7 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     example.draw_lack_defects(lack_result_list)
     example.draw_steel_defects(steel_result_list)
     void_result_list = merge_near_defect(void_result_list)  # 合并相近的脱空缺陷
+    void_result_list = example.filter_void_defect(void_result_list, threshold=140)  # 进行大津法筛选
     example.draw_void_defects(void_result_list)
     # print(void_result_list)
 

@@ -4,7 +4,7 @@ from ultralytics import YOLOv10
 
 class VoidDefect:
     def __init__(self, image_path, start_mileage, end_mileage, max_depth,
-                 net=YOLOv10('src/main/algorithm/main/weights/void_best_0.587.pt')):
+                 net=YOLOv10('src/main/algorithm/main/weights/best_x3.pt')):
         """
         初始化空隙缺陷检测类
         :param image_path: 图片路径
@@ -24,23 +24,32 @@ class VoidDefect:
         空隙缺陷检测
         :return: 空隙缺陷检测结果列表 list[VoidDefectResult]
         """
-        # model=YOLOv10(r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\void_best_0.587.pt")
-        predictions = self.model.predict(source=self.image_path, show=False, save=False, save_txt=False, classes=[0],
+        # 使用 YOLOv10 模型进行预测
+        predictions = self.model.predict(source=self.image_path, show=False, save=False, save_txt=False, classes=[1],
                                          visualize=False, device=["cpu"])
         img_height, img_width = predictions[0].orig_shape
 
-        results = []
-        for box in predictions[0].boxes.xyxy:
-            # 计算实际的里程
-            void_start = self.start_mileage + box[0] / img_width * (self.end_mileage - self.start_mileage)
-            void_end = self.start_mileage + box[2] / img_width * (self.end_mileage - self.start_mileage)
-            void_depth_min = box[1] / img_height * self.max_depth
-            void_depth_max = box[3] / img_height * self.max_depth
+        # # 打印检测类别，确保只处理类别 0 的情况
+        # print("----------")
+        # print(predictions[0].boxes.cls)
+        # print("----------")
 
-            # 出去深度不符合要求的
-            if void_depth_min > 0.2 and void_depth_max - void_depth_min > 0.1:
-                results.append(
-                    VoidDefectResult(void_start, void_end, void_depth_min, void_depth_max, 'void'))
+        results = []
+
+        # 遍历预测结果中的框，只处理类别 0 的框
+        for i, box in enumerate(predictions[0].boxes.xyxy):
+            # 只处理标签为 0 的框
+            if predictions[0].boxes.cls[i] == 1:
+                # 计算实际的里程
+                void_start = self.start_mileage + box[0] / img_width * (self.end_mileage - self.start_mileage)
+                void_end = self.start_mileage + box[2] / img_width * (self.end_mileage - self.start_mileage)
+                void_depth_min = box[1] / img_height * self.max_depth
+                void_depth_max = box[3] / img_height * self.max_depth
+
+                # 过滤掉深度不符合要求的框
+                if 0.2 < void_depth_max < 1 and void_depth_max - void_depth_min > 0.1:
+                    results.append(
+                        VoidDefectResult(void_start, void_end, void_depth_min, void_depth_max, 'void'))
 
         return results
 
@@ -76,7 +85,7 @@ class VoidDefectResult:
 if __name__ == '__main__':
 
     example = VoidDefect(
-        "/home/zhangwh/PycharmProject/yolov10/ultralytics/cfg/datasets/image_D2K282+890-700GD/image_D2K282+890-700GD_10.PNG",
+        "/home/zhangwh/PycharmProject/yolov10/ultralytics/cfg/datasets/image_D2K282+890-700GD/image_D2K282+890-700GD_14.PNG",
         0, 1000, 50)
 
     results = example.detect()
