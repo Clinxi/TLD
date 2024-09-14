@@ -17,10 +17,10 @@ import org.zjuvipa.util.PythonCallerUtil;
 import java.util.List;
 
 @RestController
-// @RequestMapping("/api")
+@RequestMapping("/api")
 public class DetectionController {
 
-//     @PostMapping("/detect")
+    @PostMapping("/detect")
     public ResponseEntity<?> detectImages(@RequestBody List<APhotoWithStandards> photoWithStandardsList) {
         try {
             // 解析请求数据
