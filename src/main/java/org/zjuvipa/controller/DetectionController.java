@@ -39,30 +39,56 @@ import java.util.List;
 //         }
 //     }
 // }
+
 @RestController
+@RequestMapping("/api")
 public class DetectionController {
 
-    @PostMapping("/api/detect")
-    public ResponseEntity<List<DetectEventResultWithNewPhoto>> detect(@RequestBody List<APhotoWithStandards> data) {
-        try {
-            // 将接收到的数据转换为 JSON 字符串
-            ObjectMapper objectMapper = new ObjectMapper();
-            String photosWithStandardsJson = objectMapper.writeValueAsString(data);
-            System.out.println("Converted JSON: " + photosWithStandardsJson);
+    private final TaskQueueManager taskQueueManager = new TaskQueueManager();
 
-            // 调用 Python 脚本
-            List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
-            System.out.println("Detection results: " + results);
+    @PostMapping("/detect")
+    public ResponseEntity<?> submitDetectionTask(@RequestBody List<APhotoWithStandards> data) {
+        String taskId = taskQueueManager.submitTask(data);
+        return ResponseEntity.ok(Map.of("taskId", taskId));
+    }
 
-            // 返回结果，确保结果非空
-            if (results != null && !results.isEmpty()) {
-                return ResponseEntity.ok(results);
-            } else {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(results);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    @GetMapping("/status/{taskId}")
+    public ResponseEntity<?> getTaskStatus(@PathVariable String taskId) {
+        DetectionTask task = taskQueueManager.getTask(taskId);
+        if (task == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("任务不存在");
         }
+        if ("完成".equals(task.getStatus())) {
+            return ResponseEntity.ok(Map.of("status", task.getStatus(), "result", task.getResult()));
+        }
+        return ResponseEntity.ok(Map.of("status", task.getStatus()));
     }
 }
+
+// @RestController
+// public class DetectionController {
+//
+//     @PostMapping("/api/detect")
+//     public ResponseEntity<List<DetectEventResultWithNewPhoto>> detect(@RequestBody List<APhotoWithStandards> data) {
+//         try {
+//             // 将接收到的数据转换为 JSON 字符串
+//             ObjectMapper objectMapper = new ObjectMapper();
+//             String photosWithStandardsJson = objectMapper.writeValueAsString(data);
+//             System.out.println("Converted JSON: " + photosWithStandardsJson);
+//
+//             // 调用 Python 脚本
+//             List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
+//             System.out.println("Detection results: " + results);
+//
+//             // 返回结果，确保结果非空
+//             if (results != null && !results.isEmpty()) {
+//                 return ResponseEntity.ok(results);
+//             } else {
+//                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(results);
+//             }
+//         } catch (Exception e) {
+//             e.printStackTrace();
+//             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//         }
+//     }
+// }

@@ -30,8 +30,8 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         # 大图获取信息
         input_original.get_basic_information()
         projectstandards = input_original.filter_project_standards(photo_with_standards.projectStandards)
-        # for standards in projectstandards:
-        #     print("start end:",standards.startingMileage,standards.endingMileage)
+        for standards in projectstandards:
+            print("start end:",standards.startingMileage,standards.endingMileage)
         # 创建三个缺陷对象列表
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
@@ -43,14 +43,15 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         thresh = 40  # 35
 
         # 创建三种缺陷结果列表
-        lack_result_list = [result for lack_object in lack_object_list for result in
-                            lack_object.detect(window_width, window_height, step_size,
-                                               thresh)]  # list[lackingDetectOut]
-        void_result_list = [result for void_object in void_object_list for result in
-                            void_object.detect()]  # List[VoidDefectResult]
-        # void_result_list=[]
-        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
-        # steel_result_list = []
+        # lack_result_list = [result for lack_object in lack_object_list for result in
+                            # lack_object.detect(window_width, window_height, step_size,
+                            #                    thresh)]  # list[lackingDetectOut]
+        # void_result_list = [result for void_object in void_object_list for result in
+        #                     void_object.detect()]  # List[VoidDefectResult]
+        lack_result_list=[]
+        void_result_list=[]
+        # steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
+        steel_result_list = []
         # for lack_result in lack_result_list:
         #     print("position",lack_result.diseaseStart )
         result = get_and_save_new_photo(input_original, void_result_list, lack_result_list, steel_result_list)
@@ -104,7 +105,8 @@ if __name__ == "__main__":
     # -------------------------below is test code-----------------------------
     # disable_print()
     enable_print()
-    json_file_path = r"src/main/algorithm/test/case4/test.json"
+    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\problem1\6-DK627.json"
+
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json

@@ -135,32 +135,47 @@ class ProcessOriginalPhoto:
             raise ValueError("No horizontal line found in the specified range.")
 
     def get_originalMileage(self):
-        try:
-            head_number = self.image[8:20, 62:112]  # 感兴趣的数字区域 横向 第一个数值
-            rheadnum = ip.split_num(head_number)
-        except ValueError:
+        regions = [
+            (8, 20, 62, 112),
+            (8, 20, 121, 176),
+            (10, 26, 130, 196),
+            (14, 29, 62, 117),
+            (16, 30, 130, 196)
+        ]
+        rheadnum = None
+        for (y1, y2, x1, x2) in regions:
             try:
-                head_number = self.image[8:20, 121:176]
-                rheadnum = ip.split_num(head_number) - 1
+                head_number = self.image[y1:y2, x1:x2]
+                rheadnum = ip.split_num(head_number)
+                if (x1, x2) in [(121, 176), (130, 196)]:
+                    rheadnum -= 1
+                break
             except ValueError:
-                head_number = self.image[10:26, 130:196]
-                rheadnum = ip.split_num(head_number) - 1
+                continue
+
+        if rheadnum is None:
+            raise ValueError("No valid head number found.")
         self.originalMileage = rheadnum
 
     def get_finialMileage(self):
-        try:
-            tail_number = self.image[8:20, -191:-92]
-            rtailnum = ip.split_num(tail_number)
-            rtailnum = ip.tailnum_revise(rtailnum)
-        except ValueError:
+        regions = [
+            (8, 20, -191, -92),
+            (8, 20, -140, -92),
+            (10, 25, -132, -85),
+            (14, 29, -145, -70)
+        ]
+        rtailnum = None
+        for (y1, y2, x1, x2) in regions:
             try:
-                tail_number = self.image[8:20, -140:-92]  # 数段读取区域设置
+                tail_number = self.image[y1:y2, x1:x2]
                 rtailnum = ip.split_num(tail_number)
                 rtailnum = ip.tailnum_revise(rtailnum)
+                break
             except ValueError:
-                tail_number = self.image[10:25, -132:-85]
-                rtailnum = ip.split_num(tail_number)
-                rtailnum = ip.tailnum_revise(rtailnum)
+                continue
+
+        if rtailnum is None:
+            raise ValueError("No valid tail number found.")
         self.finialMileage = rtailnum
 
     def get_horizontal_resolution(self):
@@ -186,17 +201,56 @@ class ProcessOriginalPhoto:
             for standard in projectStandars:
                 if standard.startingMileage > standard.endingMileage:
                     standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
-
+    #
+    # def filter_project_standards(self, projectStandards):
+    #     self.swap_mileage(projectStandards)
+    #     if self.originalMileage > self.finialMileage:
+    #         projectStandards[:] = [standard for standard in projectStandards
+    #                                if not (standard.endingMileage > self.originalMileage or
+    #                                        standard.startingMileage < self.finialMileage)]
+    #     elif self.originalMileage < self.finialMileage:
+    #         projectStandards[:] = [standard for standard in projectStandards
+    #                                if not (standard.endingMileage < self.originalMileage or
+    #                                        standard.startingMileage > self.finialMileage)]
+    #     if self.originalMileage>self.finialMileage:
+    #         for standard in projectStandards:
+    #             if standard.endingMileage <= self.originalMileage <= standard.startingMileage:
+    #                 standard.startingMileage = self.originalMileage
+    #             if standard.endingMileage < self.finialMileage <= standard.startingMileage:
+    #                 standard.endingMileage = self.finialMileage
+    #
+    #     elif self.originalMileage < self.finialMileage:
+    #         for standard in projectStandards:
+    #             if standard.endingMileage>=self.originalMileage and standard.startingMileage <self.originalMileage:
+    #                 standard.startingMileage = self.originalMileage
+    #             if standard.endingMileage>self.finialMileage and standard.startingMileage <=self.finialMileage:
+    #                 standard.endingMileage = self.finialMileage
+    #     return projectStandards
     def filter_project_standards(self, projectStandards):
         self.swap_mileage(projectStandards)
+
+        # 过滤标准
         if self.originalMileage > self.finialMileage:
             projectStandards[:] = [standard for standard in projectStandards
                                    if not (standard.endingMileage > self.originalMileage or
                                            standard.startingMileage < self.finialMileage)]
+            # 更新起始和结束里程
+            for standard in projectStandards:
+                if standard.endingMileage <= self.originalMileage <= standard.startingMileage:
+                    standard.startingMileage = self.originalMileage
+                if standard.endingMileage < self.finialMileage <= standard.startingMileage:
+                    standard.endingMileage = self.finialMileage
         elif self.originalMileage < self.finialMileage:
             projectStandards[:] = [standard for standard in projectStandards
                                    if not (standard.endingMileage < self.originalMileage or
                                            standard.startingMileage > self.finialMileage)]
+            # 更新起始和结束里程
+            for standard in projectStandards:
+                if standard.endingMileage >= self.originalMileage and standard.startingMileage < self.originalMileage:
+                    standard.startingMileage = self.originalMileage
+                if standard.endingMileage > self.finialMileage and standard.startingMileage <= self.finialMileage:
+                    standard.endingMileage = self.finialMileage
+
         return projectStandards
 
     def create_steel_example(self, projectStandards):

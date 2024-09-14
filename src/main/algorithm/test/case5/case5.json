@@ -1,21 +1,28 @@
 [
   {
     "detectOriginalPhoto": {
-      "originalPhotoAddress": "src\\main\\algorithm\\test\\case5\\005-DK27+725-DK27+325ZQ P_111.JPG",
-      "originalPhotoName": "005-DK27+725-DK27+325ZQ P_111.JPG"
+      "detectOriginalPhotoId": 123,
+      "originalPhotoAddress": "D:\\PycharmProjects\\TLD\\src\\main\\algorithm\\test\\case5\\005-DK27+725-DK27+325ZQ P_111.JPG",
+      "originalPhotoName": "005-DK27+725-DK27+325ZQ P_111.JPG",
+      "detectEventId": 123,
+      "remark": "12312"
     },
     "projectStandards": [
       {
+        "projectStandardId":123213,
         "startingMileage": 27725,
         "endingMileage": 27700,
         "standardSteelBarSpacing": 0.2,
-        "standardThickness": 0.45
+        "standardThickness": 0.45,
+        "projectId": 1231
       },
       {
+        "projectStandardId":123213,
         "startingMileage": 27700,
         "endingMileage": 27325,
         "standardSteelBarSpacing": 0,
-        "standardThickness": 0.35
+        "standardThickness": 0.35,
+        "projectId": 1231
       }
     ]
   }
