@@ -43,15 +43,15 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         thresh = 40  # 35
 
         # 创建三种缺陷结果列表
-        # lack_result_list = [result for lack_object in lack_object_list for result in
-                            # lack_object.detect(window_width, window_height, step_size,
-                            #                    thresh)]  # list[lackingDetectOut]
-        # void_result_list = [result for void_object in void_object_list for result in
-        #                     void_object.detect()]  # List[VoidDefectResult]
-        lack_result_list=[]
-        void_result_list=[]
-        # steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
-        steel_result_list = []
+        lack_result_list = [result for lack_object in lack_object_list for result in
+                            lack_object.detect(window_width, window_height, step_size,
+                                               thresh)]  # list[lackingDetectOut]
+        void_result_list = [result for void_object in void_object_list for result in
+                            void_object.detect()]  # List[VoidDefectResult]
+        # lack_result_list=[]
+        # void_result_list=[]
+        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
+        # steel_result_list = []
         # for lack_result in lack_result_list:
         #     print("position",lack_result.diseaseStart )
         result = get_and_save_new_photo(input_original, void_result_list, lack_result_list, steel_result_list)
@@ -96,17 +96,16 @@ def test(photos_with_standards_json):
 if __name__ == "__main__":
     # # 从标准输入读取 JSON 字符串
     #
-    # input_json = sys.stdin.read()
+    input_json = sys.stdin.read()
     #
     # # # 调用 main 函数处理输入数据并输出结果
-    # output = main(input_json)
-    # print(json.dumps(output))
+    output = main(input_json)
+    print(json.dumps(output))
 
     # -------------------------below is test code-----------------------------
     # disable_print()
-    enable_print()
-    json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\problem1\6-DK627.json"
-
+    # enable_print()
+    # json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\problem1\6-DK627.json"
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json
@@ -115,9 +114,9 @@ if __name__ == "__main__":
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case7\case7.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case8\case8.json
 #D:\PycharmProjects\TLD\src\main\algorithm\test\case9\case9.json
-    with open(json_file_path, 'r', encoding='utf-8') as file:
-        data = json.load(file)
-    # print(type(data))
-    output = test(data)
-    # enable_print()
-    print(output)
+    # with open(json_file_path, 'r', encoding='utf-8') as file:
+    #     data = json.load(file)
+    # # print(type(data))
+    # output = test(data)
+    # # enable_print()
+    # print(output)

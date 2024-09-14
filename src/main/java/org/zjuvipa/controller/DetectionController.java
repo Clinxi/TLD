@@ -16,54 +16,54 @@ import org.zjuvipa.util.PythonCallerUtil;
 
 import java.util.List;
 
-// @RestController
-// // @RequestMapping("/api")
-// public class DetectionController {
-//
-// //     @PostMapping("/detect")
-//     public ResponseEntity<?> detectImages(@RequestBody List<APhotoWithStandards> photoWithStandardsList) {
-//         try {
-//             // 解析请求数据
-//
-//             // 转换数据为 JSON 字符串
-//             String photosWithStandardsJson = new ObjectMapper().writeValueAsString(photoWithStandardsList);
-//
-//             // 调用 Python 检测脚本
-//             List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
-//
-//             // 返回检测结果
-//             return ResponseEntity.ok(results);
-//         } catch (Exception e) {
-//             // 处理异常情况
-//             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//         }
-//     }
-// }
-
 @RestController
-@RequestMapping("/api")
+// @RequestMapping("/api")
 public class DetectionController {
 
-    private final TaskQueueManager taskQueueManager = new TaskQueueManager();
+//     @PostMapping("/detect")
+    public ResponseEntity<?> detectImages(@RequestBody List<APhotoWithStandards> photoWithStandardsList) {
+        try {
+            // 解析请求数据
 
-    @PostMapping("/detect")
-    public ResponseEntity<?> submitDetectionTask(@RequestBody List<APhotoWithStandards> data) {
-        String taskId = taskQueueManager.submitTask(data);
-        return ResponseEntity.ok(Map.of("taskId", taskId));
-    }
+            // 转换数据为 JSON 字符串
+            String photosWithStandardsJson = new ObjectMapper().writeValueAsString(photoWithStandardsList);
 
-    @GetMapping("/status/{taskId}")
-    public ResponseEntity<?> getTaskStatus(@PathVariable String taskId) {
-        DetectionTask task = taskQueueManager.getTask(taskId);
-        if (task == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("任务不存在");
+            // 调用 Python 检测脚本
+            List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
+
+            // 返回检测结果
+            return ResponseEntity.ok(results);
+        } catch (Exception e) {
+            // 处理异常情况
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
         }
-        if ("完成".equals(task.getStatus())) {
-            return ResponseEntity.ok(Map.of("status", task.getStatus(), "result", task.getResult()));
-        }
-        return ResponseEntity.ok(Map.of("status", task.getStatus()));
     }
 }
+
+// @RestController
+// @RequestMapping("/api")
+// public class DetectionController {
+//
+//     private final TaskQueueManager taskQueueManager = new TaskQueueManager();
+//
+//     @PostMapping("/detect")
+//     public ResponseEntity<?> submitDetectionTask(@RequestBody List<APhotoWithStandards> data) {
+//         String taskId = taskQueueManager.submitTask(data);
+//         return ResponseEntity.ok(Map.of("taskId", taskId));
+//     }
+//
+//     @GetMapping("/status/{taskId}")
+//     public ResponseEntity<?> getTaskStatus(@PathVariable String taskId) {
+//         DetectionTask task = taskQueueManager.getTask(taskId);
+//         if (task == null) {
+//             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("任务不存在");
+//         }
+//         if ("完成".equals(task.getStatus())) {
+//             return ResponseEntity.ok(Map.of("status", task.getStatus(), "result", task.getResult()));
+//         }
+//         return ResponseEntity.ok(Map.of("status", task.getStatus()));
+//     }
+// }
 
 // @RestController
 // public class DetectionController {

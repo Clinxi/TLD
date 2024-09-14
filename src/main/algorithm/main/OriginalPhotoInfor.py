@@ -201,31 +201,6 @@ class ProcessOriginalPhoto:
             for standard in projectStandars:
                 if standard.startingMileage > standard.endingMileage:
                     standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
-    #
-    # def filter_project_standards(self, projectStandards):
-    #     self.swap_mileage(projectStandards)
-    #     if self.originalMileage > self.finialMileage:
-    #         projectStandards[:] = [standard for standard in projectStandards
-    #                                if not (standard.endingMileage > self.originalMileage or
-    #                                        standard.startingMileage < self.finialMileage)]
-    #     elif self.originalMileage < self.finialMileage:
-    #         projectStandards[:] = [standard for standard in projectStandards
-    #                                if not (standard.endingMileage < self.originalMileage or
-    #                                        standard.startingMileage > self.finialMileage)]
-    #     if self.originalMileage>self.finialMileage:
-    #         for standard in projectStandards:
-    #             if standard.endingMileage <= self.originalMileage <= standard.startingMileage:
-    #                 standard.startingMileage = self.originalMileage
-    #             if standard.endingMileage < self.finialMileage <= standard.startingMileage:
-    #                 standard.endingMileage = self.finialMileage
-    #
-    #     elif self.originalMileage < self.finialMileage:
-    #         for standard in projectStandards:
-    #             if standard.endingMileage>=self.originalMileage and standard.startingMileage <self.originalMileage:
-    #                 standard.startingMileage = self.originalMileage
-    #             if standard.endingMileage>self.finialMileage and standard.startingMileage <=self.finialMileage:
-    #                 standard.endingMileage = self.finialMileage
-    #     return projectStandards
     def filter_project_standards(self, projectStandards):
         self.swap_mileage(projectStandards)
 
