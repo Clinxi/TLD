@@ -51,7 +51,7 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         # lack_result_list=[]
         # void_result_list=[]
         steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
-        steel_result_list = []
+        # steel_result_list = []
         # for lack_result in lack_result_list:
         #     print("position",lack_result.diseaseStart )
         result = get_and_save_new_photo(input_original, void_result_list, lack_result_list, steel_result_list)
