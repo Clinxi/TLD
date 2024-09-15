@@ -20,6 +20,7 @@ public class DiseaseInformation {
     // Getter 和 Setter 方法
     public float getDiseaseStart() {
         return diseaseStart;
+        print()
     }
 
     public void setDiseaseEnd(float diseaseEnd) {
