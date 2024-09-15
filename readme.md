@@ -2,7 +2,6 @@
 
 ---
 [TOC]
-
 ## Python环境配置
 本算法使用的是python, 因此需要配置对应的python环境
 ### Anaconda下载安装
@@ -48,6 +47,10 @@ conda env create -f linux_environment.yml
 conda activate defect_detect
 ```
 3. 添加yolo环境包
+
+首先在目录下解压yolov10.zip压缩包到algorithm目录下  
+![{8CC9A3DE-80F8-4718-820F-19D36C06C401}](https://github.com/user-attachments/assets/cfcaed54-48b5-4dc9-9a08-aaf935bcb87f)
+
 ```shell
 cd path/to/TLD/src/main/algorithm/yolov10
 pip install -e .
@@ -63,6 +66,10 @@ conda env create -n 环境名 python=3.9 -f windows_environment.yml
 conda activate 环境名
 ```
 3. 添加yolo环境包
+
+首先在目录下解压yolov10.zip压缩包到algorithm目录下  
+![{8CC9A3DE-80F8-4718-820F-19D36C06C401}](https://github.com/user-attachments/assets/cfcaed54-48b5-4dc9-9a08-aaf935bcb87f)
+
 ```shell
 cd path/to/TLD/src/main/algorithm/yolov10
 pip install -e .
