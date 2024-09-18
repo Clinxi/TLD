@@ -94,7 +94,7 @@ def test(photos_with_standards_json):
 
 
 if __name__ == "__main__":
-    # # 从标准输入读取 JSON 字符串
+    # 从标准输入读取 JSON 字符串
     #
     input_json = sys.stdin.read()
     #
@@ -103,20 +103,20 @@ if __name__ == "__main__":
     print(json.dumps(output))
 
     # -------------------------below is test code-----------------------------
-    # disable_print()
-    # enable_print()
-    # json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\problem1\6-DK627.json"
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case5\case5.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case6\case6.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case7\case7.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case8\case8.json
-#D:\PycharmProjects\TLD\src\main\algorithm\test\case9\case9.json
-    # with open(json_file_path, 'r', encoding='utf-8') as file:
-    #     data = json.load(file)
-    # # print(type(data))
-    # output = test(data)
-    # # enable_print()
-    # print(output)
+#     disable_print()
+#     enable_print()
+#     json_file_path = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\case1.json"
+# # D:\PycharmProjects\TLD\src\main\algorithm\test\case2\case2.json
+# # D:\PycharmProjects\TLD\src\main\algorithm\test\case3\case3.json
+# # D:\PycharmProjects\TLD\src\main\algorithm\test\case4\case4.json
+# # D:\PycharmProjects\TLD\src\main\algorithm\test\case5\case5.json
+# # D:\PycharmProjects\TLD\src\main\algorithm\test\case6\case6.json
+# # D:\PycharmProjects\TLD\src\main\algorithm\test\case7\case7.json
+# # D:\PycharmProjects\TLD\src\main\algorithm\test\case8\case8.json
+# # D:\PycharmProjects\TLD\src\main\algorithm\test\case9\case9.json
+#     with open(json_file_path, 'r', encoding='utf-8') as file:
+#         data = json.load(file)
+#     # print(type(data))
+#     output = test(data)
+#     # enable_print()
+#     print(output)
