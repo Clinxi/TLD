@@ -335,7 +335,7 @@ class ProcessOriginalPhoto:
                 folder_path = os.path.join(directory_path, "lackingdetect")
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
-                file_name = f"{standard.startingMileage}--{standard.endingMileage}.png"
+                file_name = f"{standard.startingMileage}--`{standard.endingMileage}.png"
                 file_path = os.path.join(folder_path, file_name)
                 try:
                     print(f"Saving image to: {file_path}, with shape: {splitpict.shape}")
