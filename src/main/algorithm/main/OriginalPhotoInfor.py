@@ -259,7 +259,7 @@ class ProcessOriginalPhoto:
                         i = splitpict.shape[1] - window_pixel
                     sample = splitpict[:, i:i + window_pixel]
                     if standard.startingMileage < standard.endingMileage:
-                        file_name = f"{standard.startingMileage + n * 5}——{standard.startingMileage + n * 5 + 7}.png"
+                        file_name = f"{standard.startingMileage + n * 5}--{standard.startingMileage + n * 5 + 7}.png"
                         file_path = os.path.join(folder_path, file_name)
                         if not cv2.imwrite(file_path, sample):
                             print("fail save ", file_path)
@@ -267,7 +267,7 @@ class ProcessOriginalPhoto:
                                                     standard.startingMileage + n * 5 + 7,
                                                     standard.standardSteelBarSpacing)
                     else:
-                        file_name = f"{standard.startingMileage - n * 5}——{standard.startingMileage - n * 5 - 7}.png"
+                        file_name = f"{standard.startingMileage - n * 5}--{standard.startingMileage - n * 5 - 7}.png"
                         file_path = os.path.join(folder_path, file_name)
                         if not cv2.imwrite(file_path, sample):
                             print("fail save ", file_path)
@@ -297,7 +297,7 @@ class ProcessOriginalPhoto:
             for i in range(0, data.shape[1], img_width):
                 image = data[:, i: i + img_width - 1]
                 # filename=f"{self.originalPhotoName+n*5}.png"
-                file_name = f"{self.originalMileage + n * 5}——{self.originalMileage + n * 5 + 5}.png"
+                file_name = f"{self.originalMileage + n * 5}--{self.originalMileage + n * 5 + 5}.png"
                 file_path = os.path.join(folder_path, file_name)
                 if not cv2.imwrite(file_path, image):
                     print("fail save:", file_path)
@@ -309,7 +309,7 @@ class ProcessOriginalPhoto:
             for i in range(0, data.shape[1], img_width):
                 image = data[:, i: i + img_width - 1]
 
-                file_name = f"{self.originalMileage - n * 5}—{self.originalMileage - n * 5 - 5}.png"
+                file_name = f"{self.originalMileage - n * 5}--{self.originalMileage - n * 5 - 5}.png"
                 file_path = os.path.join(folder_path, file_name)
                 # file_path = os.path.join(folder_path, str(self.originalMileage - n * 5), "__",
                 #                          str(self.originalMileage - n * 5-5), ".png")
@@ -335,7 +335,7 @@ class ProcessOriginalPhoto:
                 folder_path = os.path.join(directory_path, "lackingdetect")
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
-                file_name = f"{standard.startingMileage}——{standard.endingMileage}.png"
+                file_name = f"{standard.startingMileage}--`{standard.endingMileage}.png"
                 file_path = os.path.join(folder_path, file_name)
                 try:
                     print(f"Saving image to: {file_path}, with shape: {splitpict.shape}")
