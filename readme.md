@@ -51,6 +51,8 @@ conda activate defect_detect
 首先在目录下解压yolov10.zip压缩包到algorithm目录下  
 ![{8CC9A3DE-80F8-4718-820F-19D36C06C401}](https://github.com/user-attachments/assets/cfcaed54-48b5-4dc9-9a08-aaf935bcb87f)
 
+再在yolov10目录下执行命令
+
 ```shell
 cd path/to/TLD/src/main/algorithm/yolov10
 pip install -e .
@@ -70,6 +72,7 @@ conda activate 环境名
 首先在目录下解压yolov10.zip压缩包到algorithm目录下  
 ![{8CC9A3DE-80F8-4718-820F-19D36C06C401}](https://github.com/user-attachments/assets/cfcaed54-48b5-4dc9-9a08-aaf935bcb87f)
 
+再在yolov10目录下执行命令
 ```shell
 cd path/to/TLD/src/main/algorithm/yolov10
 pip install -e .
