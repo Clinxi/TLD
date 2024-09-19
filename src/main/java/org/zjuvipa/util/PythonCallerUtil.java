@@ -84,6 +84,7 @@ public class PythonCallerUtil {
 //         String pythonInterpreter = "D:/Anaconda/envs/TLD/python.exe";
         ProcessBuilder processBuilder = new ProcessBuilder("python", scriptPath);
         processBuilder.environment().put("PYTHONPATH", projectRoot);
+        System.out.println("root path  is"+projectRoot);
         processBuilder.directory(new File(projectRoot));  // 设置工作目录为项目的根目录
         processBuilder.redirectErrorStream(true); // 将错误流合并到标准输出流
 

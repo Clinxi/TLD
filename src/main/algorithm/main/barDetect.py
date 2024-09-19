@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import torch
-from src.main.algorithm.yolov10.yolov10.ultralytics.nn.autobackend import AutoBackend
+from src.main.algorithm.yolov10.ultralytics.nn.autobackend import AutoBackend
 # from ..yolov10.yolov10.ultralytics.nn.autobackend import AutoBackend
 
 
