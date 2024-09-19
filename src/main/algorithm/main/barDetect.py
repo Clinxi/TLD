@@ -1,7 +1,7 @@
 import cv2
 import torch
 import numpy as np
-from ultralytics.nn.autobackend import AutoBackend
+from src.main.algorithm.yolov10.yolov10.ultralytics.nn.autobackend import AutoBackend
 import matplotlib.pyplot as plt
 
 

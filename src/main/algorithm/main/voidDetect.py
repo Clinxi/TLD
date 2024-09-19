@@ -1,5 +1,5 @@
 import cv2
-from ultralytics import YOLOv10
+from src.main.algorithm.yolov10.yolov10.ultralytics import YOLOv10
 
 
 class VoidDefect:
