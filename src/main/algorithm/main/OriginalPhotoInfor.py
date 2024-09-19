@@ -193,16 +193,20 @@ class ProcessOriginalPhoto:
         self.vertical_resolution = vertical_resolution
 
     def swap_mileage(self, projectStandars):
+        sign=0
         if self.originalMileage > self.finialMileage:
             for standard in projectStandars:
                 if standard.startingMileage < standard.endingMileage:
                     standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
-            projectStandars[:]=projectStandars[::-1]
+                    sign=1
         elif self.originalMileage < self.finialMileage:
             for standard in projectStandars:
                 if standard.startingMileage > standard.endingMileage:
                     standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
+                    sign = 1
+        if sign:
             projectStandars[:] = projectStandars[::-1]
+
     def filter_project_standards(self, projectStandards):
         self.swap_mileage(projectStandards)
 
