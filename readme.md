@@ -57,11 +57,13 @@ conda activate defect_detect
 cd path/to/TLD/src/main/algorithm/yolov10
 pip install -e .
 ```
+![1726731034456](https://github.com/user-attachments/assets/01c44589-e695-4cad-8f4d-40abc22c919b)
+
 #### windows环境——配置
 1. 进入项目目录后创建需要的 python 环境
 ```shell
 cd path/to/TLD
-conda env create -n 环境名 python=3.9 -f windows_environment.yml
+conda env create -n 环境名（TLD) python=3.9 -f windows_environment.yml
 ```
 2. 启动python环境
 ```shell
@@ -72,11 +74,14 @@ conda activate 环境名
 首先在目录下解压yolov10.zip压缩包到algorithm目录下  
 ![{8CC9A3DE-80F8-4718-820F-19D36C06C401}](https://github.com/user-attachments/assets/cfcaed54-48b5-4dc9-9a08-aaf935bcb87f)
 
+
+
 再在yolov10目录下执行命令
 ```shell
 cd path/to/TLD/src/main/algorithm/yolov10
 pip install -e .
 ```
+![1726731034456](https://github.com/user-attachments/assets/01c44589-e695-4cad-8f4d-40abc22c919b)
 
 ## 后端
 
