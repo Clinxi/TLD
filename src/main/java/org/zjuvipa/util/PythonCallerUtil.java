@@ -66,17 +66,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.zjuvipa.entity.DetectEventResultWithNewPhoto;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class PythonCallerUtil {
 
     public static List<DetectEventResultWithNewPhoto> callPythonDetection(String photosWithStandardsJson) throws IOException, InterruptedException {
-        // 构建命令
-        String scriptPath = "src/main/algorithm/main/main.py";
-
+        // 获取当前项目的根目录
+        String projectRoot = Paths.get("").toAbsolutePath().toString();
+        // 构建 Python 脚本的绝对路径
+        String scriptPath = Paths.get(projectRoot, "src", "main", "algorithm", "main", "main.py").toString();
+        System.out.println("script path is"+scriptPath);
+        // 使用 ProcessBuilder 来执行 Python 脚本
+//         String pythonInterpreter = "D:/Anaconda/envs/TLD/python.exe";
         ProcessBuilder processBuilder = new ProcessBuilder("python", scriptPath);
+        processBuilder.environment().put("PYTHONPATH", projectRoot);
+        processBuilder.directory(new File(projectRoot));  // 设置工作目录为项目的根目录
         processBuilder.redirectErrorStream(true); // 将错误流合并到标准输出流
 
         // 启动进程

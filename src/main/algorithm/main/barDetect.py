@@ -1,8 +1,8 @@
 import cv2
-import torch
 import numpy as np
+import torch
 from src.main.algorithm.yolov10.yolov10.ultralytics.nn.autobackend import AutoBackend
-import matplotlib.pyplot as plt
+# from ..yolov10.yolov10.ultralytics.nn.autobackend import AutoBackend
 
 
 def postprocess(pred, conf_thres=0.25):

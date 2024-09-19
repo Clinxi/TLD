@@ -7,6 +7,7 @@ from OriginalPhotoInfor import DiseaseInformation, DetectEventResultWithNewPhoto
     APhotoWithStandards
 
 
+
 def disable_print():
     sys.stdout = io.StringIO()
 
@@ -95,7 +96,7 @@ def test(photos_with_standards_json):
 
 if __name__ == "__main__":
     # 从标准输入读取 JSON 字符串
-    #
+
     input_json = sys.stdin.read()
     #
     # # # 调用 main 函数处理输入数据并输出结果
