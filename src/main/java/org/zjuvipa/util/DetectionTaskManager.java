@@ -34,6 +34,8 @@ public class DetectionTaskManager {
 
                     // 调用 Python 脚本
                     List<DetectEventResultWithNewPhoto> result = PythonCallerUtil.callPythonDetection(jsonData);
+                    // 输出调用 Python 脚本的结果
+                    System.out.println("Detection results for task " + taskId + ": " + result);
 
                     taskResults.put(taskId, result);
                     taskStatus.put(taskId, "COMPLETED");

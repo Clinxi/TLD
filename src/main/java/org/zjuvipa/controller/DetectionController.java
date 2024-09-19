@@ -23,17 +23,6 @@ public class DetectionController {
         System.out.println("Received a request to create a detection task.");
         String taskId = DetectionTaskManager.createTask(data);
         System.out.println("Task created with ID: " + taskId);
-        try {
-            // 调用 Python 脚本并获取输出结果
-            ObjectMapper objectMapper = new ObjectMapper();
-            String photosWithStandardsJson = objectMapper.writeValueAsString(data);
-            List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
-            System.out.println("Detection results: " + results);
-        } catch (IOException | InterruptedException e) {
-            System.out.println("Error while calling Python script: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while processing task: " + e.getMessage());
-        }
-
         return ResponseEntity.ok(taskId);
     }
 

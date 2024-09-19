@@ -197,10 +197,12 @@ class ProcessOriginalPhoto:
             for standard in projectStandars:
                 if standard.startingMileage < standard.endingMileage:
                     standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
+            projectStandars[:]=projectStandars[::-1]
         elif self.originalMileage < self.finialMileage:
             for standard in projectStandars:
                 if standard.startingMileage > standard.endingMileage:
                     standard.startingMileage, standard.endingMileage = standard.endingMileage, standard.startingMileage
+            projectStandars[:] = projectStandars[::-1]
     def filter_project_standards(self, projectStandards):
         self.swap_mileage(projectStandards)
 
