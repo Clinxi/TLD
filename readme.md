@@ -49,6 +49,11 @@ conda activate defect_detect
 3. 添加yolo环境包
 
 首先在目录下解压yolov10.zip压缩包到algorithm目录下  
+
+解压完成后的文件结构如图
+
+![image](https://github.com/user-attachments/assets/ad181ee2-b92c-4828-96f1-9d4e2c554873)
+
 ![{8CC9A3DE-80F8-4718-820F-19D36C06C401}](https://github.com/user-attachments/assets/cfcaed54-48b5-4dc9-9a08-aaf935bcb87f)
 
 再在yolov10目录下执行命令
@@ -72,6 +77,11 @@ conda activate 环境名
 3. 添加yolo环境包
 
 首先在目录下解压yolov10.zip压缩包到algorithm目录下  
+
+解压完成后的文件结构如图
+
+![image](https://github.com/user-attachments/assets/ad181ee2-b92c-4828-96f1-9d4e2c554873)
+
 ![{8CC9A3DE-80F8-4718-820F-19D36C06C401}](https://github.com/user-attachments/assets/cfcaed54-48b5-4dc9-9a08-aaf935bcb87f)
 
 
