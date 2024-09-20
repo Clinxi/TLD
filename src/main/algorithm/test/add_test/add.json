@@ -1,0 +1,29 @@
+[
+  {
+    "detectOriginalPhoto": {
+      "detectOriginalPhotoId": 123,
+      "originalPhotoAddress": "D:\\PycharmProjects\\TLD\\src\\main\\algorithm\\test\\add_test\\6-DK627+515-647YY P_1.JPG",
+      "originalPhotoName": "6-DK627+515-647YY P_1.JPG",
+      "detectEventId": 123,
+      "remark": "12312"
+    },
+    "projectStandards": [
+      {
+        "projectStandardId":123213,
+        "startingMileage": 627515,
+        "endingMileage": 627640,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.60,
+        "projectId": 1231
+      },
+      {
+        "projectStandardId": 123213,
+        "startingMileage": 627640,
+        "endingMileage": 627647,
+        "standardSteelBarSpacing": 0.333,
+        "standardThickness": 0.4,
+        "projectId": 1231
+      }
+    ]
+  }
+]
