@@ -92,7 +92,7 @@ class BarInfor():
         diseaEnd = self.endingMileage
         img = cv2.imread(self.imageAddress)
         img_pre = image_to_tensor_cv(self.imageAddress)
-        count = cal_bar(model_list=self.model, img_pre=img_pre)
+        count = cal_bar(model_list=self.model, img_pre=img_pre)+2
         if count != 0:
             actualSpace = (self.endingMileage - self.startingMileage) / count
         else:
