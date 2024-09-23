@@ -122,7 +122,8 @@ class DefectResultDisplay:
         # 如果 result 目录不存在，创建该目录
         os.makedirs(result_dir, exist_ok=True)
         # 保存文件
-        new_photo_name = str(uuid.uuid4()) + '.png'
+        # new_photo_name = str(uuid.uuid4()) + '.png'
+        new_photo_name ="Rusult"+self.original_photo_name+'.png'
         save_path = os.path.join(result_dir, new_photo_name)
         cv2.imwrite(save_path, self.img)
 
