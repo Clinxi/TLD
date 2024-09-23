@@ -210,6 +210,7 @@ def get_tailnum(img):
     contours, _ = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     # 对轮廓进行排序，以便从左到右处理数字（可选）
     contours = sorted(contours, key=lambda x: cv.boundingRect(x)[0])
+    contours = sorted(contours, key=lambda x: cv.boundingRect(x)[1])
 
     # 用于存储识别出的数字字符串
     recognized_digits = []
@@ -228,7 +229,8 @@ def get_tailnum(img):
             num_index = num_index % 10
         recognized_digits.append(str(num_index))
     length = len(recognized_digits)
-    tail_num_list = recognized_digits[::(length // 3)]
+    # tail_num_list = recognized_digits[::(length // 3)]
+    tail_num_list = recognized_digits[-3:]
     # print(tail_num_list)
     tail_num = int("".join(tail_num_list))
     tail_num = tail_num / 100
