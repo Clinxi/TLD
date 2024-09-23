@@ -220,7 +220,7 @@ TLD/src/main/java/org/zjuvipa/entity/ProjectStandard.java
 配置java后需要更改OrignalPhotoInfor.py下的class DetectOriginalPhoto和class ProjectStandard这两个类__init__函数
 注意定义顺序和变量名称需要跟接受到的JSON内的字段顺序和名称相一致。
 
-###示例图如下
+### 示例图如下
 
 Json文件下配置
 You can view the test case file [here](./src/main/algorithm/test/case4/test.json).
@@ -231,5 +231,12 @@ class DetectOriginalPhoto类设置
 class ProjectStandard类设置
 ![img_2](https://github.com/user-attachments/assets/296f704b-58b3-4413-85c5-7f18272c016c)
 
-## 测试案例
+## 测试Python脚本方法
+
+注释100——105行代码，启用Below is Test code以下的代码，注意需要配置相关的JSon文件，参考test目录下
+
+![image](https://github.com/user-attachments/assets/213a1a1f-4f18-4143-b71f-84bfbe33d3a1)
+
+在json_file_path下选择你所配置的json文件地址直接执行Main文件即可
+
 
