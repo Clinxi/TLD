@@ -190,6 +190,8 @@ class ProcessOriginalPhoto:
         vertical_position = self.image[self.original_line:, 48:54]  # (水平，垂直)
         black_lines = ip.find_black_horizontal_lines(vertical_position)
         vertical_resolution = ip.compute_vertical_resolution(self.depth, black_lines)
+        if vertical_resolution==0:
+            raise ValueError("Get wrong Vertical Resolution.")
         self.vertical_resolution = vertical_resolution
 
     def swap_mileage(self, projectStandars):
