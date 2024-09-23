@@ -236,6 +236,12 @@ class ProcessOriginalPhoto:
 
         return projectStandards
 
+    def transform_lining_steel_scale(self, projectStandards):
+        filtter_Standards=self.filter_project_standards(projectStandards)
+        for standard in filtter_Standards:
+            standard.standardSteelBarSpacing = standard.standardSteelBarSpacing/100
+            standard.standardThickness=standard.standardThickness/100
+        return filtter_Standards
     def create_steel_example(self, projectStandards):
         steel_example_list = []
         # self.filter_project_standards(projectStandards)
@@ -337,7 +343,7 @@ class ProcessOriginalPhoto:
                 folder_path = os.path.join(directory_path, "lackingdetect")
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
-                file_name = f"{standard.startingMileage}--`{standard.endingMileage}.png"
+                file_name = f"{standard.startingMileage}--{standard.endingMileage}.png"
                 file_path = os.path.join(folder_path, file_name)
                 try:
                     print(f"Saving image to: {file_path}, with shape: {splitpict.shape}")
