@@ -30,11 +30,11 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
         input_original = ProcessOriginalPhoto(photo)
         # 大图获取信息
         input_original.get_basic_information()
-        print("photo depth is ",input_original.depth)
+        # print("photo depth is ",input_original.depth)
         projectstandards =input_original.transform_lining_steel_scale(photo_with_standards.projectStandards)
         for standards in projectstandards:
             print("start end:",standards.startingMileage,standards.endingMileage)
-            print("lining is ",standards.standardThickness)
+        #     print("lining is ",standards.standardThickness)
         # 创建三个缺陷对象列表
         lack_object_list = input_original.create_lacking_example(projectstandards)
         steel_object_list = input_original.create_steel_example(projectstandards)
