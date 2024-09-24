@@ -1,0 +1,45 @@
+[
+  {
+    "detectOriginalPhoto": {
+      "detectOriginalPhotoId": 123,
+      "originalPhotoAddress": "src\\main\\algorithm\\test\\case6\\36-DK73+430-330GD P_1.JPG",
+      "originalPhotoName": "36-DK73+430-330GD P_1.JPG",
+      "detectEventId": 123,
+      "remark": "12312"
+    },
+    "projectStandards": [
+      {
+        "projectStandardId":123213,
+        "startingMileage": 73430,
+        "endingMileage": 73420,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.40,
+        "projectId": 1231
+      },
+      {
+        "projectStandardId":123213,
+        "startingMileage": 73420,
+        "endingMileage": 73390,
+        "standardSteelBarSpacing": 0.25,
+        "standardThickness": 0.45,
+        "projectId": 1231
+      },
+      {
+        "projectStandardId":123213,
+        "startingMileage": 73390,
+        "endingMileage": 73365,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.40,
+        "projectId": 1231
+      },
+      {
+        "projectStandardId":123213,
+        "startingMileage": 73365,
+        "endingMileage": 73330,
+        "standardSteelBarSpacing": 0,
+        "standardThickness": 0.40,
+        "projectId": 1231
+      }
+    ]
+  }
+]

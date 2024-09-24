@@ -1,4 +1,7 @@
 import os
+from typing import final
+import shutil
+
 import cv2
 
 import img_processing as ip
@@ -252,41 +255,64 @@ class ProcessOriginalPhoto:
                 # print("split_start, split_end",split_start, split_end)
                 splitpict = data[:, split_start:split_end]  # 选取所有行，截取列
                 # self.image = splitpict
+
                 directory_path = os.path.dirname(self.originalPhotoAddress)
                 folder_path = os.path.join(directory_path, "steelbardetect")
-                if not os.path.exists(folder_path):
-                    os.makedirs(folder_path)
-                real_window=7
-                real_step=5
+                if os.path.exists(folder_path):
+                    shutil.rmtree(folder_path)  # 清空文件夹
+                os.makedirs(folder_path)  # 创建新的空文件夹
+                # if not os.path.exists(folder_path):
+                #     os.makedirs(folder_path)
+                real_window=3
+                real_step=2
                 window_pixel = int(real_window / self.horizontal_resolution) #7
                 step_pixel = int(real_step/ self.horizontal_resolution) #5
                 # print("window_pixel, step_pixel", window_pixel, step_pixel)
                 n = 0
                 for i in range(0, splitpict.shape[1], step_pixel):
                     if i + window_pixel > splitpict.shape[1]:
+                        final_split_sign = 1
                         # 如果剩余部分不足，则从右向左切取最后的window_pixel宽度
                         i = splitpict.shape[1] - window_pixel
+                        if standard.startingMileage < standard.endingMileage:
+                            file_name = f"{standard.endingMileage-real_window}--{standard.endingMileage}.png"
+                            file_path = os.path.join(folder_path, file_name)
+                            if not cv2.imwrite(file_path, splitpict[:, i:i + window_pixel]):
+                                raise ValueError(f"Failed to save image to: {file_path}")
+                            last_example = BarInfor(file_path, standard.endingMileage-real_window,
+                                                    standard.endingMileage,
+                                                    standard.standardSteelBarSpacing)
+                        else:
+                            file_name = f"{standard.endingMileage + real_window}--{standard.endingMileage}.png"
+                            file_path = os.path.join(folder_path, file_name)
+                            if not cv2.imwrite(file_path, splitpict[:, i:i + window_pixel]):
+                                raise ValueError(f"Failed to save image to: {file_path}")
+                            last_example = BarInfor(file_path, standard.startingMileage - n * real_step,
+                                                    standard.endingMileage,
+                                                    standard.standardSteelBarSpacing)
+                        steel_example_list.append(last_example)
+                        return steel_example_list
                     sample = splitpict[:, i:i + window_pixel]
+
+
                     # print("sample.shape", sample.shape)
                     if standard.startingMileage < standard.endingMileage:
                         file_name = f"{standard.startingMileage + n*real_step}--{standard.startingMileage + n * real_step+ real_window}.png"
                         file_path = os.path.join(folder_path, file_name)
                         if not cv2.imwrite(file_path, sample):
                             raise ValueError(f"Failed to save image to: {file_path}")
-                        barinfor_example = BarInfor(file_path, standard.startingMileage + n * real_step,
+                        bainfor_example = BarInfor(file_path, standard.startingMileage + n * real_step,
                                                     standard.startingMileage + n * real_step+ real_window,
                                                     standard.standardSteelBarSpacing)
-                    else:
+                    elif standard.startingMileage > standard.endingMileage:
                         file_name = f"{standard.startingMileage - n * real_step}--{standard.startingMileage - n * real_step - real_window}.png"
                         file_path = os.path.join(folder_path, file_name)
                         if not cv2.imwrite(file_path, sample):
                             raise ("fail save ", file_path)
-                        barinfor_example = BarInfor(file_path, standard.startingMileage - n * real_step,
+                        bainfor_example = BarInfor(file_path, standard.startingMileage - n * real_step,
                                                     standard.startingMileage - n * real_step - real_window,
                                                     standard.standardSteelBarSpacing)
-
-
-                    steel_example_list.append(barinfor_example)
+                    steel_example_list.append(bainfor_example)
                     n += 1
         return steel_example_list
 
