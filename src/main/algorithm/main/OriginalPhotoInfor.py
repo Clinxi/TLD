@@ -249,30 +249,30 @@ class ProcessOriginalPhoto:
                 data = self.image[self.original_line:, 65:-2]
                 split_start = int(abs(self.originalMileage - standard.startingMileage) / self.horizontal_resolution)
                 split_end = int(abs(self.originalMileage - standard.endingMileage) / self.horizontal_resolution)
-                print("split_start, split_end",split_start, split_end)
+                # print("split_start, split_end",split_start, split_end)
                 splitpict = data[:, split_start:split_end]  # 选取所有行，截取列
                 # self.image = splitpict
                 directory_path = os.path.dirname(self.originalPhotoAddress)
                 folder_path = os.path.join(directory_path, "steelbardetect")
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
-                real_window=3
-                real_step=2
+                real_window=7
+                real_step=5
                 window_pixel = int(real_window / self.horizontal_resolution) #7
                 step_pixel = int(real_step/ self.horizontal_resolution) #5
-                print("window_pixel, step_pixel", window_pixel, step_pixel)
+                # print("window_pixel, step_pixel", window_pixel, step_pixel)
                 n = 0
                 for i in range(0, splitpict.shape[1], step_pixel):
                     if i + window_pixel > splitpict.shape[1]:
                         # 如果剩余部分不足，则从右向左切取最后的window_pixel宽度
                         i = splitpict.shape[1] - window_pixel
                     sample = splitpict[:, i:i + window_pixel]
-                    print("sample.shape", sample.shape)
+                    # print("sample.shape", sample.shape)
                     if standard.startingMileage < standard.endingMileage:
                         file_name = f"{standard.startingMileage + n*real_step}--{standard.startingMileage + n * real_step+ real_window}.png"
                         file_path = os.path.join(folder_path, file_name)
                         if not cv2.imwrite(file_path, sample):
-                            print("fail save ", file_path)
+                            raise ValueError(f"Failed to save image to: {file_path}")
                         barinfor_example = BarInfor(file_path, standard.startingMileage + n * real_step,
                                                     standard.startingMileage + n * real_step+ real_window,
                                                     standard.standardSteelBarSpacing)
@@ -280,7 +280,7 @@ class ProcessOriginalPhoto:
                         file_name = f"{standard.startingMileage - n * real_step}--{standard.startingMileage - n * real_step - real_window}.png"
                         file_path = os.path.join(folder_path, file_name)
                         if not cv2.imwrite(file_path, sample):
-                            print("fail save ", file_path)
+                            raise ("fail save ", file_path)
                         barinfor_example = BarInfor(file_path, standard.startingMileage - n * real_step,
                                                     standard.startingMileage - n * real_step - real_window,
                                                     standard.standardSteelBarSpacing)
@@ -306,7 +306,7 @@ class ProcessOriginalPhoto:
                 file_name = f"{self.originalMileage + n * 5}--{self.originalMileage + n * 5 + 5}.png"
                 file_path = os.path.join(folder_path, file_name)
                 if not cv2.imwrite(file_path, image):
-                    print("fail save:", file_path)
+                    raise ValueError(f"Failed to save image to: {file_path}")
                 example = vD.VoidDefect(file_path, self.originalMileage + n * 5, self.originalMileage + n * 5 + 5,
                                         self.depth)
                 n += 1
@@ -320,7 +320,7 @@ class ProcessOriginalPhoto:
                 # file_path = os.path.join(folder_path, str(self.originalMileage - n * 5), "__",
                 #                          str(self.originalMileage - n * 5-5), ".png")
                 if not cv2.imwrite(file_path, image):
-                    print("fail save:", file_path)
+                    raise ValueError(f"Failed to save image to: {file_path}")
                 example = vD.VoidDefect(file_path, self.originalMileage - n * 5, self.originalMileage - n * 5 - 5,
                                         self.depth)
                 n += 1
