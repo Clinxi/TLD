@@ -6,4 +6,5 @@ org\zjuvipa\entity\DetectOriginalPhoto.class
 org\zjuvipa\entity\DiseaseInformation.class
 org\zjuvipa\util\PythonCallerUtil.class
 org\zjuvipa\util\Client.class
+org\zjuvipa\util\DetectionTaskManager.class
 org\zjuvipa\controller\DetectionController.class
