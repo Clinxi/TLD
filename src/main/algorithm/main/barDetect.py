@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import torch
 from src.main.algorithm.yolov10.ultralytics.nn.autobackend import AutoBackend
-# from ..yolov10.yolov10.ultralytics.nn.autobackend import AutoBackend
+
 
 
 def postprocess(pred, conf_thres=0.25):
@@ -71,7 +71,7 @@ class BarInfor():
                                "src/main/algorithm/main/weights/bar_run17_last.pt"
                                ]
         self.imageAddress = address  # 传给缺筋检测算法的图片位置
-        self.startingMileage = startingMileage  # 检测图片的开始位置  
+        self.startingMileage = startingMileage  # 检测图片的开始位置
         self.endingMileage = endingMileage  # 检测图片的结束位置
         self.standardSteelBarSpacing = standardSteelBarSpacing  # 标准钢筋间距
         self.model = [AutoBackend(weights=model_path) for model_path in model_path_list]
@@ -132,3 +132,5 @@ if __name__ == "__main__":
     test = BarInfor(img_address, 1, 2, 8)
     result = test.detect()
     print(result)
+
+

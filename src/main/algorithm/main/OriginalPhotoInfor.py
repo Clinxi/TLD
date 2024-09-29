@@ -264,10 +264,9 @@ class ProcessOriginalPhoto:
                 # if not os.path.exists(folder_path):
                 #     os.makedirs(folder_path)
                 real_window=3
-                real_step=2
+                real_step=2  #(3,2)
                 window_pixel = int(real_window / self.horizontal_resolution) #7
                 step_pixel = int(real_step/ self.horizontal_resolution) #5
-                # print("window_pixel, step_pixel", window_pixel, step_pixel)
                 n = 0
                 for i in range(0, splitpict.shape[1], step_pixel):
                     if i + window_pixel > splitpict.shape[1]:

@@ -56,13 +56,10 @@ public class PythonCallerUtil {
                     }
                 }
             }
-        }
-
         int exitCode = process.waitFor();
         if (exitCode != 0) {
             throw new RuntimeException("Python script exited with error code: " + exitCode + "\nScript Output:\n" + output.toString());
         }
-
         // 将 Python 输出的 JSON 字符串转换为 Java 对象
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(output.toString(), objectMapper.getTypeFactory().constructCollectionType(List.class, DetectEventResultWithNewPhoto.class));
