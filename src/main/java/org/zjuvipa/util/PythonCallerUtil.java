@@ -42,20 +42,25 @@ public class PythonCallerUtil {
         while ((line = reader.readLine()) != null) {
             if (line.trim().startsWith("[{")) {
                 output.append(line);
-            } else {
+//             } else {
                 // 跳过以 "YOLO"、"image" 或 "Speed" 开头的行
-                if (line.trim().startsWith("YOLO") || line.trim().startsWith("image") || line.trim().startsWith("Speed")||line.trim().startsWith("Local")||line.trim().startsWith("Global")) {
-                    System.out.println("Python Script is running");
-                    continue;
-                }
-                if (line.trim().isEmpty()) {
-                            continue;
-                }
-                else{
-                    System.out.println("Python Script Output: " + line);
-                    }
-                }
+//                 if (line.trim().startsWith("YOLO") || line.trim().startsWith("image") || line.trim().startsWith("Speed")||line.trim().startsWith("Local")||line.trim().startsWith("Global")) {
+//                     System.out.println("Python Script is running");
+//                     continue;
+//                 }
+//                 if (line.trim().isEmpty()) {
+//                             continue;
+//                 }
+//                 else{
+//                     System.out.println("Python Script Output: " + line);
+//                     }
+//                 }
             }
+
+            else{
+                                System.out.println("Python Script Output: " + line);
+                                }
+                            }
         int exitCode = process.waitFor();
         if (exitCode != 0) {
             throw new RuntimeException("Python script exited with error code: " + exitCode + "\nScript Output:\n" + output.toString());
