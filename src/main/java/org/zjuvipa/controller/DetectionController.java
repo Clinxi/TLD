@@ -8,7 +8,9 @@ import org.zjuvipa.entity.DetectEventResultWithNewPhoto;
 import org.zjuvipa.util.DetectionTaskManager;
 import org.zjuvipa.util.PythonCallerUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.lang.System;
+import java.io.PrintStream;
 
 
 
@@ -82,12 +84,14 @@ import java.io.IOException;
 // }
 
 
-// // //原始代码
+// // //原始代码 直接返回reponse
 @RestController
 public class DetectionController {
 
     @PostMapping("/api/detect")
-    public ResponseEntity<List<DetectEventResultWithNewPhoto>> detect(@RequestBody List<APhotoWithStandards> data) {
+
+    public ResponseEntity<String> detect(@RequestBody List<APhotoWithStandards> data) {
+        long startTime = System.currentTimeMillis();  // 记录开始时间
         try {
             // 将接收到的数据转换为 JSON 字符串
             ObjectMapper objectMapper = new ObjectMapper();
@@ -95,17 +99,32 @@ public class DetectionController {
             System.out.println("Converted JSON: " + photosWithStandardsJson);
 
             // 调用 Python 脚本
-            List<DetectEventResultWithNewPhoto> results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
-            System.out.println("Detection results: " + results);
+            List<DetectEventResultWithNewPhoto> hander_results = PythonCallerUtil.callPythonDetection(photosWithStandardsJson);
+//             System.out.println("Detection results: " + results);
+            // 将 List<DetectEventResultWithNewPhoto> 转换为 JSON 字符串
+            String jsonResults = objectMapper.writeValueAsString(hander_results);
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
+            // 打印转换后的 JSON 字符串
+            System.out.println("jsonResults 的类型: " + jsonResults.getClass().getName());
+            System.out.println("Detection results in JSON: " + jsonResults);
 
             // 返回结果，确保结果非空
-            if (results != null && !results.isEmpty()) {
-                return ResponseEntity.ok(results);
+            if (hander_results != null && !hander_results.isEmpty()) {
+                long endTime = System.currentTimeMillis();  // 记录结束时间
+                long executionTime = endTime - startTime;  // 计算执行时间
+                System.out.println("Execution time: " + executionTime + " ms");  // 输出执行时间
+                return ResponseEntity.ok(jsonResults);
             } else {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(results);
+                long endTime = System.currentTimeMillis();  // 记录结束时间
+                long executionTime = endTime - startTime;  // 计算执行时间
+                System.out.println("Execution time: " + executionTime + " ms");  // 输出执行时间
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonResults);
             }
 
         } catch (Exception e) {
+            long endTime = System.currentTimeMillis();  // 记录结束时间
+            long executionTime = endTime - startTime;  // 计算执行时间
+            System.out.println("Execution time: " + executionTime + " ms");  // 输出执行时间
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

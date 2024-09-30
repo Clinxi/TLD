@@ -58,7 +58,7 @@ public class PythonCallerUtil {
             }
 
             else{
-                                System.out.println("Python Script Output: " + line);
+            System.out.println("Python Script Output: " + line);
                                 }
                             }
         int exitCode = process.waitFor();

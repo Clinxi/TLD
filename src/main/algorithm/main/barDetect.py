@@ -4,10 +4,7 @@ import torch
 from src.main.algorithm.yolov10.ultralytics.nn.autobackend import AutoBackend
 
 
-
 def postprocess(pred, conf_thres=0.25):
-    # 输入是模型推理的结果，即8400个预测框
-    # 1,8400,84 [cx,cy,w,h,class*80]
     boxes = []
     for item in pred[0]:
         cx, cy, w, h = item[:4]
@@ -28,8 +25,7 @@ def postprocess(pred, conf_thres=0.25):
 def cal_bar(model_list, img_pre):
     max_count = 0
     for model in model_list:
-        result = model(img_pre)['one2one'][0].transpose(-1, -2)  # 1,8400,84
-        # print(result.shape)
+        result = model(img_pre)['one2one'][0].transpose(-1, -2)
         boxes = postprocess(result)
         count = 0
         for obj in boxes:
@@ -39,28 +35,18 @@ def cal_bar(model_list, img_pre):
 
 
 def image_to_tensor_cv(image_path, target_size=(224, 224)):
-    # 1. 读取图像
-    image = cv2.imread(image_path)  # OpenCV 默认以 BGR 读取图像
+    image = cv2.imread(image_path)
     h = (image.shape[0] // 32) * 32 + 32
     w = 2*(image.shape[1] // 32) * 32 + 32
     image = cv2.resize(image, (w, h), interpolation=cv2.INTER_LINEAR)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # 转换为 RGB
-    # 3. 归一化像素值
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = image / 255.0
-
-    # 4. 转换颜色通道顺序
-    image = image.transpose(2, 0, 1)  # 从 (高, 宽, 通道) 转换为 (通道, 高, 宽)
-
-    # 5. 添加批次维度
-    image = image[None, :]  # 从 (通道, 高, 宽) 转换为 (批次, 通道, 高, 宽)
-
-    # 6. 转换为 PyTorch 张量
+    image = image.transpose(2, 0, 1)
+    image = image[None, :]
     image_tensor = torch.from_numpy(image).float()
-
     return image_tensor
 
 
-# 缺筋检测算法输入
 class BarInfor():
     def __init__(self, address, startingMileage, endingMileage, standardSteelBarSpacing,
                  model_path_list=None):
@@ -70,36 +56,23 @@ class BarInfor():
                                "src/main/algorithm/main/weights/bar_run11_last.pt",
                                "src/main/algorithm/main/weights/bar_run17_last.pt"
                                ]
-        self.imageAddress = address  # 传给缺筋检测算法的图片位置
-        self.startingMileage = startingMileage  # 检测图片的开始位置
-        self.endingMileage = endingMileage  # 检测图片的结束位置
-        self.standardSteelBarSpacing = standardSteelBarSpacing  # 标准钢筋间距
-        self.model = [AutoBackend(weights=model_path) for model_path in model_path_list]
+        self.imageAddress = address
+        self.startingMileage = startingMileage
+        self.endingMileage = endingMileage
+        self.standardSteelBarSpacing = standardSteelBarSpacing
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model = [AutoBackend(weights=model_path).to(self.device) for model_path in model_path_list]
 
     def detect(self):
-        pass
-        # model_path_list = [r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run4_last.pt",
-        #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run5_last.pt",
-        #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run11_last.pt",
-        #                    r"D:\PycharmProjects\TLD\src\main\algorithm\main\weights\bar_run17_last.pt"]
-        # model_path_list = ["src/main/algorithm/main/weights/bar_run4_last.pt",
-        #                    "src/main/algorithm/main/weights/bar_run5_last.pt",
-        #                    "src/main/algorithm/main/weights/bar_run11_last.pt",
-        #                    "src/main/algorithm/main/weights/bar_run17_last.pt"
-        #                    ]
-
         diseaStart = self.startingMileage
         diseaEnd = self.endingMileage
-        img = cv2.imread(self.imageAddress)
-        img_pre = image_to_tensor_cv(self.imageAddress)
-        count = cal_bar(model_list=self.model, img_pre=img_pre)+2
+        img_pre = image_to_tensor_cv(self.imageAddress).to(self.device)
+        count = cal_bar(model_list=self.model, img_pre=img_pre) + 2
         if count != 0:
             actualSpace = (self.endingMileage - self.startingMileage) / count
         else:
             actualSpace = 0
         isDisease = False
-        # print(f"count: {count}")
-        # print(f"actualSpace: {actualSpace}")
         if actualSpace / self.standardSteelBarSpacing > 1.1:
             isDisease = True
         result = BarDetectResult(diseaseStart=diseaStart, diseaseEnd=diseaEnd, actualSpace=actualSpace,
@@ -109,16 +82,14 @@ class BarInfor():
         return None
 
 
-# 缺筋检测算法输出
 class BarDetectResult:
     def __init__(self, diseaseStart, diseaseEnd, actualSpace, isDiease=False):
-        self.diseaseStart = diseaseStart  # 缺陷开始的位置
-        self.diseaseEnd = diseaseEnd  # 缺陷结束的位置
-        self.actualSpace = actualSpace  # 实际的钢筋间距
-        self.isDiease = isDiease  # 是否为缺陷
+        self.diseaseStart = diseaseStart
+        self.diseaseEnd = diseaseEnd
+        self.actualSpace = actualSpace
+        self.isDiease = isDiease
 
     def __str__(self):
-        # 返回一个描述对象的字符串
         isDiease_str = 'Yes' if self.isDiease else 'No'
         return (f"BarDetectResult(Disease Start: {self.diseaseStart}, "
                 f"Disease End: {self.diseaseEnd}, "
@@ -127,10 +98,7 @@ class BarDetectResult:
 
 
 if __name__ == "__main__":
-    # img_address = r"D:\PycharmProjects\TLD\src\main\algorithm\test\case1\steelbardetect\324450——324504.png"
     img_address = "/home/disk3/jsa/projects/TLD/src/main/algorithm/test/case1/steelbardetect/324450——324504.png"
     test = BarInfor(img_address, 1, 2, 8)
     result = test.detect()
     print(result)
-
-

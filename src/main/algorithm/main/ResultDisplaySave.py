@@ -216,21 +216,22 @@ def get_and_save_new_photo(input_original: ProcessOriginalPhoto,
     new_photo_address, new_photo_name = example.display_and_save_result()
 
     disease_information_list = []
+    # 返回的缺陷信息单位为cm，原来的量产是m
     for void_result in void_result_list:
         if void_result is not None:
             result = DiseaseInformation(void_result.start_mileage, void_result.end_mileage,
-                                        void_result.depth_min, void_result.defect_type)
+                                        void_result.depth_min*100, void_result.defect_type)
             disease_information_list.append(result)
 
     for steel_result in steel_result_list:
         if steel_result is not None:
-            result = DiseaseInformation(steel_result.diseaseStart, steel_result.diseaseEnd, steel_result.actualSpace,
+            result = DiseaseInformation(steel_result.diseaseStart, steel_result.diseaseEnd, steel_result.actualSpace*100,
                                         "lack steel")
             disease_information_list.append(result)
 
     for lack_result in lack_result_list:
         if lack_result is not None:
-            result = DiseaseInformation(lack_result.diseaseStart, lack_result.diseaseStart, lack_result.actualdepth,
+            result = DiseaseInformation(lack_result.diseaseStart, lack_result.diseaseStart, lack_result.actualdepth*100,
                                         "lack depth")
             disease_information_list.append(result)
 

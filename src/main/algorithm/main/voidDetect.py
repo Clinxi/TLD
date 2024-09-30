@@ -1,6 +1,7 @@
 import cv2
 from src.main.algorithm.yolov10.ultralytics import YOLOv10
 # from ..yolov10.yolov10.ultralytics import YOLOv10
+import  torch
 
 
 
@@ -27,8 +28,13 @@ class VoidDefect:
         :return: 空隙缺陷检测结果列表 list[VoidDefectResult]
         """
         # 使用 YOLOv10 模型进行预测
+        if torch.cuda.is_available():
+            device = '0'  # 如果有 CUDA，使用 GPU 0
+        else:
+            device = 'cpu'  # 如果没有 CUDA，使用 CPU
+        print(f"void Detect using{device}")
         predictions = self.model.predict(source=self.image_path, show=False, save=False, save_txt=False, classes=[0],
-                                         visualize=False, device=["cpu"])
+                                         visualize=False, device=device)
         img_height, img_width = predictions[0].orig_shape
 
         # # 打印检测类别，确保只处理类别 0 的情况
