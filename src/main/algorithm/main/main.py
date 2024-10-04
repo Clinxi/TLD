@@ -18,13 +18,13 @@ def enable_print():
 
 def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNewPhoto]:
     # example
-    results = []
-    disease_info_1 = DiseaseInformation(1.0, 10.5, 2.0, "Leaf Spot")
-    disease_info_2 = DiseaseInformation(1.0, 15.0, 3.5, "Powdery Mildew")
-    disease_information_list = [disease_info_1, disease_info_2]
+    # results = []
+    # disease_info_1 = DiseaseInformation(1.0, 10.5, 2.0, "Leaf Spot")
+    # disease_info_2 = DiseaseInformation(1.0, 15.0, 3.5, "Powdery Mildew")
+    # disease_information_list = [disease_info_1, disease_info_2]
 
     # ----------------------------------------#
-
+    results = []
     for photo_with_standards in photo_with_standards_list:
         photo = photo_with_standards.detectOriginalPhoto
         input_original = ProcessOriginalPhoto(photo)
@@ -51,9 +51,9 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
                                                thresh)]  # list[lackingDetectOut]
         void_result_list = [result for void_object in void_object_list for result in
                             void_object.detect()]  # List[VoidDefectResult]
+        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
         # lack_result_list=[]
         # void_result_list=[]
-        steel_result_list = [steel_object.detect() for steel_object in steel_object_list]  # List[BarDetectResult]
         # steel_result_list = []
         # for lack_result in lack_result_list:
         #     print("position",lack_result.diseaseStart )
@@ -71,28 +71,13 @@ def perform_detection(photo_with_standards_list) -> List[DetectEventResultWithNe
 def main(photos_with_standards_json):
     photo_with_standards_data = json.loads(photos_with_standards_json)
     photo_with_standards_list = [APhotoWithStandards(**pws) for pws in photo_with_standards_data]
-
     results = perform_detection(photo_with_standards_list)
     return [result.to_dict() for result in results]
 
 
 def test(photos_with_standards_json):
-    # photo_with_standards_data = json.loads(photos_with_standards_json)
     photo_with_standards_list = [APhotoWithStandards(**pws) for pws in photos_with_standards_json]
     results = perform_detection(photo_with_standards_list)
-    # for photo_with_standards in photo_with_standards_list:
-    #     photo = photo_with_standards.detectOriginalPhoto
-    #     projectstandards = photo_with_standards.projectStandards
-    #     input_original = ProcessOriginalPhoto(photo)
-    #     # 大图获取信息
-    #     input_original.get_basic_information()
-    #     # 创建三个缺陷对象列表
-    #     lack_object_list = input_original.create_lacking_example(projectstandards)
-    #     steel_object_list = input_original.create_steel_example(projectstandards)
-    #     void_object_list = input_original.creat_void_example()
-    #     print("void length:", len(void_object_list))
-    #     print("lack length :", len(lack_object_list))
-    #     print("steel length :", len(steel_object_list))
     return [result.to_dict() for result in results]
 
 
@@ -108,7 +93,7 @@ if __name__ == "__main__":
     # -------------------------below is test code-----------------------------
     # disable_print()
     # enable_print()
-    # json_file_path = r"src/main/algorithm/test/case8/case8.json"
+    # json_file_path = r"src/main/algorithm/test/add_test/pure_test.json"
     # with open(json_file_path, 'r', encoding='utf-8') as file:
     #     data = json.load(file)
     # # print(type(data))

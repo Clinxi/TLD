@@ -25,5 +25,24 @@
         "projectId": 1231
       }
     ]
+  },
+  {
+    "detectOriginalPhoto": {
+      "detectOriginalPhotoId": 123,
+      "originalPhotoAddress": "D:\\PycharmProjects\\paper_accomplish\\TLD\\src\\main\\algorithm\\test\\add_test\\8-DK326+135-237 YY P_12.JPG",
+      "originalPhotoName": "8-DK326+135-237 YY P_12.JPG",
+      "detectEventId": 123,
+      "remark": "12312"
+    },
+    "projectStandards": [
+      {
+        "projectStandardId":123213,
+        "startingMileage": 326135,
+        "endingMileage": 326237,
+        "standardSteelBarSpacing": 0,
+        "standardThickness":30,
+        "projectId": 1231
+      }
+    ]
   }
 ]

@@ -19,15 +19,20 @@ public class Client {
         RestTemplate restTemplate = new RestTemplate();
 
         DetectOriginalPhoto photo1 = new DetectOriginalPhoto(123,"src/main/algorithm/test/add_test/6-DK627+515-647YY P_1.JPG", "6-DK627+515-647YY P_1.JPG",123,"abdc");
-
         List<ProjectStandard> standards1 = new ArrayList<>();
-        standards1.add(new ProjectStandard(123213,627515f, 627640f, 0.25f, 0.4f,123213));
-        standards1.add(new ProjectStandard(123213,627640f, 627647f, 0.20f, 0.45f,123213));
+        standards1.add(new ProjectStandard(123213,627515f, 627640f, 25f, 40f,123213));
+        standards1.add(new ProjectStandard(123213,627640f, 627647f, 20f, 45f,123213));
 
-        APhotoWithStandards data = new APhotoWithStandards(photo1, standards1);
+        DetectOriginalPhoto photo2 = new DetectOriginalPhoto(123,"src/main/algorithm/test/add_test/8-DK326+135-237 YY P_12.JPG", "8-DK326+135-237 YY P_12.JPG",123,"abdc");
+        List<ProjectStandard> standards2 = new ArrayList<>();
+        standards2.add(new ProjectStandard(123213,627515f, 627640f, 0f, 30f,123213));
 
+        APhotoWithStandards data1 = new APhotoWithStandards(photo1, standards1);
+        APhotoWithStandards data2 = new APhotoWithStandards(photo2, standards2);
         List<APhotoWithStandards> photoWithStandardsList = new ArrayList<>();
-        photoWithStandardsList.add(data);
+
+        photoWithStandardsList.add(data1);
+        photoWithStandardsList.add(data2);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

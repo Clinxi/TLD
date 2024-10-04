@@ -105,26 +105,33 @@ public class DetectionController {
             String jsonResults = objectMapper.writeValueAsString(hander_results);
             System.setOut(new PrintStream(System.out, true, "UTF-8"));
             // 打印转换后的 JSON 字符串
-            System.out.println("jsonResults 的类型: " + jsonResults.getClass().getName());
+            System.out.println("jsonResults class: " + jsonResults.getClass().getName());
             System.out.println("Detection results in JSON: " + jsonResults);
 
             // 返回结果，确保结果非空
             if (hander_results != null && !hander_results.isEmpty()) {
                 long endTime = System.currentTimeMillis();  // 记录结束时间
                 long executionTime = endTime - startTime;  // 计算执行时间
-                System.out.println("Execution time: " + executionTime + " ms");  // 输出执行时间
+                long seconds = (executionTime / 1000) % 60;
+                long minutes = (executionTime / 1000) / 60;
+                System.out.println("Execution time: " + minutes + " min " + seconds + " sec");
                 return ResponseEntity.ok(jsonResults);
             } else {
                 long endTime = System.currentTimeMillis();  // 记录结束时间
                 long executionTime = endTime - startTime;  // 计算执行时间
-                System.out.println("Execution time: " + executionTime + " ms");  // 输出执行时间
+                long seconds = (executionTime / 1000) % 60;
+                long minutes = (executionTime / 1000) / 60;
+                System.out.println("Execution time: " + minutes + " min " + seconds + " sec");
+
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(jsonResults);
             }
 
         } catch (Exception e) {
             long endTime = System.currentTimeMillis();  // 记录结束时间
             long executionTime = endTime - startTime;  // 计算执行时间
-            System.out.println("Execution time: " + executionTime + " ms");  // 输出执行时间
+            long seconds = (executionTime / 1000) % 60;
+            long minutes = (executionTime / 1000) / 60;
+            System.out.println("Execution time: " + minutes + " min " + seconds + " sec");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
