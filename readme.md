@@ -4,7 +4,7 @@
 [TOC]
 ## Python环境配置
 本算法使用的是python, 因此需要配置对应的python环境
-### Anaconda下载安装
+### Anaconda3下载安装
 #### Linux环境 非root用户安装
 1. 在以下地址进行下载:
 ```
@@ -21,19 +21,16 @@ echo 'export PATH="path/to/anaconda3/bin:$PATH"'>>~/.bashrc
 source ~/.bashrc
 ```
 #### Window环境 下载安装
-
+##### anaconda3配置
 1. 在以下地址进行下载:
 ```
 https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
 ```
 2. 根据所运行的windows架构对应下载 conda 安装包并进行安装，安装路径采用默认路径。
-![image](https://github.com/user-attachments/assets/8c25095b-153a-4c58-a6f5-fca6b1dcaf34)
-![image](https://github.com/user-attachments/assets/886582ae-69ff-41c3-93fb-3a01cc15846e)
-![image](https://github.com/user-attachments/assets/d693bbf8-427b-4abc-bbcf-467a463c66a7)
+![1728826295613](https://github.com/user-attachments/assets/8e641227-ff22-4824-8690-f306d045c0a9)
 
-4. 添加环境变量(可在安装时配置，勾选框中图片即可).
-
-![image](https://github.com/user-attachments/assets/2b746b42-40d6-45aa-a7f4-27aca25be0a7)
+4. 添加环境变量(可在安装时配置，勾选**所有框**).
+![1728826502656](https://github.com/user-attachments/assets/c9dda8c4-9a86-48d5-8db9-0fed02984d12)
 
 ### 根据系统环境选择项目主目录下的 .yml 文件
 #### linux环境——配置
