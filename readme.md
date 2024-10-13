@@ -86,7 +86,7 @@ conda activate 环境名
 再在yolov10目录下执行命令
 ```shell
 cd path/to/TLD/src/main/algorithm/yolov10
-pip install -e .
+pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 ![1726731034456](https://github.com/user-attachments/assets/01c44589-e695-4cad-8f4d-40abc22c919b)
 
